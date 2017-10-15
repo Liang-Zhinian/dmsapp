@@ -8,8 +8,8 @@
     "flow": "flow",
     "format": "prettier-standard 'js/**/*.js'",
     "lint-staged": "lint-staged",
-    "precommit": "lint-staged && yarn test",
-    "prepush": "yarn test",
+    "precommit": "lint-staged",
+    "prepush": "echo Yeaah!",
     "version": "./ci/version-ios.sh",
     "test:system": "./e2e/appium_bootstrap.sh",
     "relay": "relay-compiler --src ./js --schema ./schema.json"
