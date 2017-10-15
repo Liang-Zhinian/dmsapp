@@ -35,7 +35,7 @@ const REQUEST_URL_FOLDER_LIST_CHILDREN = 'http://dms.isd4u.com:8080/services/res
 const REQUEST_URL_DOCUMENT_LIST = 'http://dms.isd4u.com:8080/services/rest/document/list?folderId=' + FOLDER_ID;
 const AUTHORIZATION = 'Basic '+Base64.btoa('admin:admin');
 
-export default class DocumentsView extends Component {
+export default class AccountDetailView extends Component {
   static navigationOptions = {
     headerTitle: 'Documents'
   }
