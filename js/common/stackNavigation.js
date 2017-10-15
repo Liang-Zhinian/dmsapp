@@ -33,6 +33,9 @@ import colors from './colors'
 import TrendingView from '../TrendingView'
 import MostStarredView from '../MostStarredView'
 import RepoDetailView from '../RepoDetailView'
+import DocumentsView from '../DocumentsView'
+//import DocumentsDetailView from '../DocumentsDetailView'
+
 
 const styles = StyleSheet.create({
   hamburgerButton: {
@@ -84,4 +87,19 @@ export const MostStarredStackView = StackNavigator({
     screen: RepoDetailView,
     navigationOptions: stackNavigationOptions()
   }
+})
+
+export const DocumentsStackView = StackNavigator({
+  Documents: {
+    screen: DocumentsView,
+    navigationOptions: stackNavigationOptions()
+  },
+  RepoDetail: {
+    screen: RepoDetailView,
+    navigationOptions: stackNavigationOptions()
+  }/*,
+  DocumentDetail: {
+    screen: DocumentsDetailView,
+    navigationOptions: stackNavigationOptions()
+  }*/
 })

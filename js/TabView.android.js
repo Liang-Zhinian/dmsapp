@@ -28,7 +28,7 @@
 import React from 'react'
 import {DrawerNavigator} from 'react-navigation'
 import colors from './common/colors'
-import {TrendingStackView, MostStarredStackView} from './common/stackNavigation'
+import {TrendingStackView, MostStarredStackView, DocumentsStackView} from './common/stackNavigation'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 function drawerViewNavigationOptions (label: string, iconName: string) {
@@ -54,6 +54,10 @@ const TabView = DrawerNavigator(
     MostStarred: {
       screen: MostStarredStackView,
       navigationOptions: drawerViewNavigationOptions('Most Starred', 'star')
+    },
+    Documents: {
+      screen: DocumentsStackView,
+      navigationOptions: drawerViewNavigationOptions('Documents', 'trending-up')
     }
   },
   {
