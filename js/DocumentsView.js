@@ -26,109 +26,81 @@
 // @flow
 
 import React, { Component } from 'react'
-import { View, FlatList, Text, ActivityIndicator, StyleSheet } from 'react-native'
-import SearchView from './SearchView'
-import Base64 from './common/Base64'
+import { View, FlatList, Text, ActivityIndicator, StyleSheet, Image, TouchableHighlight } from 'react-native'
+// import SearchView from './SearchView'
+// import Base64 from './common/Base64'
+import DmsRestApi from './common/createNetworkEnvironment'
+import soap from './common/soap'
 
 const FOLDER_ID = '4161538';
-const REQUEST_URL_FOLDER_LIST_CHILDREN = 'http://dms.isd4u.com:8080/services/rest/folder/listChildren?folderId=' + FOLDER_ID;
-const REQUEST_URL_DOCUMENT_LIST = 'http://dms.isd4u.com:8080/services/rest/document/list?folderId=' + FOLDER_ID;
-const AUTHORIZATION = 'Basic '+Base64.btoa('admin:admin');
 
 export default class DocumentsView extends Component {
-  static navigationOptions = {
-    headerTitle: 'Documents'
-  }
+
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: `${typeof navigation.state.params !== 'undefined'?navigation.state.params.node.name : 'Documents'}`,
+  });
 
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true,
-      //网络请求状态
+      isFetching: true,
       error: false,
       errorInfo: "",
       dataArray: [],
+      //node: { id: FOLDER_ID, name:'Documents' }
     }
   }
 
 
   //网络请求
   fetchData() {
-    var i = 0;
-    //这个是js的访问网络的方法
-    fetch(REQUEST_URL_FOLDER_LIST_CHILDREN, {
+    var _self = this;
 
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'authorization': AUTHORIZATION,
-      }
-    })
-      .then((response) => response.json())
-      .then((responseData) => {
-        let data = responseData;
-        let dataBlob = [];
-        //let i = 0;
-        data.map(function (item) {
-          dataBlob.push({
-            key: i,
-            value: item //{id:item.id, name:item.name, type:item.type, description:item.description},
-          })
-          i++;
-        });
-        this.setState({
+    let xml = '';
+    xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+    xml += "<soap:Envelope ";
+    xml += "xmlns:xsi = \"http://www.w3.org/2001/XMLSchema-instance\" ";
+    xml += "xmlns:xsd= \"http://www.w3.org/2001/XMLSchema\" ";
+    xml += "xmlns:soap= \"http://schemas.xmlsoap.org/soap/envelope/\">";
+    xml += "<soap:Body>";
+    xml += "<login xmlns=\"http://localhost/wwwroot/addnumbers/Service1\">";
+    xml += "<username>admin</username>";
+    xml += "<password>admin</password>"
+    xml += "</login>";
+    xml += "</soap:Body>";
+    xml += "</soap:Envelope>";
+    soap.send('http://dms.isd4u.com:8080/services/Auth?wsdl', 'POST', xml, function (data) { console.log(data); });
+
+    // The screen's current route is passed in to `props.navigation.state`:
+    const { params } = this.props.navigation.state;
+    let folderId = FOLDER_ID;
+    if (params && params.node) {
+      folderId = params.node.id;
+    }
+
+    console.log(params);
+
+    DmsRestApi.listChildren(folderId, function (err, data) {
+      if (err) {
+
+        _self.setState({
           //复制数据源
-          dataArray: dataBlob,
-          isLoading: false,
-        });
-        data = null;
-        dataBlob = null;
-      })
-      .catch((error) => {
-        this.setState({
+          dataArray: [],
+          isFetching: false,
           error: true,
-          errorInfo: error
-        })
-      })
-      .done();
+          errorInfo: err
+        });
+        return;
+      }
 
-      fetch(REQUEST_URL_DOCUMENT_LIST, {
-        
-              method: 'GET',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'authorization': AUTHORIZATION,
-              }
-            })
-              .then((response) => response.json())
-              .then((responseData) => {
-                let data = responseData;
-                let dataBlob = [];
-                //let i = 0;
-                data.map(function (item) {
-                  dataBlob.push({
-                    key: i,
-                    value: item //{id:item.id, name:item.name, type:item.type, description:item.description},
-                  })
-                  i++;
-                });
-                this.setState({
-                  //复制数据源
-                  dataArray: this.state.dataArray.concat(dataBlob),
-                  isLoading: false,
-                });
-                data = null;
-                dataBlob = null;
-              })
-              .catch((error) => {
-                this.setState({
-                  error: true,
-                  errorInfo: error
-                })
-              })
-              .done();
+      _self.setState({
+        //复制数据源
+        dataArray: data,
+        isFetching: false,
+        error: false
+      });
+
+    });
   }
 
   componentDidMount() {
@@ -161,41 +133,61 @@ export default class DocumentsView extends Component {
     );
   }
 
+
+
   //返回itemView
-  renderItemView({ item }) {
+  renderItem = ({ item }: { item: any }) => {
+
+    var icon = require('./img/icons/opened-folder.png');
+
+    switch (item.value.type) {
+      case 'png':
+      case 'jpg':
+      case 'jpeg':
+      case 'gif':
+        icon = require('./img/icons/picture.png');
+        break;
+
+      default:
+        break;
+    }
+
     return (
-      <View>
-        <Text style={styles.title}>id: {item.value.id} - name: {item.value.name || item.value.fileName} ({item.value.type})</Text>
-        <Text style={styles.content}>description: {item.value.description}</Text>
-      </View>
+      <TouchableHighlight
+        onPress={() => this._onPressItem(item.value)}
+        underlayColor='#dddddd'>
+        <View>
+          <View style={styles.rowContainer}>
+            <Image style={styles.thumb} source={icon} ></Image>
+            <View style={styles.textContainer}>
+              <Text style={styles.title}>{item.value.name || item.value.fileName}</Text>
+              <Text style={styles.content}>{item.value.creation}</Text>
+            </View>
+          </View>
+          <View style={styles.separator} />
+        </View>
+      </TouchableHighlight>
     );
+  }
+
+  _onPressItem = (folder: any) => {
+    //console.log(folder);
+    const { navigate } = this.props.navigation;
+    navigate('Documents', { node: folder });
   }
 
   renderData() {
     return (
-      // <ScrollView >
-      //   <Text >
-      //     Data:
-      //             </Text>
-      //   <AnimatedFlatList
-      //     data={this.state.dataArray}
-      //     renderItem={this.renderItemView}
-      //   />
-      // </ScrollView>
       <FlatList
         data={this.state.dataArray}
-        renderItem={this.renderItemView}
+        renderItem={this.renderItem}
       />
     );
   }
 
   render() {
-    // const query = 'stars:>=1 fork:true&sort=stars&order=desc'
-
-    // return <SearchView navigation={this.props.navigation} searchQuery={query} />
-
     //第一次加载等待的view
-    if (this.state.isLoading && !this.state.error) {
+    if (this.state.isFetching && !this.state.error) {
       return this.renderLoadingView();
     } else if (this.state.error) {
       //请求失败view
@@ -203,13 +195,6 @@ export default class DocumentsView extends Component {
     }
     //加载数据
     return this.renderData();
-
-    // return (
-    //   <FlatList
-    //     data={[{ key: 'a' }, { key: 'b' }]}
-    //     renderItem={({ item }) => <Text>{item.key}</Text>}
-    //   />
-    // )
   }
 } // end DocumentsView class
 
@@ -222,13 +207,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
+  thumb: {
+    width: 50,
+    height: 50,
+    marginRight: 10
+  },
+  // title: {
+  //   fontSize: 15,
+  //   color: 'blue',
+  // },
+  content: {
+    fontSize: 12,
+    color: 'black',
+  },
+  textContainer: {
+    flex: 1
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#dddddd'
+  },
+  price: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#48BBEC'
+  },
   title: {
     fontSize: 15,
-    color: 'blue',
+    color: '#656565'
   },
-  content: {
-    fontSize: 15,
-    color: 'black',
-  }
+  rowContainer: {
+    flexDirection: 'row',
+    padding: 10
+  },
 
 });
