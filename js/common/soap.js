@@ -10,17 +10,17 @@ const soap = {
           if (request.status === 200) {
             console.log('success', request.responseText);
           } else {
-            console.warn('error');
+            console.warn('error ' + request.responseText);
           }
         };
 
-        request.open(method, url);
+        request.open(method, url, true);
 
         // Set some headers: the body of this POST request is XML
-        request.setRequestHeader('Content-Type', 'text/xml');
+        request.setRequestHeader('Content-Type', 'application/soap+xml; charset=utf-8');
         request.setRequestHeader('Content-Length', xml.length);
         // This header is a required part of the SOAP protocol
-        request.setRequestHeader("SOAPAction", '""');
+        //request.setRequestHeader("SOAPAction", '""');
 
         // Now send an XML-formatted SOAP request to the server
         request.send(xml);

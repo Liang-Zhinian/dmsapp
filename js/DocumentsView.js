@@ -62,11 +62,11 @@ export default class DocumentsView extends Component {
     xml += "xmlns:xsi = \"http://www.w3.org/2001/XMLSchema-instance\" ";
     xml += "xmlns:xsd= \"http://www.w3.org/2001/XMLSchema\" ";
     xml += "xmlns:soap= \"http://schemas.xmlsoap.org/soap/envelope/\">";
-    xml += "<soap:Body>";
-    xml += "<login xmlns=\"http://localhost/wwwroot/addnumbers/Service1\">";
-    xml += "<username>admin</username>";
-    xml += "<password>admin</password>"
-    xml += "</login>";
+    xml += "<soap:Body xmlns:m=\"http://ws.logicaldoc.com\" soap:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">";
+    xml += "<m:login>";
+    xml += "<m:username>admin</m:username>";
+    xml += "<m:password>admin</m:password>"
+    xml += "</m:login>";
     xml += "</soap:Body>";
     xml += "</soap:Envelope>";
     soap.send('http://dms.isd4u.com:8080/services/Auth?wsdl', 'POST', xml, function (data) { console.log(data); });
