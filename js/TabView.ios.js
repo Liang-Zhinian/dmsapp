@@ -57,7 +57,7 @@ const TabView = TabNavigator(
     },
     Documents: {
       screen: DocumentsStackView,
-      navigationOptions: drawerViewNavigationOptions('Documents', 'trending-up')
+      navigationOptions: tabNavigationOptions('Documents', 'trending-up')
     }
   },
   {
