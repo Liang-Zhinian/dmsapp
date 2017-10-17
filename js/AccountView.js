@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native'
-import Spinner from '../component/spinner';
+import Spinner from './components/spinner';
 import { StyleConfig, ComponentStyles, CommonStyles } from './style'
 import { JSEncrypt } from './common/jsencrypt'
-import Config, { storageKey } from './config'
-import ConfigAction from './action/config'
+import Config, { authData, storageKey } from './config/'
+import * as ConfigAction from './action/config'
 
 export default class AccountView extends Component {
   static navigationOptions = {
@@ -109,6 +109,7 @@ export default class AccountView extends Component {
       this.refs.txtUserName.blur();
       this.refs.txtPassword.blur();
       this.setState({ pending: true });
+      let data = {};
       data.username = accountData.username;
       data.password = accountData.password;
       this.handleAccountResolved(data);
@@ -117,7 +118,7 @@ export default class AccountView extends Component {
 
   handleAccountResolved(data) {
     ConfigAction.updateConfig(storageKey.USER_TOKEN, data);
-
+    this.setState({pending: false});
     Alert.alert('Account setting', 'Saved!', [{ text: 'OK', onPress: () => console.log('OK Pressed') },], { cancelable: false });
   }
 

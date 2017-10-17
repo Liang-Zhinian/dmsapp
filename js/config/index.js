@@ -30,7 +30,7 @@ export const postCategory = {
 };
 
 export const authData = {
-	pubKey : "",
+	pubKey : "dms-cloud",
  	clientId: "",
  	clientSecret: ""
 };
