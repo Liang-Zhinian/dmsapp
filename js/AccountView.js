@@ -21,6 +21,12 @@ export default class AccountView extends Component {
     };
   }
 
+  componentDidMount() {
+    let data = ConfigAction.getConfig(storageKey.USER_TOKEN);
+    this.setState({ "username": data.username });
+    this.setState({ "password": data.password });
+  }
+
   encryptData(data) {
     let encrypt = new JSEncrypt({
       default_key_size: 1024,
@@ -95,8 +101,8 @@ export default class AccountView extends Component {
   accountValidator() {
     let username = this.state.username;
     let password = this.state.password;
-    username = this.encryptData(username);
-    password = this.encryptData(password);
+    //username = this.encryptData(username);
+    //password = this.encryptData(password);
     return {
       username,
       password
@@ -118,7 +124,7 @@ export default class AccountView extends Component {
 
   handleAccountResolved(data) {
     ConfigAction.updateConfig(storageKey.USER_TOKEN, data);
-    this.setState({pending: false});
+    this.setState({ pending: false });
     Alert.alert('Account setting', 'Saved!', [{ text: 'OK', onPress: () => console.log('OK Pressed') },], { cancelable: false });
   }
 
