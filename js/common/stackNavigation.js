@@ -30,10 +30,12 @@ import {TouchableOpacity, StyleSheet, Platform} from 'react-native'
 import {StackNavigator} from 'react-navigation'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import colors from './colors'
+import HomeView from '../HomeView'
 import TrendingView from '../TrendingView'
 import MostStarredView from '../MostStarredView'
 import RepoDetailView from '../RepoDetailView'
 import DocumentsView from '../DocumentsView'
+import AccountView from '../AccountView'
 //import DocumentsDetailView from '../DocumentsDetailView'
 
 
@@ -66,6 +68,13 @@ function stackNavigationOptions () {
     })
   })
 }
+
+export const HomeStackView = StackNavigator({
+  Home: {
+    screen: HomeView,
+    navigationOptions: stackNavigationOptions()
+  }
+})
 
 export const TrendingStackView = StackNavigator({
   Trending: {
@@ -102,4 +111,11 @@ export const DocumentsStackView = StackNavigator({
     screen: DocumentsDetailView,
     navigationOptions: stackNavigationOptions()
   }*/
+})
+
+export const AccountStackView = StackNavigator({
+  Account: {
+    screen: AccountView,
+    navigationOptions: stackNavigationOptions()
+  }
 })

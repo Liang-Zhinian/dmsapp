@@ -28,7 +28,7 @@
 import React from 'react'
 import {DrawerNavigator} from 'react-navigation'
 import colors from './common/colors'
-import {TrendingStackView, MostStarredStackView, DocumentsStackView} from './common/stackNavigation'
+import {HomeStackView, TrendingStackView, MostStarredStackView, DocumentsStackView, AccountStackView} from './common/stackNavigation'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 function drawerViewNavigationOptions (label: string, iconName: string) {
@@ -47,17 +47,25 @@ function drawerViewNavigationOptions (label: string, iconName: string) {
 
 const TabView = DrawerNavigator(
   {
-    Trending: {
-      screen: TrendingStackView,
-      navigationOptions: drawerViewNavigationOptions('Trending', 'trending-up')
+    Home: {
+      screen: HomeStackView,
+      navigationOptions: drawerViewNavigationOptions('Home', 'home')
     },
-    MostStarred: {
-      screen: MostStarredStackView,
-      navigationOptions: drawerViewNavigationOptions('Most Starred', 'star')
-    },
+    // Trending: {
+    //   screen: TrendingStackView,
+    //   navigationOptions: drawerViewNavigationOptions('Trending', 'trending-up')
+    // },
+    // MostStarred: {
+    //   screen: MostStarredStackView,
+    //   navigationOptions: drawerViewNavigationOptions('Most Starred', 'star')
+    // },
     Documents: {
       screen: DocumentsStackView,
-      navigationOptions: drawerViewNavigationOptions('Documents', 'trending-up')
+      navigationOptions: drawerViewNavigationOptions('Documents', 'cloud')
+    },
+    Account: {
+      screen: AccountStackView,
+      navigationOptions: drawerViewNavigationOptions('Account', 'account-box')
     }
   },
   {

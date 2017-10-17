@@ -55,7 +55,7 @@ export default class DocumentsView extends Component {
   //网络请求
   fetchData() {
     var _self = this;
-
+/*
     let xml = '';
     xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
     xml += "<soap:Envelope ";
@@ -70,7 +70,7 @@ export default class DocumentsView extends Component {
     xml += "</soap:Body>";
     xml += "</soap:Envelope>";
     soap.send('http://dms.isd4u.com:8080/services/Auth?wsdl', 'POST', xml, function (data) { console.log(data); });
-
+*/
     // The screen's current route is passed in to `props.navigation.state`:
     const { params } = this.props.navigation.state;
     let folderId = FOLDER_ID;
