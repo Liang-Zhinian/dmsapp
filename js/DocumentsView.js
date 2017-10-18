@@ -30,14 +30,14 @@ import { View, FlatList, Text, ActivityIndicator, StyleSheet, Image, TouchableHi
 // import SearchView from './SearchView'
 // import Base64 from './common/Base64'
 import DmsRestApi from './common/createNetworkEnvironment'
-import soap from './common/soap'
+import { soap, soap_param } from './common/soap'
 
 const FOLDER_ID = '4161538';
 
 export default class DocumentsView extends Component {
 
   static navigationOptions = ({ navigation }) => ({
-    headerTitle: `${typeof navigation.state.params !== 'undefined'?navigation.state.params.node.name : 'Documents'}`,
+    headerTitle: `${typeof navigation.state.params !== 'undefined' ? navigation.state.params.node.name : 'Documents'}`,
   });
 
   constructor(props) {
@@ -55,22 +55,35 @@ export default class DocumentsView extends Component {
   //网络请求
   fetchData() {
     var _self = this;
-/*
-    let xml = '';
-    xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
-    xml += "<soap:Envelope ";
-    xml += "xmlns:xsi = \"http://www.w3.org/2001/XMLSchema-instance\" ";
-    xml += "xmlns:xsd= \"http://www.w3.org/2001/XMLSchema\" ";
-    xml += "xmlns:soap= \"http://schemas.xmlsoap.org/soap/envelope/\">";
-    xml += "<soap:Body xmlns:m=\"http://ws.logicaldoc.com\" soap:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">";
-    xml += "<m:login>";
-    xml += "<m:username>admin</m:username>";
-    xml += "<m:password>admin</m:password>"
-    xml += "</m:login>";
-    xml += "</soap:Body>";
-    xml += "</soap:Envelope>";
-    soap.send('http://dms.isd4u.com:8080/services/Auth?wsdl', 'POST', xml, function (data) { console.log(data); });
-*/
+    /*
+        let xml = '';
+        xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
+        xml += "<soap:Envelope ";
+        xml += "xmlns:xsi = \"http://www.w3.org/2001/XMLSchema-instance\" ";
+        xml += "xmlns:xsd= \"http://www.w3.org/2001/XMLSchema\" ";
+        xml += "xmlns:soap= \"http://schemas.xmlsoap.org/soap/envelope/\">";
+        xml += "<soap:Body xmlns:m=\"http://ws.logicaldoc.com\" soap:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">";
+        xml += "<m:login>";
+        xml += "<m:username>admin</m:username>";
+        xml += "<m:password>admin</m:password>"
+        xml += "</m:login>";
+        xml += "</soap:Body>";
+        xml += "</soap:Envelope>";
+        soap.send('http://dms.isd4u.com:8080/services/Auth?wsdl', 'POST', xml, function (data) { console.log(data); });
+    */
+
+    var pl = new soap_param();
+    pl.add("username", 'admin');
+    pl.add("password", 'admin');
+    soap.invoke('http://dms.isd4u.com:8080/services/Auth',
+      "login",
+      pl,
+      true,
+      (err, res) => {
+        console.log(err);
+        console.log(res);
+      });
+
     // The screen's current route is passed in to `props.navigation.state`:
     const { params } = this.props.navigation.state;
     let folderId = FOLDER_ID;
