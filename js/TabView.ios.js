@@ -28,7 +28,7 @@
 import React from 'react'
 import {TabNavigator} from 'react-navigation'
 import colors from './common/colors'
-import {TrendingStackView, MostStarredStackView, DocumentsStackView} from './common/stackNavigation'
+import {HomeStackView, TrendingStackView, MostStarredStackView, DocumentsStackView, AccountStackView} from './common/stackNavigation'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 function tabNavigationOptions (label: string, iconName: string) {
@@ -47,6 +47,10 @@ function tabNavigationOptions (label: string, iconName: string) {
 
 const TabView = TabNavigator(
   {
+    Home: {
+      screen: HomeStackView,
+      navigationOptions: tabNavigationOptions('Home', 'home')
+    },/*
     Trending: {
       screen: TrendingStackView,
       navigationOptions: tabNavigationOptions('Trending', 'trending-up')
@@ -54,10 +58,14 @@ const TabView = TabNavigator(
     MostStarred: {
       screen: MostStarredStackView,
       navigationOptions: tabNavigationOptions('Most Starred', 'star')
-    },
+    },*/
     Documents: {
       screen: DocumentsStackView,
-      navigationOptions: tabNavigationOptions('Documents', 'trending-up')
+      navigationOptions: tabNavigationOptions('Documents', 'cloud')
+    },
+    Account: {
+      screen: AccountStackView,
+      navigationOptions: tabNavigationOptions('Account', 'account-box')
     }
   },
   {
