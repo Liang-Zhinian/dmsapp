@@ -27,7 +27,7 @@ export default class AccountView extends Component {
     this.setState({ "password": data.password });
   }
 
-  encryptData(data) {
+  encryptData = (data) => {
     let encrypt = new JSEncrypt({
       default_key_size: 1024,
       default_public_exponent: '010001'
@@ -36,7 +36,7 @@ export default class AccountView extends Component {
     return encrypt.encrypt(data);
   }
 
-  renderUserName() {
+  renderUserName = () => {
     return (
       <View style={[ComponentStyles.input_control]}>
         <TextInput
@@ -52,7 +52,7 @@ export default class AccountView extends Component {
     )
   }
 
-  renderPassword() {
+  renderPassword = () => {
     return (
       <View style={[ComponentStyles.input_control]}>
         <TextInput
@@ -68,7 +68,7 @@ export default class AccountView extends Component {
     )
   }
 
-  renderSaveButton() {
+  renderSaveButton = () => {
     return (
       <TouchableOpacity
         activeOpacity={StyleConfig.touchable_press_opacity}
@@ -80,7 +80,7 @@ export default class AccountView extends Component {
       </TouchableOpacity>
     )
   }
-  renderFormPanel() {
+  renderFormPanel = () => {
     return (
       <View style={[CommonStyles.m_a_4]}>
         {this.renderUserName()}
@@ -90,7 +90,7 @@ export default class AccountView extends Component {
     );
   }
 
-  renderButtons() {
+  renderButtons = () => {
     return (
       <View style={[CommonStyles.flexRow, CommonStyles.flexItemsMiddle, CommonStyles.flexItemsBetween, CommonStyles.m_t_4]}>
         {this.renderSaveButton()}
@@ -98,7 +98,7 @@ export default class AccountView extends Component {
     )
   }
 
-  accountValidator() {
+  accountValidator = () => {
     let username = this.state.username;
     let password = this.state.password;
     //username = this.encryptData(username);
@@ -109,7 +109,7 @@ export default class AccountView extends Component {
     };
   }
 
-  handleSave() {
+  handleSave = () => {
     const accountData = this.accountValidator();
     if (accountData) {
       this.refs.txtUserName.blur();
@@ -122,18 +122,18 @@ export default class AccountView extends Component {
     }
   }
 
-  handleAccountResolved(data) {
-    ConfigAction.updateConfig(storageKey.USER_TOKEN, data);
+  handleAccountResolved = (data) => {
+    ConfigAction.setConfig(storageKey.USER_TOKEN, data);
     this.setState({ pending: false });
     Alert.alert('Account setting', 'Saved!', [{ text: 'OK', onPress: () => console.log('OK Pressed') },], { cancelable: false });
   }
 
-  handleAccountRejected(data) {
+  handleAccountRejected = (data) => {
     this.setState({ pending: false });
     Alert.alert('Account setting', 'Failed!', [{ text: 'OK', onPress: () => console.log('OK Pressed') },], { cancelable: false });
   }
 
-  renderPending() {
+  renderPending = (data) => {
     if (this.state.pending === true) {
       return (
         <Spinner style={ComponentStyles.pending_container} />

@@ -25,8 +25,8 @@
 
 // @flow
 
-import React, {Component} from 'react'
-import {StatusBar, Platform} from 'react-native'
+import React, { Component } from 'react'
+import { StatusBar, Platform } from 'react-native'
 import TabView from './TabView'
 import colors from './common/colors'
 import codePush from "react-native-code-push";
@@ -38,16 +38,16 @@ class App extends Component {
     codePush.sync({
       updateDialog: {
         appendReleaseDescription: true,
-        descriptionPrefix:'\n\nUpdate description:\n',
-        title:'Update',
-        mandatoryUpdateMessage:'',
-        mandatoryContinueButtonLabel:'Update',
+        descriptionPrefix: '\n\nUpdate description:\n',
+        title: 'Update',
+        mandatoryUpdateMessage: '',
+        mandatoryContinueButtonLabel: 'Update',
       },
-      mandatoryInstallMode:codePush.InstallMode.IMMEDIATE
+      mandatoryInstallMode: codePush.InstallMode.IMMEDIATE
     });
   }
 
-  render () {
+  render() {
     StatusBar.setBarStyle('light-content')
 
     if (Platform.OS === 'android') {
@@ -58,7 +58,7 @@ class App extends Component {
   }
 }
 
-// MyApp = codePush(codePushOptions)(MyApp);
+MyApp = codePush(codePushOptions)(MyApp);
 
 export default MyApp;
 
