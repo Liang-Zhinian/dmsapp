@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import Base64 from './Base64'
+import dmssoap from './dmssoap'
 
 const PROTOCOL = 'http:';
 const HOST = 'dms.isd4u.com';
@@ -67,6 +68,22 @@ const DmsRestApi = {
                 callback(error);
             })
             .done();
+    },
+
+    getRootFolder: (sid: string, callback: (error: Error | null, value: any) => void) => {
+        let xml = '<?xml version="1.0" encoding="utf-8"?>'
+        xml += '<soap:Envelope '
+        xml += 'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" '
+        xml += 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+        xml += 'xmlns:tns="http://ws.logicaldoc.com" '
+        xml += 'xmlns:ns1="http://ws.logicaldoc.com"> '
+        xml += '<soap:Body> '
+        xml += '<ns1:getRootFolder xmlns:ns1="http://ws.logicaldoc.com"> '
+        xml += '    <sid>'+sid+'</sid>'
+        xml += '</ns1:getRootFolder>'
+        xml += '</soap:Body></soap:Envelope>';
+
+        dmssoap.send(PROTOCOL + '//' + HOST + (!!PORT ? ':' + PORT : '') + '/services/Folder?wsdl', 'GET', callback);
     }
 };
 

@@ -29,8 +29,24 @@ import React, {Component} from 'react'
 import {StatusBar, Platform} from 'react-native'
 import TabView from './TabView'
 import colors from './common/colors'
+import codePush from "react-native-code-push";
 
-export default class App extends Component {
+let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
+
+class App extends Component {
+  componentDidMount() {
+    codePush.sync({
+      updateDialog: {
+        appendReleaseDescription: true,
+        descriptionPrefix:'\n\nUpdate description:\n',
+        title:'Update',
+        mandatoryUpdateMessage:'',
+        mandatoryContinueButtonLabel:'Update',
+      },
+      mandatoryInstallMode:codePush.InstallMode.IMMEDIATE
+    });
+  }
+
   render () {
     StatusBar.setBarStyle('light-content')
 
@@ -41,3 +57,8 @@ export default class App extends Component {
     return <TabView />
   }
 }
+
+// MyApp = codePush(codePushOptions)(MyApp);
+
+export default MyApp;
+

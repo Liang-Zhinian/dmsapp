@@ -1,0 +1,1 @@
+react-native bundle --platform ios --entry-file index.ios.js --bundle-output ./bundles/index.ios.bundle --dev false

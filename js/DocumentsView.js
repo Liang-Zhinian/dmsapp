@@ -53,7 +53,7 @@ export default class DocumentsView extends Component {
 
 
   //网络请求
-  fetchData() {
+  fetchData = () => {
     var _self = this;
     /*
         let xml = '';

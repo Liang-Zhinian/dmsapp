@@ -215,17 +215,17 @@ SOAPClient._node2object = function (node, wsdlTypes) {
     if (node.nodeType == 3 || node.nodeType == 4)
         return SOAPClient._extractValue(node, wsdlTypes);
     // leaf node
-    if (node.childNodes.length == 1 && (node.childNodes[0].nodeType == 3 || node.childNodes[0].nodeType == 4))
-        return SOAPClient._node2object(node.childNodes[0], wsdlTypes);
-    var isarray = SOAPClient._getTypeFromWsdl(node.nodeName, wsdlTypes).toLowerCase().indexOf("arrayof") != -1;
+    if (node.children.length == 1 && (node.children[0].nodeType == 3 || node.children[0].nodeType == 4))
+        return SOAPClient._node2object(node.children[0], wsdlTypes);
+    var isarray = SOAPClient._getTypeFromWsdl(node.name, wsdlTypes).toLowerCase().indexOf("arrayof") != -1;
     // object node
     if (!isarray) {
         var obj = null;
-        if (node.hasChildNodes())
+        if (node.children.length>0)
             obj = new Object();
-        for (var i = 0; i < node.childNodes.length; i++) {
-            var p = SOAPClient._node2object(node.childNodes[i], wsdlTypes);
-            obj[node.childNodes[i].nodeName] = p;
+        for (var i = 0; i < node.children.length; i++) {
+            var p = SOAPClient._node2object(node.children[i], wsdlTypes);
+            obj[node.children[i].name] = p;
         }
         return obj;
     }
@@ -233,8 +233,8 @@ SOAPClient._node2object = function (node, wsdlTypes) {
     else {
         // create node ref
         var l = new Array();
-        for (var i = 0; i < node.childNodes.length; i++)
-            l[l.length] = SOAPClient._node2object(node.childNodes[i], wsdlTypes);
+        for (var i = 0; i < node.children.length; i++)
+            l[l.length] = SOAPClient._node2object(node.children[i], wsdlTypes);
         return l;
     }
     return null;
