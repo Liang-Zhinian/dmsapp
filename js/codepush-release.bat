@@ -1,1 +1,0 @@
-code-push release dmsapp ./bundles/index.ios.bundle 1.0.0 --description "update code-push-mode" --mandatory true
