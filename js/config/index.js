@@ -19,16 +19,6 @@ export default {
 	apiDomain:''
 };
 
-export const postCategory = {
-	home: "home", 
-	rank: "rank",
-	news: "news",
-	blink: "blink",
-	question: "question",
-	favorite: "favorite",
-	answer: "answer"
-};
-
 export const authData = {
 	pubKey : "dms-cloud",
  	clientId: "",

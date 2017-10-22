@@ -1,37 +1,9 @@
-/**
- * MIT License
- *
- * Copyright (c) 2017 johnwakley
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- */
-
-// @flow
 
 import React, { Component } from 'react'
 import { View, FlatList, Text, ActivityIndicator, StyleSheet, Image, TouchableHighlight, Alert } from 'react-native'
-import DmsRestApi from './common/createNetworkEnvironment'
-import Config, { authData, storageKey } from './config/'
-import * as ConfigAction from './action/config'
-
-const FOLDER_ID = '4161538';
+import DmsRestApi from '../common/createNetworkEnvironment'
+import Config, { authData, storageKey } from '../config/'
+import * as ConfigAction from '../actions/config'
 
 export default class DocumentsView extends Component {
 
@@ -46,26 +18,36 @@ export default class DocumentsView extends Component {
       error: false,
       errorInfo: "",
       dataArray: [],
-      //node: { id: FOLDER_ID, name:'Documents' }
+      user: { username: '', password: '' }
     }
   }
 
   loginRequest = (cb: (value: string) => void) => {
+    var _self = this;
+
     ConfigAction.getConfig(storageKey.USER_TOKEN)
       .then((value) => {
-        let username = value.username;
-        let password = value.password;
+        if (!value) {
+          _self.setState({ isFetching: false, error: true, errorInfo: 'Please add an account.' });
+        }
+        else {
 
-        DmsRestApi.login(username, password, (err, res) => {
-          if (err) {
-            console.log(err);
-            return;
-          }
+          let username = value.username;
+          let password = value.password;
 
-          let sid = res.Body.loginResponse.return;
-          console.log(sid);
-          cb(sid);
-        });
+          _self.setState({ user: value })
+
+          DmsRestApi.login(username, password, (err, res) => {
+            if (err) {
+              console.log(err);
+              return;
+            }
+
+            let sid = res.Body.loginResponse.return;
+            console.log(sid);
+            cb(sid);
+          });
+        }
       });
   }
 
@@ -83,8 +65,9 @@ export default class DocumentsView extends Component {
 
   listChildren = (folderId: int) => {
     var _self = this;
+    let user = _self.state.user;
 
-    DmsRestApi.listChildren(folderId, function (err, data) {
+    DmsRestApi.listChildren(user.username, user.password, folderId, function (err, data) {
       if (err) {
 
         _self.setState({
@@ -113,7 +96,14 @@ export default class DocumentsView extends Component {
     var _self = this;
 
     _self.loginRequest((sid) => {
+
       _self.getRootFolder(sid, (fid) => {
+
+        const { params } = _self.props.navigation.state;
+        if (params && params.node) {
+          fid = params.node.id;
+        }
+  
         _self.listChildren(fid);
       })
     });
@@ -151,18 +141,17 @@ export default class DocumentsView extends Component {
   }
 
 
-
   //返回itemView
   renderItem = ({ item }: { item: any }) => {
 
-    var icon = require('./img/icons/opened-folder.png');
+    var icon = require('../images/icons/opened-folder.png');
 
     switch (item.value.type) {
       case 'png':
       case 'jpg':
       case 'jpeg':
       case 'gif':
-        icon = require('./img/icons/picture.png');
+        icon = require('../images/icons/picture.png');
         break;
 
       default:

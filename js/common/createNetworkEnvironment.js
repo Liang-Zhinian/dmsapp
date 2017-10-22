@@ -7,14 +7,14 @@ import XMLParser from './XMLParser'
 const PROTOCOL = 'http:';
 const HOST = 'dms.isd4u.com';
 const PORT = '8080';
-const AUTHORIZATION = 'Basic ' + Base64.btoa('admin:admin');
+// const AUTHORIZATION = 'Basic ' + Base64.btoa('admin:admin');
 
 function fetchQuery(url, options) {
     return fetch(PROTOCOL + '//' + HOST + (!!PORT ? ':' + PORT : '') + url, options);
 }
 
 const DmsRestApi = {
-    listChildren: (folderId: int, callback: (error: Error | null, value: any) => void) => {
+    listChildren: (username: string, password: string, folderId: int, callback: (error: Error | null, value: any) => void) => {
         let dataArray = [];
 
         var options = {
@@ -22,7 +22,7 @@ const DmsRestApi = {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'authorization': AUTHORIZATION,
+                'authorization': 'Basic ' + Base64.btoa(username + ':' + password),
             }
         };
         fetchQuery('/services/rest/folder/listChildren?folderId=' + folderId, options)

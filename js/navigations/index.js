@@ -1,0 +1,1 @@
+export { default as DocumentsNavigation } from './documents';

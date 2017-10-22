@@ -26,13 +26,17 @@
 // @flow
 
 import React from 'react'
-import {TouchableOpacity, StyleSheet, Platform} from 'react-native'
-import {StackNavigator} from 'react-navigation'
+import { TouchableOpacity, StyleSheet, Platform } from 'react-native'
+import { StackNavigator } from 'react-navigation'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import colors from './colors'
-import HomeView from '../HomeView'
-import DocumentsView from '../DocumentsView'
-import AccountView from '../AccountView'
+import colors from '../common/colors'
+import HomeView from '../views/HomeView'
+import DocumentsView from '../views/DocumentsView'
+import AccountView from '../views/AccountView'
+import AboutView from '../views/AboutView'
+import SearchView from '../views/SearchView'
+import DownloadsView from '../views/DownloadsView'
+import SettingsView from '../views/SettingsView'
 
 
 const styles = StyleSheet.create({
@@ -41,9 +45,9 @@ const styles = StyleSheet.create({
   }
 })
 
-function stackNavigationOptions () {
-  return ({navigation}: {navigation: any}) => ({
-    headerStyle: {backgroundColor: colors.primary},
+function stackNavigationOptions() {
+  return ({ navigation }: { navigation: any }) => ({
+    headerStyle: { backgroundColor: colors.primary },
     headerTintColor: colors.textOnPrimary,
     ...Platform.select({
       android: {
@@ -56,7 +60,7 @@ function stackNavigationOptions () {
             <MaterialIcons
               name='menu'
               size={24}
-              style={{color: colors.textOnPrimary}}
+              style={{ color: colors.textOnPrimary }}
             />
           </TouchableOpacity>
         )
@@ -70,7 +74,7 @@ export const HomeStackView = StackNavigator({
     screen: HomeView,
     navigationOptions: stackNavigationOptions()
   }
-})
+});
 
 export const DocumentsStackView = StackNavigator({
   Documents: {
@@ -81,11 +85,43 @@ export const DocumentsStackView = StackNavigator({
     screen: RepoDetailView,
     navigationOptions: stackNavigationOptions()
   }*/
-})
+},
+  {
+    headerMode: 'screen',
+    initialRouteName: 'Documents'
+  });
 
 export const AccountStackView = StackNavigator({
   Account: {
     screen: AccountView,
     navigationOptions: stackNavigationOptions()
   }
-})
+});
+
+export const SettingsStackView = StackNavigator({
+  Settings: {
+    screen: SettingsView,
+    navigationOptions: stackNavigationOptions()
+  }
+});
+
+export const DownloadsStackView = StackNavigator({
+  Downloads: {
+    screen: DownloadsView,
+    navigationOptions: stackNavigationOptions()
+  }
+});
+
+export const SearchStackView = StackNavigator({
+  Search: {
+    screen: SearchView,
+    navigationOptions: stackNavigationOptions()
+  }
+});
+
+export const AboutStackView = StackNavigator({
+  About: {
+    screen: AboutView,
+    navigationOptions: stackNavigationOptions()
+  }
+});

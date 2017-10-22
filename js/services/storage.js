@@ -2,36 +2,6 @@ import React, {
 	AsyncStorage
 } from 'react-native';
 
-class DeviceStorage {
-	static setItem(key, value) {
-		if (key && value) {
-			return AsyncStorage.setItem(key, JSON.stringify(value));
-		}
-	}
-
-	static mergeItem(key, value) {
-		if (key && value) {
-			return AsyncStorage.mergeItem(key, JSON.stringify(value));
-		}
-	}
-
-	static getItem(key) {
-		return AsyncStorage.getItem(key)
-			.then(function (value) {
-				return JSON.parse(value)
-			});
-	}
-
-	static updateItem(key, value) {
-		if (key && value) {
-			DeviceStorage.getItem(key).then((item) => {
-				value = typeof value === 'string' ? value : Object.assign({}, item, value);
-				AsyncStorage.setItem(key, JSON.stringify(value));
-			});
-		}
-	}
-}
-
 export function updateItem(key, value) {
 	if (key && value) {
 		DeviceStorage.getItem(key).then((item) => {

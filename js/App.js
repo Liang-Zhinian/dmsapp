@@ -1,64 +1,110 @@
-/**
- * MIT License
- *
- * Copyright (c) 2017 johnwakley
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- */
-
-// @flow
 
 import React, { Component } from 'react'
-import { StatusBar, Platform } from 'react-native'
+import { StatusBar, Platform, BackHandler } from 'react-native'
 import TabView from './TabView'
 import colors from './common/colors'
 import codePush from "react-native-code-push";
+import { addNavigationHelpers, NavigationActions } from 'react-navigation';
+import { Provider, connect } from 'react-redux';
+
+import store from './config/store';
+
 
 let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 
-class App extends Component {
-  componentDidMount() {
-    codePush.sync({
-      updateDialog: {
-        appendReleaseDescription: true,
-        descriptionPrefix: '\n\nUpdate description:\n',
-        title: 'Update',
-        mandatoryUpdateMessage: '',
-        mandatoryContinueButtonLabel: 'Update',
-      },
-      mandatoryInstallMode: codePush.InstallMode.IMMEDIATE
-    });
-  }
-
-  render() {
-    StatusBar.setBarStyle('light-content')
-
-    if (Platform.OS === 'android') {
-      StatusBar.setBackgroundColor(colors.primary)
+class ReduxNavigation extends React.Component {
+    componentDidMount() {
+        BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
     }
+    componentWillUnmount() {
+        BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
+    }
+    onBackPress = () => {
+        const { dispatch, nav } = this.props;
+        if (nav.index === 0) {
+            return false;
+        }
+        dispatch(NavigationActions.back());
+        return true;
+    };
 
-    return <TabView />
-  }
+    render() {
+        const { dispatch, nav } = this.props;
+        const navigation = addNavigationHelpers({
+            dispatch,
+            state: nav
+        });
+
+        return <TabView
+            navigation={navigation} />
+    }
+}
+
+const mapStateToProps = (state) => ({
+    nav: state.nav
+});
+
+const AppWithNavigation = connect(mapStateToProps)(ReduxNavigation);
+
+
+
+class App extends Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          progress: 0
+        }
+      }
+
+      codePushStatusDidChange(status) {
+        switch (status) {
+          case codePush.SyncStatus.CHECKING_FOR_UPDATE:
+            console.log('Checking for updates.');
+            break;
+          case codePush.SyncStatus.DOWNLOADING_PACKAGE:
+            console.log('Downloading package.');
+            break;
+          case codePush.SyncStatus.INSTALLING_UPDATE:
+            console.log('Installing update.');
+            break;
+          case codePush.SyncStatus.UP_TO_DATE:
+            console.log('Up to date.');
+            break;
+          case codePush.SyncStatus.UPDATE_INSTALLED:
+            console.log('Update installed.');
+            break;
+        }
+
+      }
+
+      codePushDownloadDidProgress(progress) {
+        console.log(progress.receivedBytes + ' of ' + progress.totalBytes + ' received.');
+      }
+
+      componentDidMount() {
+        codePush.sync({
+          updateDialog: true,
+          mandatoryInstallMode: codePush.InstallMode.IMMEDIATE
+        });
+      }
+
+
+    render() {
+        StatusBar.setBarStyle('light-content')
+
+        if (Platform.OS === 'android') {
+            StatusBar.setBackgroundColor(colors.primary)
+        }
+
+        return (
+            // <Provider store={store}>
+            //     <AppWithNavigation />
+            // </Provider>
+            <TabView />
+        )
+    }
 }
 
 App = codePush(codePushOptions)(App);
 
 export default App;
-

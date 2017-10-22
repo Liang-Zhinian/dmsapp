@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native'
-import Spinner from './components/spinner';
-import { StyleConfig, ComponentStyles, CommonStyles } from './style'
-import { JSEncrypt } from './common/jsencrypt'
-import Config, { authData, storageKey } from './config/'
-import * as ConfigAction from './action/config'
+import Spinner from '../components/spinner';
+import { StyleConfig, ComponentStyles, CommonStyles } from '../style'
+import { JSEncrypt } from '../common/jsencrypt'
+import Config, { authData, storageKey } from '../config/'
+import * as ConfigAction from '../actions/config'
 
 export default class AccountView extends Component {
   static navigationOptions = {
