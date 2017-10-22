@@ -2,7 +2,7 @@
 import React from 'react'
 import {TabNavigator} from 'react-navigation'
 import colors from './common/colors'
-import {HomeStackView, DocumentsStackView, AccountStackView} from './components/stackNavigation'
+import { HomeStackView, DocumentsStackView, AccountStackView, DownloadsStackView, AboutStackView, SearchStackView, SettingsStackView } from './components/stackNavigation'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 function tabNavigationOptions (label: string, iconName: string) {

@@ -4,3 +4,4 @@ export { default as Search } from './SearchView';
 export { default as About } from './AboutView';
 export { default as Account } from './AccountView';
 export { default as Settings } from './SettingsView';
+export { default as Downloads } from './DownloadsView';

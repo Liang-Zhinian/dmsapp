@@ -2,8 +2,8 @@
 import React from 'react'
 import { DrawerNavigator } from 'react-navigation'
 import colors from './common/colors'
-import { HomeStackView, DocumentsStackView, AccountStackView, DownloadsStackView, AboutStackView, SearchStackView, SettingsStackView } from './components/stackNavigation'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import { HomeStackView, DocumentsStackView, AccountStackView, DownloadsStackView, AboutStackView, SearchStackView, SettingsStackView } from './components/stackNavigation'
 // import DocumentsNavigation from './navigations/documents'
 
 function drawerViewNavigationOptions(label: string, iconName: string) {
