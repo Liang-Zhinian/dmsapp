@@ -26,8 +26,9 @@
 // @flow
 
 const colors = {
-  primary: '#EC5D57',
-  textOnPrimary: 'white'
+  primary: '#0D83DD',
+  textOnPrimary: 'white',
+  borderOnPrimary: '#0067B7',
 }
 
 export default colors

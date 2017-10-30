@@ -1,20 +1,11 @@
 import { combineReducers } from 'redux';
 
-//import main from './main';
-// import nav from './nav';
-// import { HomeStackView, DocumentsStackView, AccountStackView, DownloadsStackView, AboutStackView, SearchStackView, SettingsStackView } from '../components/stackNavigation'
+import nav from './nav';
+import { documents } from '../modules'
 
 
-// export default combineReducers({
-//     //main,
-//     nav: nav,
-//     home: (state, action) => HomeStackView.router.getStateForAction(action, state),
-//     documents: (state, action) => DocumentsStackView.router.getStateForAction(action, state),
-// })
-
-
-export default function getRootReducer(navReducer) {
-    return combineReducers({
-        nav: navReducer,
-    })
-}
+export default combineReducers({
+    //every modules reducer should be define here
+    nav: nav,
+    [documents.NAME]: documents.reducer
+})

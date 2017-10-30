@@ -4,7 +4,7 @@ import React, {
 
 export function updateItem(key, value) {
 	if (key && value) {
-		DeviceStorage.getItem(key).then((item) => {
+		getItem(key).then((item) => {
 			value = typeof value === 'string' ? value : Object.assign({}, item, value);
 			AsyncStorage.setItem(key, JSON.stringify(value));
 		});
