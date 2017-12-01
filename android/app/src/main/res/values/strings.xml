@@ -1,4 +1,3 @@
 <resources>
-    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">DQbM4NgIcO56xClXPg8v7Rw_ow02b302a67f-34cf-4374-aec4-161cfe0113f5</string>
-    <string name="app_name">DMS Cloud</string>
+    <string name="app_name">dove</string>
 </resources>
