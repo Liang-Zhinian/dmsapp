@@ -15,7 +15,8 @@ import {
 import {
     loginSOAP,
     renewSOAP,
-    validSOAP
+    validSOAP,
+    ensureLogin
 } from './auth';
 
 
@@ -33,9 +34,10 @@ const _listChildren = async (username: string, password: string, folderId: int, 
 const listChildren = async (username: string, password: string, sid: string, folderId: int, callback: (folderId, children) => {}) => {
     return new Promise(async (resolve, reject) => {
 
-        let valid = await validSOAP(sid);
-        if (!valid) reject(Error('token expired'));
-
+        // let valid = await validSOAP(sid);
+        // if (!valid) reject(Error('token expired'));
+        // ensureLogin(username, password, sid)
+        //     .then(sid => {
         if (folderId) {
             await _listChildren(username, password, folderId, callback)
             return
@@ -50,7 +52,8 @@ const listChildren = async (username: string, password: string, sid: string, fol
             .catch((error) => {
                 reject(error);
             });
-
+        // })
+        // .catch(reason => reject(reason))
     });
 };
 
@@ -76,8 +79,8 @@ const deleteDocuments = (username: string, password: string, docIds: number[]) =
 const searchDocuments = (username: string, password: string, expression: string) => {
     return search(username, password, expression)
         .then(response => response.json())
-        .then(responseJson=>responseJson.hits)
-        .catch(reason=>console.error(reason))
+        .then(responseJson => responseJson.hits)
+        .catch(reason => console.error(reason))
 }
 
 export {
@@ -91,5 +94,6 @@ export {
 
     loginSOAP,
     renewSOAP,
-    validSOAP
+    validSOAP,
+    ensureLogin
 };

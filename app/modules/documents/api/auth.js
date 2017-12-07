@@ -107,3 +107,22 @@ export const validSOAP = (sid: string): Promise<boolean> => {
             .catch(reason => reject(reason))
     });
 }
+
+export const ensureLogin = (username: string, password: string, sid: string) => {
+    return new Promise((resolve, reject) => {
+        validSOAP(sid)
+            .then(valid => {
+                if (!valid) {
+                    loginSOAP(username, password)
+                        .then(sid => {
+                            console.log('login and return new sid');
+                            resolve(sid)
+                        })
+                        .catch(reason => reject(reason))
+                } else {
+                    resolve(sid)
+                }
+            })
+            .catch(reason => reject(reason))
+    })
+}

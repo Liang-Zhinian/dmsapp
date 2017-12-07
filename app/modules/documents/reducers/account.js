@@ -58,8 +58,10 @@ export default handleActions(
     },
 
     [RENEW]: (state: State = initialState, action) => {
+      const { payload: { token } } = action;
       return {
         ...state,
+        token,
       }
     },
 

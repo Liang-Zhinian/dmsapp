@@ -25,6 +25,7 @@ export default ExplorerStack = StackNavigator({
     FileViewer,
 }, {
         headerMode: 'screen',
+        // initialRouteName: 'Explorer',
         navigationOptions: {
             ...defaultHeader
         }

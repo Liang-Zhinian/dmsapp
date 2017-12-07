@@ -63,7 +63,7 @@ export const renew = (sid: string) => async (dispatch, getState) => {
 
   const response = await renewSOAP(sid)
     .then(response => {
-      console.log('renew => reponse:' + response);
+      // console.log('renew => reponse:' + response);
 
       let expires_date = moment();
       expires_date.add(25, 'minutes');

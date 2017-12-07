@@ -4,6 +4,8 @@ import {
     View,
     Text,
     ProgressViewIOS,
+    ProgressBarAndroid,
+    Platform,
     Dimensions,
 } from 'react-native';
 
@@ -52,7 +54,16 @@ export default class ProgressBar extends Component<{}>{
                         fontSize: 30,
                         color: 'orange'
                     }}>{Math.floor((this.props.progress / 100) * 10000)}%</Text>
-                    <ProgressViewIOS style={styles.progressView} progress={this.props.progress} progressTintColor="orange" />
+                    {Platform.OS === 'ios' && <ProgressViewIOS
+                        style={styles.progressView}
+                        progress={this.props.progress}
+                        ßprogressTintColor="orange" />}
+
+                    {Platform.OS === 'android' && <ProgressBarAndroid
+                        style={styles.progressView}
+                        progress={this.props.progress}
+                        progressTintColor="orange"
+                        styleAttr='Horizontal' />}
                 </View>
             </View>
         );

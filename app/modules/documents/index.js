@@ -1,5 +1,5 @@
 import { NAME } from './constants';
-import App from './App';
+// import App from './App';
 import reducer from './reducers';
 import * as actions from './actions';
 import * as Navigation from './navigation';
@@ -11,7 +11,7 @@ import Routes from './config/routes';
 
 export default {
   NAME,
-  App,
+  // App,
   reducer,
   actions,
   Navigation,

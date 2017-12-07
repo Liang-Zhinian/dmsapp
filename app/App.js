@@ -30,11 +30,11 @@ export default class App extends Component<{}> {
 
     return (
       <Provider store={this.state.store}>
-        <View style={{ flex: 1 }}>
+        {/*<View style={{ flex: 1 }}>
           {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
-          {Platform.OS === 'android' && <View style={{ backgroundColor: 'rgba(0,0,0,0.2)' }} />}
+    {Platform.OS === 'android' && <View style={{ backgroundColor: 'rgba(0,0,0,0.2)' }} />}*/}
           <AppWithNavigation />
-        </View>
+        {/*</View>*/}
       </Provider>
     );
   }

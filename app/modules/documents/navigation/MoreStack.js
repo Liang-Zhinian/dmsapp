@@ -24,6 +24,7 @@ export default MoreStack = StackNavigator({
     Settings,
 }, {
         headerMode: 'screen',
+        initialRouteName: 'More',
         navigationOptions: {
             ...defaultHeader
         }

@@ -115,7 +115,7 @@ const BottomTabs = TabNavigator(
             navigationOptions: tabNavigationOptions('Home', 'home')
         },
         ExplorerTab: {
-            screen: Documents.Navigation.ExplorerStack,
+            screen: Documents.Navigation.ExplorerStack,//DocumentRoutes.Explorer.screen,//
             navigationOptions: tabNavigationOptions('My Documents', 'file-submodule')
         },
         SearchTab: {
@@ -128,7 +128,7 @@ const BottomTabs = TabNavigator(
         }
     },
     {
-        // initialRouteName: 'HomeTab',
+        initialRouteName: 'HomeTab',
         tabBarComponent: TabBarBottom,
         tabBarPosition: 'bottom',
         tabBarOptions: {

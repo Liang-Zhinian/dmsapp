@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+    Platform,
     View,
     ScrollView,
     Text,
@@ -18,6 +19,7 @@ import { NAME } from '../constants'
 import RNQuickLook from "../../../components/RNQuickLook";
 import Base64 from '../lib/Base64';
 import * as actions from '../actions'
+import { translate, coordToAddress } from '../api/geolocation'
 
 class Upload extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -45,6 +47,13 @@ class Upload extends Component {
         return { headerTitle, headerRight };
     };
 
+    static propTypes = {
+        watchID: (null: ?number)
+    };
+    static defaultProps = {
+        watchID: null
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -53,6 +62,10 @@ class Upload extends Component {
             errorInfo: "",
             animating: false,
             name: '',
+            location: '',
+            address: '',
+            initialPosition: 'unknown',
+            lastPosition: 'unknown',
         };
         this.props.navigation.setParams({ uploadButtonDisabled: true });
     }
@@ -153,10 +166,54 @@ class Upload extends Component {
     }
 
     componentDidMount() {
+        const that = this;
+
         // We can only set the function after the component has been initialized
-        this.props.navigation.setParams({ upload: this.upload.bind(this) });
-        // const { startUpload } = this.props;
-        // startUpload();
+        that.props.navigation.setParams({ upload: that.upload.bind(that) });
+
+        // get geolocation
+        navigator.geolocation.getCurrentPosition(pos => {
+            var crd = pos.coords;
+            console.log('Your current position is:');
+            console.log(`Latitude: ${crd.latitude}`);
+            console.log(`Longitude: ${crd.longitude}`);
+            console.log(`More or less ${crd.accuracy} meters`);
+            that.setState({ location: `${crd.latitude},${crd.longitude}` });
+            var initialPosition = JSON.stringify(pos);
+            that.setState({ initialPosition });
+
+            translate(crd)
+                .then(coord => {
+                    coordToAddress(coord)
+                        .then(address => {
+                            that.setState({ address });
+                        })
+                        .catch(error => console.warn(error))
+                })
+                .catch(error => console.warn(error))
+        }, err => {
+            console.warn(`ERROR(${err.code}): ${err.message}`);
+        }, {
+                enableHighAccuracy: true,
+                timeout: 20000,
+                maximumAge: 0
+            });
+
+        that.watchID = navigator.geolocation.watchPosition((pos) => {
+            var lastPosition = JSON.stringify(pos);
+            that.setState({ lastPosition });
+
+            var crd = pos.coords;
+            translate(crd)
+                .then(coord => {
+                    coordToAddress(coord)
+                        .then(address => {
+                            that.setState({ address });
+                        })
+                        .catch(error => console.warn(error))
+                })
+                .catch(error => console.warn(error))
+        })
     }
 
     // Start changing images with timer on first initial load
@@ -168,6 +225,10 @@ class Upload extends Component {
         if (uploaded && prevUploaded != uploaded) {
             navigation.goBack();
         }
+    }
+
+    componentWillUnmount() {
+        navigator.geolocation.clearWatch(this.watchID);
     }
 
     //加载等待的view
@@ -273,7 +334,37 @@ class Upload extends Component {
                     {this.renderSpacer()}
                     <View style={[{ flex: 5 }, styles.row]}>
                         <Text style={[styles.title]}>Media</Text>
-                        <RNQuickLook style={{ flex: 1, width: viewWidth, height: viewHeight }} url={uri} />
+                        {Platform.OS === 'ios' && <RNQuickLook
+                            style={{ flex: 1, width: viewWidth, height: viewHeight }}
+                            url={uri} />}
+                    </View>
+                    {this.renderSpacer()}
+                    <View style={[{ flex: 1 }, styles.row]}>
+                        <Text style={[styles.title]}>Location</Text>
+                        <TextInput
+                            style={{ flex: 1 }}
+                            ref="txtLocation"
+                            placeholder={'Location'}
+                            blurOnSubmit={true}
+                            underlineColorAndroid={'transparent'}
+                            onChangeText={(val) => { this.setState({ location: val }) }}
+                            value={this.state.location}
+                        // setState is asynchronous and use the second argument to setState which is a callback
+                        />
+                    </View>
+                    {this.renderSpacer()}
+                    <View style={[{ flex: 1 }, styles.row]}>
+                        <Text style={[styles.title]}>Address</Text>
+                        <TextInput
+                            style={{ flex: 1 }}
+                            ref="txtAddress"
+                            placeholder={'Address'}
+                            blurOnSubmit={true}
+                            underlineColorAndroid={'transparent'}
+                            onChangeText={(val) => { this.setState({ address: val }) }}
+                            value={this.state.address}
+                        // setState is asynchronous and use the second argument to setState which is a callback
+                        />
                     </View>
                 </View>
                 {this.renderProgressBar()}

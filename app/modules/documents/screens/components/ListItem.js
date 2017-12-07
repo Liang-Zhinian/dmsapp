@@ -55,7 +55,6 @@ class ListItem extends React.Component {
     }
 
     render() {
-        console.log('render list item');
         const {
             data,
             onPress,
@@ -77,7 +76,6 @@ class ListItem extends React.Component {
         } = data;
 
         const touched = document && document.id == id;
-        console.log('touched: ' + touched);
 
         return (
             <View style={{
@@ -87,7 +85,7 @@ class ListItem extends React.Component {
                 alignContent: 'center',
                 alignItems: 'center',
             }}>
-                <DoveTouchable
+                <TouchableOpacity
                     style={[
                         CommonStyles.m_l_1,
                         { display: isEditMode ? 'flex' : 'none' }
@@ -97,8 +95,8 @@ class ListItem extends React.Component {
                     <MaterialCommunityIcons
                         name={this.state.checked ? 'checkbox-marked-circle' : 'checkbox-blank-circle-outline'}
                         size={30} />
-                </DoveTouchable>
-                <DoveTouchable
+                </TouchableOpacity>
+                <TouchableOpacity
                     onPress={isDownloading ? null : onPress}
                     underlayColor={isDownloading ? '' : 'grey'}
                     //backgroundColor={isDownloading ? 'grey' : 'white'}
@@ -118,10 +116,15 @@ class ListItem extends React.Component {
                             <View style={styles.textContainer}>
                                 <Text style={styles.title}>{title}</Text>
                                 <Text style={styles.content}>{description}</Text>
-                                <ProgressViewIOS
+                                {Platform.OS === 'ios' && <ProgressViewIOS
                                     progress={touched ? progress : 0}
                                     style={[{ display: touched ? 'flex' : 'none' }, styles.progress]}
-                                />
+                                />}
+                                {Platform.OS === 'android' && <ProgressBarAndroid
+                                    progress={touched ? progress : 0}
+                                    style={[{ display: touched ? 'flex' : 'none' }, styles.progress]}
+                                    styleAttr='Horizontal'
+                                />}
                             </View>
                             <InfoIcon style={{ display: touched && isDownloading || !infoIconVisible ? 'none' : 'flex' }}
                                 onPress={isDownloading ? null : onPressInfo} />
@@ -130,7 +133,7 @@ class ListItem extends React.Component {
                         </View>
                         <View style={styles.separator} />
                     </View>
-                </DoveTouchable>
+                </TouchableOpacity>
             </View>
         )
     }

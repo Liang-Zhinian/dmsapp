@@ -22,8 +22,7 @@ import {
   createDownloadTicketWithProgressSOAP,
   deleteDocuments,
   loginSOAP,
-  searchDocuments,
-  ensureLogin
+  searchDocuments
 } from '../api';
 import { CommonStyles, colors } from '../styles';
 import ListItem from './components/ListItem';
@@ -71,6 +70,7 @@ class Explorer extends Component {
   };
 
   constructor(props) {
+    console.log('constructor');
     super(props);
     this.state = {
       refreshing: false,
@@ -99,31 +99,29 @@ class Explorer extends Component {
 
     this.downloadManger = new DownloadManager();
 
-    // const { params = {} } = this.props.navigation.state;
-    // console.log('constructor: ' + (params.node ? params.node.name : 'Documents'));
   }
 
   componentWillMount() {
-    // console.log('componentWillMount');
+    console.log('componentWillMount');
 
     const { username, password, sid, expires_date, login } = this.props;
-    // console.log(`${username} | ${password} | ${sid} | ${expires_date}`)
+    console.log(`${username} | ${password} | ${sid} | ${expires_date}`)
 
     // check if sid is expired
-    // if (isExpired(expires_date)) {
-    //   login(username, password);
-    // }
-    // else {
-    this.setState({
-      username,
-      password,
-      sid,
-    }, this.fetchData.bind(this));
-    // }
+    if (isExpired(expires_date)) {
+      login(username, password);
+    }
+    else {
+      this.setState({
+        username,
+        password,
+        sid,
+      }, this.fetchData.bind(this));
+    }
   }
 
   componentDidMount() {
-    // console.log('componentDidMount');
+    console.log('componentDidMount');
     const { navigation, isEditMode } = this.props;
     // We can only set the function after the component has been initialized
     navigation.setParams({
@@ -135,7 +133,7 @@ class Explorer extends Component {
 
   // Start changing images with timer on first initial load
   componentWillReceiveProps(nextProps) {
-    //console.log('componentWillReceiveProps');
+    console.log('componentWillReceiveProps');
     const that = this;
 
     const { needReload } = nextProps;
@@ -143,7 +141,7 @@ class Explorer extends Component {
     const { username, password, sid, expires_date, valid, login, renewSid } = nextProps;
 
     if (username && username !== that.state.username) {
-      // console.log('Account has been changed')
+      console.log('Account has been changed')
       that.setState({
         username,
         password,
@@ -153,7 +151,7 @@ class Explorer extends Component {
     }
 
     if (username && sid && sid !== that.state.sid) {
-      // console.log('Sid has been changed and the data source will be refreshed.')
+      console.log('Sid has been changed and the data source will be refreshed.')
       that.setState({
         sid,
       }, () => {
@@ -169,15 +167,15 @@ class Explorer extends Component {
   // }
 
   componentWillUpdate(nextProps, nextState) {
-    // console.log('componentWillUpdate');
+    console.log('componentWillUpdate');
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log('componentDidUpdate');
+    console.log('componentDidUpdate');
   }
 
   componentWillUnmount() {
-    // console.log('componentWillUnmount');
+    console.log('componentWillUnmount');
     this.resetDownloadTask();
   }
 
@@ -312,55 +310,56 @@ class Explorer extends Component {
       fetchingList,
       doneFetchingList,
       chooseFolder,
-      renewSid
     } = that.props;
 
     fetchingList();
 
     let folder = !!params ? params.node : null;
     let folderId = !!folder ? folder.id : null;
-    that._fetchData()
-      .then(([folderId, children]) => {
-        that.setState({
-          isLoading: false,
-          dataSource: children,
-          folderId
-        });
-        doneFetchingList();
-      })
 
+    return listChildren(username, password, sid, folderId, (folderId, children) => {
+      that.setState({
+        //复制数据源
+        isLoading: false,
+        dataSource: children,
+        folderId
+      });
+      doneFetchingList();
+    })
+      .catch(reason => {
+        console.log(reason.message);
+        if (reason.message === 'token expired') {
+          //that.props.login(username, password);
+          loginSOAP(username, password)
+            .then(sid => {
+              that.setState({ sid }, that.fetchData)
+            })
+        }
+      })
+    // chooseFolder(folder);
   }
 
   _fetchData = () => {
-    const that = this;
     const {
       navigation: { state: { params } },
-      renewSid
-    } = that.props;
+    } = this.props;
     const {
       username,
       password,
       sid,
-    } = that.state;
+    } = this.state;
 
     return new Promise((resolve, reject) => {
       let folder = !!params ? params.node : null;
       let folderId = !!folder ? folder.id : null;
-      username && ensureLogin(username, password, sid)
-        .then(sid => {
-          // console.log('new sid: ' + sid);
-          that.setState({
-            sid: sid,
-          });
-          renewSid(sid);
-
-          listChildren(username, password, sid, folderId, (folderId, children) => {
-            resolve([folderId, children]);
-          })
-            .catch(reason => {
-              reject(reason);
-            })
-        });
+      listChildren(username, password, sid, folderId, (folderId, children) => {
+        debugger;
+        resolve([folderId, children]);
+      })
+        .catch(reason => {
+          debugger;
+          reject(reason);
+        })
     })
   }
 
@@ -636,6 +635,7 @@ class Explorer extends Component {
     that.setState({ refreshing: true });
     that._fetchData()
       .then(([folderId, children]) => {
+        debugger;
         that.setState({
           dataSource: children,
           refreshing: false
