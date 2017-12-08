@@ -3,6 +3,7 @@
 'use strict';
 import React, { Component } from 'react'
 import {
+  Platform,
   View,
   FlatList,
   Text,
@@ -11,7 +12,7 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
-  RefreshControl
+  RefreshControl,
 } from 'react-native'
 import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-picker';
@@ -35,6 +36,7 @@ import FolderCreationDialog from './components/FolderCreationDialog';
 import DocumentService, { DownloadManager } from '../services/DocumentService';
 import { HeaderButton } from './components/HeaderButtons';
 import SearchBox from './components/SearchBox';
+import FileViewer from '../../../components/FileViewer';
 
 function isExpired(expires_date) {
   let currentTime = new Date();
@@ -453,31 +455,33 @@ class Explorer extends Component {
   openLocalUrl = (url, fileName, fileType) => {
     const _that = this;
     const { navigate } = _that.props.navigation;
-    navigate('FileViewer', { file: { uri: `file://${url}`, fileName, fileType } });
-
-    _that.props.chooseDocument(null);
-    _that.props.updateProgress(0);
+    Platform.OS == 'ios' && navigate('FileViewer', { file: { uri: `file://${url}`, fileName, fileType } });
+    debugger;
+    Platform.OS == 'android' &&
+      FileViewer.open(
+        `${url}`,
+        'image/png'
+      ).then((msg) => {
+        console.log('success!!')
+      }, (error) => {
+        console.log('error!!')
+      });
     // OpenFile.openDoc([{
     //   url,
     //   fileName,
     //   fileType,
+    //   cache: true
     // }], (error, url) => {
-    //   _that.setState({
-    //     //isLoading: false,
-    //     progressBarVisible: false,
-    //     progress: 0,
-    //     docId: null,
-    //   });
-
-    //   _that.props.chooseDocument(null);
-    //   _that.props.updateProgress(0);
-
     //   if (error) {
     //     console.error(error);
     //   } else {
     //     console.log(url)
     //   }
     // })
+
+    _that.props.chooseDocument(null);
+    _that.props.updateProgress(0);
+
   }
 
   resetDownloadTask = () => {

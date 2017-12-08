@@ -119,7 +119,8 @@ const downloadToCacheDirectory = (sid, doc, onProgress, onCanceled) => {
     return createDownloadTicketWithProgressSOAP(sid, doc.id)
         .then(ticket => {
             const SHA1 = require('crypto-js/sha1');
-            const path = RNFetchBlob.fs.dirs.CacheDir + '_immutable_images/' + SHA1(ticket) + '.' + doc.type;
+            // const path = RNFetchBlob.fs.dirs.CacheDir + '/immutable_files/' + SHA1(ticket) + '.' + doc.type;
+            const path =  RNFS.ExternalDirectoryPath + '/' + SHA1(ticket) + '.' + doc.type;;
 
             return downloadManager.start(ticket, {
                 // add this option that makes response data to be stored as a file,

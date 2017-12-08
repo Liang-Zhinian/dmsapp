@@ -17,6 +17,7 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -34,7 +35,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RNFSPackage(),
             new RNFetchBlobPackage(),
             new RNReactNativeDocViewerPackage(),
-            new VectorIconsPackage()
+            new VectorIconsPackage(),
+            new FileViewerReactPackage()
       );
     }
 
