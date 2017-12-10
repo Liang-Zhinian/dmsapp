@@ -15,7 +15,8 @@ import {
 } from 'react-native';
 import RNFS from 'react-native-fs';
 import Entypo from 'react-native-vector-icons/Entypo';
-import RNQuickLook from "../../../components/RNQuickLook";
+import FileViewerIOS from "../../../components/RNQuickLook";
+import FileViewerAndroid from '../../../components/RCTFileViewerAndroid';
 import { CommonStyles, colors } from '../styles';
 import ActionSheet from './components/ActionSheet';
 
@@ -120,11 +121,24 @@ export default class FileViewer extends Component<{}> {
         );
     }
 
-    renderRNQuickLook() {
+    renderPreview() {
         const { file } = this.props.navigation.state.params;
         if (!file) return null;
+
+        if (Platform.OS === 'ios')
+            return (
+                <FileViewerIOS
+                    style={{
+                        flex: 1,
+                        width,
+                        height
+                    }}
+                    url={file.uri}
+                />
+            )
+
         return (
-            <RNQuickLook
+            <FileViewerAndroid
                 style={{
                     flex: 1,
                     width,
@@ -142,7 +156,7 @@ export default class FileViewer extends Component<{}> {
 
         return (
             <View style={styles.container}>
-                {this.renderRNQuickLook()}
+                {this.renderPreview()}
                 {this.renderActionSheet()}
             </View>
         );

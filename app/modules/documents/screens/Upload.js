@@ -11,6 +11,7 @@ import {
     ProgressViewIOS,
     TouchableOpacity,
 } from 'react-native';
+import RNFetchBlob from 'react-native-fetch-blob';
 import moment from 'moment';
 import { connect } from 'react-redux'
 import { NAME } from '../constants'

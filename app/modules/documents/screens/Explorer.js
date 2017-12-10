@@ -12,7 +12,7 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
-  RefreshControl,
+  RefreshControl
 } from 'react-native'
 import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-picker';
@@ -36,7 +36,8 @@ import FolderCreationDialog from './components/FolderCreationDialog';
 import DocumentService, { DownloadManager } from '../services/DocumentService';
 import { HeaderButton } from './components/HeaderButtons';
 import SearchBox from './components/SearchBox';
-import FileViewer from '../../../components/FileViewer';
+import DocumentList from './components/DocumentList';
+import FileViewerAndroid from '../../../components/RCTFileViewerAndroid';
 
 function isExpired(expires_date) {
   let currentTime = new Date();
@@ -456,32 +457,16 @@ class Explorer extends Component {
     const _that = this;
     const { navigate } = _that.props.navigation;
     Platform.OS == 'ios' && navigate('FileViewer', { file: { uri: `file://${url}`, fileName, fileType } });
-    debugger;
     Platform.OS == 'android' &&
-      FileViewer.open(
-        `${url}`,
-        'image/png'
-      ).then((msg) => {
-        console.log('success!!')
-      }, (error) => {
-        console.log('error!!')
-      });
-    // OpenFile.openDoc([{
-    //   url,
-    //   fileName,
-    //   fileType,
-    //   cache: true
-    // }], (error, url) => {
-    //   if (error) {
-    //     console.error(error);
-    //   } else {
-    //     console.log(url)
-    //   }
-    // })
+      FileViewerAndroid.open(url)
+        .then((msg) => {
+          console.log('success!!')
+        }, (error) => {
+          console.log('error!!')
+        });
 
     _that.props.chooseDocument(null);
     _that.props.updateProgress(0);
-
   }
 
   resetDownloadTask = () => {
@@ -680,6 +665,17 @@ class Explorer extends Component {
           }}
           onSearch={this.filter.bind(this)}
         />
+        <DocumentList
+          navigation={this.props.navigation}
+          dataSource={this.state.dataSource}
+          onRefresh={this._onRefresh}
+          onPressCheckbox={this._onPressCheckbox}
+          onPressItem={this._onPressItem}
+          onPressInfo={this._onPressItemInfo}
+          onPressCross={this._onPressItemCross}
+          downloadManger={this.downloadManger}
+        />
+        {/*
         <ScrollView style={{
           flex: 1,
           display: this.state.mainListVisible ? 'flex' : 'none'
@@ -696,7 +692,7 @@ class Explorer extends Component {
             renderItem={this.renderItem}
             keyExtractor={(item, index) => index}
           />
-        </ScrollView>
+        </ScrollView>*/}
         <ScrollView style={{
           flex: 1,
           display: this.state.searchListVisible ? 'flex' : 'none'

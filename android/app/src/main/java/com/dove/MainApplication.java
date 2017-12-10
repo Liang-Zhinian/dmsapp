@@ -3,7 +3,6 @@ package com.dove;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import org.wonday.pdf.RCTPdfView;
 import com.imagepicker.ImagePickerPackage;
 import com.rnfs.RNFSPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -17,7 +16,6 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -30,13 +28,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RCTPdfView(),
             new ImagePickerPackage(),
             new RNFSPackage(),
             new RNFetchBlobPackage(),
             new RNReactNativeDocViewerPackage(),
             new VectorIconsPackage(),
-            new FileViewerReactPackage()
+            new RCTFileViewerReactPackage()
       );
     }
 
