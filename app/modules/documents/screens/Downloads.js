@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+    Platform,
     View,
     Text,
     StyleSheet,
@@ -97,12 +98,9 @@ class Downloads extends Component {
         return (
             <ListItem
                 data={data}
-                onPress={() => { }}
+                onPress={() => this._onPressItem(item)}
                 onPressInfo={() => { }}
                 infoIconVisible={false}
-            // type={filetype}
-            // title={item.name}
-            // description={description}
             />
         );
     }
@@ -146,6 +144,34 @@ class Downloads extends Component {
                 keyExtractor={(item, index) => index}
             />
         )
+    }
+
+    _onPressItem = (item: any) => {
+        const { navigation: { navigate } } = this.props;
+
+        this.previewDocument(item);
+    }
+
+    previewDocument = (item: any) => {
+        const that = this;
+        const { path, name, size } = item;
+        debugger;
+        const type = name.split('.').pop();
+
+        that.openLocalUrl(path, name, type);
+    }
+
+    openLocalUrl = (url, fileName, fileType) => {
+        const _that = this;
+        const { navigate } = _that.props.navigation;
+        Platform.OS == 'ios' && navigate('FileViewer', { file: { uri: `file://${url}`, fileName, fileType }, readOnly: false });
+        Platform.OS == 'android' &&
+            FileViewerAndroid.open(url)
+                .then((msg) => {
+                    console.log('success!!')
+                }, (error) => {
+                    console.log('error!!')
+                });
     }
 }
 

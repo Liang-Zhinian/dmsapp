@@ -181,11 +181,12 @@ class Home extends Component {
 				key={index}
 				onPress={() => this.onNavItemPress(item)}
 				style={[CommonStyles.flex_1,
-				CommonStyles.p_a_4,
+				CommonStyles.p_a_2,
 				CommonStyles.border_t,
 				CommonStyles.border_r,
 				CommonStyles.border_b,
 				CommonStyles.border_l,
+				CommonStyles.flexItemsCenter,
 				styles.cell]}
 				underlayColor={StyleConfig.touchable_press_color}>
 				<View style={[CommonStyles.flexColumn,
@@ -200,65 +201,26 @@ class Home extends Component {
 		)
 	}
 
-	renderAppInfo() {
-		return (
-			<View>
-				{/* <View style={[
-					CommonStyles.flexRow,
-					CommonStyles.flexColumn,
-					CommonStyles.flexItemsMiddle,
-					CommonStyles.flexItemsBetween,
-					CommonStyles.flexItemsCenter,
-					// CommonStyles.background_light,
-				]}>
-					<Image style={styles.image} resizeMode={Image.resizeMode.contain} source={require("../images/logo2.png")} />
-			</View> */}
-				<View style={[CommonStyles.flexRow, CommonStyles.flexItemsMiddle, CommonStyles.flexItemsBetween]}>
-					<View style={styles.container}>
-						{/* <Text style={styles.welcome}>
-							Welcome to RICOH ISD
-				</Text> */}
-						<Image style={styles.image} resizeMode={Image.resizeMode.contain} source={require("../assets/logo2.png")} />
-						{/* <Text style={styles.instructions}>
-							You have total of <Text style={{ fontWeight: 'bold' }}>53</Text> folders and <Text style={{ fontWeight: 'bold' }}>392</Text> files.
-						</Text> */}
-					</View>
-				</View>
-				{/*this.renderSpacer()*/}
-			</View>
-		)
-	}
-
 	renderLogo() {
 		return (
 			<View style={[
 				CommonStyles.flex_1,
-				CommonStyles.flexRow,
-				// CommonStyles.flexColumn,
-				// CommonStyles.flexItemsMiddle,
-				// CommonStyles.flexItemsBetween,
 				CommonStyles.flexItemsCenter,
-				// CommonStyles.background_light,
+				CommonStyles.flexItemsMiddle,
 			]}>
-				<View style={[
-					CommonStyles.flex_1,
-					CommonStyles.flexRow,
-					// CommonStyles.flexColumn,
-					// CommonStyles.flexItemsMiddle,
-					// CommonStyles.flexItemsBetween,
-					CommonStyles.flexItemsCenter,
-					// CommonStyles.background_light,
-				]}>
-					<Image style={styles.image} resizeMode={Image.resizeMode.contain} source={require("../assets/logo2.png")} />
-				</View>
-				{this.renderSpacer()}
+				<Image
+					style={styles.image}
+					resizeMode={Image.resizeMode.contain}
+					source={require("../assets/logo2.png")}
+				/>
+
 			</View>
 		)
 	}
 
 	renderNavContent() {
 		return (
-			<View style={[CommonStyles.flex_5]}>
+			<View style={[CommonStyles.flex_4]}>
 				<View style={[CommonStyles.flex_1, CommonStyles.flexRow, styles.row]}>
 					{
 						firstLineItems && firstLineItems.map((nav, index) => {
@@ -299,12 +261,8 @@ class Home extends Component {
 	renderContent() {
 		return (
 			<View style={[CommonStyles.flex_1, CommonStyles.flexSelfTop]}>
-				{/*this.renderAppInfo()*/}
 				{this.renderLogo()}
 				{this.renderNavContent()}
-				{/* <View style={[CommonStyles.flexRow]}>
-					<Image style={styles.image} resizeMode={Image.resizeMode.contain} source={require("../images/logo2.png")} />
-				</View> */}
 			</View>
 		)
 	}
@@ -322,14 +280,13 @@ class Home extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		//justifyContent: 'center',
 		alignItems: 'center',
 		width: null,
 		height: null,
 		backgroundColor: colors.primary,
-		// color: 'rgba(60, 177, 158, 1)'
 	},
 	row: {
+		flex: 1,
 		width: StyleConfig.screen_width,
 
 		"borderTopColor": colors.borderOnPrimary,

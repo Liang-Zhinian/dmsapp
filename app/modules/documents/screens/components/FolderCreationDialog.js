@@ -16,17 +16,32 @@ export default class FolderCreationDialog extends Component {
                     onCancel={this.props.onCancel}
                     onOK={this.props.onOK}
                     modalVisible={this.props.modalVisible}
+                    width='90%'
                 >
-                    <View><Text style={{ fontSize: 20, fontWeight: 'bold', alignSelf: 'center', marginBottom: 20, }}>Folder Name:</Text></View>
-                    <View><TextInput
-                        ref="txtFolderName"
-                        style={{ borderWidth: 1, height: 30, fontSize: 16, }}
-                        placeholder={'Folder Name'}
-                        blurOnSubmit={true}
-                        underlineColorAndroid={'transparent'}
-                        onChangeText={this.props.onChangeFolderName}
-                        value={this.props.folderName}
-                    /></View>
+                    <View style={{ flex: 1 }}>
+                        <Text style={{
+                            fontSize: 20,
+                            fontWeight: 'bold',
+                            alignSelf: 'center',
+                            marginBottom: 20,
+                        }}>Folder Name:</Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <TextInput
+                            ref="txtFolderName"
+                            style={{
+                                borderWidth: 1,
+                                // height: 30,
+                                // fontSize: 16,
+                                padding: 3
+                            }}
+                            placeholder={'Folder Name'}
+                            blurOnSubmit={true}
+                            underlineColorAndroid={'transparent'}
+                            onChangeText={this.props.onChangeFolderName}
+                            value={this.props.folderName}
+                        />
+                    </View>
                 </Dialog>
             </View>
         );

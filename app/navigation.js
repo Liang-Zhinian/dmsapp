@@ -119,7 +119,7 @@ const BottomTabs = TabNavigator(
             navigationOptions: tabNavigationOptions('My Documents', 'file-submodule')
         },
         SearchTab: {
-            screen: DocumentRoutes.Search.screen,
+            screen: Documents.Navigation.SearchStack,
             navigationOptions: tabNavigationOptions('Search', 'search')
         },
         MoreTab: {

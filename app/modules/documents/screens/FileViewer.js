@@ -76,6 +76,13 @@ export default class FileViewer extends Component<{}> {
             });
     }
 
+    delete() {
+        const { file } = this.props.navigation.state.params;
+        RNFS.unlink(file.url)
+            .then(() => console.log('FILE DELETED'))
+            .catch(err => console.log(err.message));
+    }
+
     toggleActionSheet() {
         console.log('toggleActionSheet');
         const modalVisible = this.state.modalVisible;
@@ -93,6 +100,10 @@ export default class FileViewer extends Component<{}> {
     }
 
     renderActionSheet() {
+        const { readOnly = true } = this.props.navigation.state.params;
+        
+        //if (typeof readOnly === undefined) readOnly = true;
+
         return (
             <ActionSheet modalVisible={this.state.modalVisible} onCancel={this.toggleActionSheet.bind(this)}>
                 <View style={styles.actionSheet}>
@@ -106,9 +117,14 @@ export default class FileViewer extends Component<{}> {
                             Email as Attachment
                             </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={this.download.bind(this)}>
+                    <TouchableOpacity style={[styles.button, { display: readOnly ? 'flex' : 'none' }]} onPress={this.download.bind(this)}>
                         <Text style={styles.buttonText}>
                             Download
+                            </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.button, { display: readOnly ? 'none' : 'flex' }]} onPress={this.delete.bind(this)}>
+                        <Text style={styles.buttonText}>
+                            Delete
                             </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.button, styles.lastButton]} onPress={() => { }}>

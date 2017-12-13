@@ -7,35 +7,46 @@ import {
     TouchableOpacity,
     View,
     Text,
+    KeyboardAvoidingView,
+    Dimensions,
 } from 'react-native';
 import FadeInView from './fade_in_view';
+
+const { width, height } = Dimensions.get('window');
 
 class Dialog extends Component {
 
     renderCancelButton() {
         return (
-            <TouchableOpacity style={[styles.button, { borderRightWidth: 1, }]} onPress={this.props.onCancel}>
+            <TouchableOpacity
+                style={[styles.button, {
+                    borderRightWidth: 1,
+                    borderRightColor: 'grey',
+                    borderBottomLeftRadius: 10,
+                }]}
+                onPress={this.props.onCancel}>
                 <Text style={styles.buttonText}>
                     Cancel
-            </Text>
+                </Text>
             </TouchableOpacity>
         )
     }
 
     renderOkButton() {
         return (
-            <TouchableOpacity style={styles.button} onPress={this.props.onOK}>
+            <TouchableOpacity
+                style={[styles.button, {
+                    borderBottomRightRadius: 10
+                }]}
+                onPress={this.props.onOK}>
                 <Text style={styles.buttonText}>
                     OK
-            </Text>
+                </Text>
             </TouchableOpacity>
         )
     }
 
     render() {
-        // return (
-        //     <View>{this.props.children}</View>
-        // )
         return (
             <FadeInView
                 visible={this.props.modalVisible}
@@ -47,25 +58,32 @@ class Dialog extends Component {
                     visible={this.props.modalVisible}
                     onRequestClose={this.props.onCancel}
                 >
-                    <View style={styles.modalContainer}>
+                    <KeyboardAvoidingView 
+                    keyboardVerticalOffset={-50}
+                    behavior='position' 
+                    style={styles.modalContainer}>
                         <TouchableOpacity style={styles.container} onPress={this.props.onCancel}></TouchableOpacity>
                         <View style={[styles.content,]}>
                             <View style={{
-                                flex: 1,
+                                flex: 4,
                                 padding: 20,
+                                flexDirection: 'column',
                             }}>
                                 {this.props.children}
                             </View>
                             <View style={{
+                                flex: 1,
                                 flexDirection: 'row',
                                 borderTopWidth: 1,
+                                borderTopColor: 'grey',
+                                // paddingBottom: 10,
                             }}>
                                 {this.renderCancelButton()}
                                 {this.renderOkButton()}
                             </View>
                         </View>
                         <TouchableOpacity style={styles.container} onPress={this.props.onCancel}></TouchableOpacity>
-                        </View>
+                    </KeyboardAvoidingView>
                 </Modal>
             </FadeInView>
         );
@@ -80,20 +98,20 @@ const styles = StyleSheet.create({
     },
     modalContainer: {
         flex: 1,
-        padding: 8,
-        paddingBottom: 0,
-        justifyContent: "flex-end"
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingHorizontal: 20,
+        paddingTop: 20,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     content: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignContent: 'flex-end',
-        alignItems: 'stretch',
         borderRadius: 10,
         backgroundColor: 'white',
-        marginLeft: '10%',
-        marginRight: '10%',
+        marginLeft: '5%',
+        marginRight: '5%',
+        width: width * 0.8,
     },
     buttonText: {
         color: '#0069d5',
@@ -104,10 +122,12 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 36,
         backgroundColor: 'white',
-        borderColor: 'white',
-        borderWidth: 1,
-        marginBottom: 10,
-        alignSelf: 'stretch',
-        justifyContent: 'center'
+        // borderColor: 'white',
+        // borderWidth: 1,
+        // marginBottom: 10,
+        // padding: 10,
+        // alignSelf: 'stretch',
+        justifyContent: 'center',
+        alignSelf: 'center'
     }
 });

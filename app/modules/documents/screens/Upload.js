@@ -78,15 +78,12 @@ class Upload extends Component {
 
     upload() {
         this.props.navigation.setParams({ uploadButtonDisabled: true });
-        //this.setState({ animating: true });
-
-        // debugger;
         const { sid, username, password, navigation } = this.props;
         const params = navigation.state.params;
         const { uri, fileName, fileSize, data } = params.source;
 
         let name = this.state.name;
-        let type = fileName.split('.').pop() || 'jpg';
+        let type = uri.split('.').pop() || 'jpg';
         let folderId = params.folderId;
         let document = {
             "id": 0,
@@ -287,14 +284,6 @@ class Upload extends Component {
                     //alignItems: 'center'
                     height: 40
                 }}>
-                    {/*
-            <ActivityIndicator
-                animating={true}
-                style={{ backgroundColor: 'gray', height: 80, width: 80, borderRadius: 6, }}
-                color='red'
-                size="large"
-                title='abc'
-        />*/}
                     <Text style={{
                         textAlign: 'center',
                         fontSize: 30,
