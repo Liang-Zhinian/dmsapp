@@ -32,4 +32,13 @@ export default Routes = {
     More: {
         screen: Screens.More,
     },
+    RepositoryUsage: {
+        screen: Screens.RepositoryUsage,
+    },
+    LockedReport: {
+        screen: Screens.LockedReport,
+    },
+    CheckedoutReport: {
+        screen: Screens.CheckedoutReport,
+    },
 }

@@ -52,7 +52,7 @@ const secondLineItems = [{
 		size={36}
 		color={StyleConfig.color_white}
 		style={[CommonStyles.m_b_2, CommonStyles.background_transparent]} />),
-	route: 'ISD',
+	route: 'RepositoryUsage',
 },];
 
 const thirdLineItems = [
@@ -64,7 +64,7 @@ const thirdLineItems = [
 			size={36}
 			color={StyleConfig.color_white}
 			style={[CommonStyles.m_b_2, CommonStyles.background_transparent]} />),
-		route: 'Expenses',
+		route: 'CheckedoutReport',
 	},
 	{
 		title: 'Documents Locked',
@@ -74,7 +74,7 @@ const thirdLineItems = [
 			size={36}
 			color={StyleConfig.color_white}
 			style={[CommonStyles.m_b_2, CommonStyles.background_transparent]} />),
-		route: 'Helpdesk',
+		route: 'LockedReport',
 	}];
 
 const fourthLineItems = [

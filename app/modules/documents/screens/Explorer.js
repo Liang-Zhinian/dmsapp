@@ -134,6 +134,7 @@ class Explorer extends Component {
       toggleEdit: this.toggleEdit.bind(this),
       isEditMode
     });
+    // this.setState({ folderCreationModalVisible: true });
   }
 
   // Start changing images with timer on first initial load
@@ -150,9 +151,9 @@ class Explorer extends Component {
       that.setState({
         username,
         password,
-      },/* () => {
+      }, () => {
         that.fetchData();
-      }*/);
+      });
     }
 
     if (username && sid && sid !== that.state.sid) {
@@ -255,7 +256,6 @@ class Explorer extends Component {
 
       }
       else {
-        // debugger;
         let source = response;
 
         // You can also display the image using data:
@@ -458,6 +458,18 @@ class Explorer extends Component {
     const { navigate } = _that.props.navigation;
     Platform.OS == 'ios' && navigate('FileViewer', { file: { uri: `file://${url}`, fileName, fileType } });
     Platform.OS == 'android' &&
+      // OpenFile.openDoc([{
+      //   url: `file://${url}`,
+      //   fileName,
+      //   fileType,
+      //   cache:true,
+      // }], (error, url) => {
+      //   if (error) {
+      //     console.error(error);
+      //   } else {
+      //     console.log(url)
+      //   }
+      // })
       FileViewerAndroid.open(url)
         .then((msg) => {
           console.log('success!!')
@@ -578,6 +590,10 @@ class Explorer extends Component {
     })
   }
 
+  selectionContainsFolders() {
+    return this.state.selectedList.filter((o) => o.type == 0 || o.type == 1).length > 0;
+  }
+
   _onDeleteButtonPressed = () => {
 
     const that = this;
@@ -671,7 +687,7 @@ class Explorer extends Component {
           onRefresh={this._onRefresh}
           onPressCheckbox={this._onPressCheckbox}
           onPressItem={this._onPressItem}
-          onPressInfo={this._onPressItemInfo}
+          onPressItemInfo={this._onPressItemInfo}
           onPressCross={this._onPressItemCross}
           downloadManger={this.downloadManger}
         />
@@ -718,9 +734,9 @@ class Explorer extends Component {
           <TouchableOpacity
             style={{ marginRight: 20, justifyContent: 'center' }}
             accessibilityLabel='download'
-            onPress={() => { this._onDownloadButtonPressed(); }}
+            onPress={this.selectionContainsFolders() ? null : this._onDownloadButtonPressed}
           >
-            <Text style={{ color: colors.primary, fontSize: 20 }}>{`Download${this.state.selectedList.length > 0 ? '(' + this.state.selectedList.length + ')' : ''}`}</Text>
+            <Text style={{ color: this.selectionContainsFolders() ? 'grey' : colors.primary, fontSize: 20 }}>{`Download${this.state.selectedList.length > 0 ? '(' + this.state.selectedList.length + ')' : ''}`}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -738,7 +754,10 @@ class Explorer extends Component {
           onCreateFolderButtonPressed={() => { this.setState({ folderCreationModalVisible: true, isLoading: false }) }} />
 
         <FolderCreationDialog
-          onCancel={() => { console.log('Canceled') }}
+          onCancel={() => {
+            console.log('Canceled');
+            this.setState({ folderName: '', folderCreationModalVisible: false });
+          }}
           onOK={this.onFolderCreationOK.bind(this)}
           modalVisible={this.state.folderCreationModalVisible}
           onChangeFolderName={(folderName) => this.setState({ folderName })}

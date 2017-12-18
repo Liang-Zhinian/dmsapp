@@ -77,6 +77,9 @@ const {
     Downloads,
     Account,
     Settings,
+    RepositoryUsage,
+    CheckedoutReport,
+    LockedReport,
 } = DocumentRoutes; 
 
 const HomeStack = StackNavigator(
@@ -86,18 +89,9 @@ const HomeStack = StackNavigator(
         Downloads,
         Account,
         Settings,
-        // Expenses: {
-        //   screen: modules.expenses.Navigation,
-        //   navigationOptions: stackNavigationOptionsWithDrawerButton()
-        // },
-        // ISD: {
-        //   screen: modules.isd.Navigation,
-        //   navigationOptions: stackNavigationOptionsWithDrawerButton()
-        // },
-        // Helpdesk: {
-        //   screen: modules.helpdesk.App,
-        //   navigationOptions: stackNavigationOptionsWithDrawerButton()
-        // },
+        CheckedoutReport,
+        LockedReport,
+        RepositoryUsage,
     },
     {
         headerMode: 'screen',
@@ -119,7 +113,7 @@ const BottomTabs = TabNavigator(
             navigationOptions: tabNavigationOptions('My Documents', 'file-submodule')
         },
         SearchTab: {
-            screen: DocumentRoutes.Search.screen,
+            screen: Documents.Navigation.SearchStack,
             navigationOptions: tabNavigationOptions('Search', 'search')
         },
         MoreTab: {

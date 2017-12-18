@@ -1,10 +1,10 @@
 
-// import HomeStack from './HomeStack';
+import SearchStack from './SearchStack';
 import ExplorerStack from './ExplorerStack';
 import MoreStack from './MoreStack';
 
 export {
-    // HomeStack,
+    SearchStack,
     ExplorerStack,
     MoreStack
 }

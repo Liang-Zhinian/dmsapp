@@ -7,67 +7,96 @@ import {
     TouchableOpacity,
     View,
     Text,
+    KeyboardAvoidingView,
+    Dimensions,
 } from 'react-native';
 import FadeInView from './fade_in_view';
+
+const { width, height } = Dimensions.get('window');
 
 class Dialog extends Component {
 
     renderCancelButton() {
         return (
-            <TouchableOpacity style={[styles.button, { borderRightWidth: 1, }]} onPress={this.props.onCancel}>
+            <TouchableOpacity
+                style={[styles.button, {
+                    borderRightWidth: 1,
+                    borderRightColor: 'grey',
+                    borderBottomLeftRadius: 10,
+                }]}
+                onPress={this.props.onCancel}>
                 <Text style={styles.buttonText}>
                     Cancel
-            </Text>
+                </Text>
             </TouchableOpacity>
         )
     }
 
     renderOkButton() {
         return (
-            <TouchableOpacity style={styles.button} onPress={this.props.onOK}>
+            <TouchableOpacity
+                style={[styles.button, {
+                    borderBottomRightRadius: 10
+                }]}
+                onPress={this.props.onOK}>
                 <Text style={styles.buttonText}>
                     OK
-            </Text>
+                </Text>
             </TouchableOpacity>
         )
     }
 
     render() {
-        // return (
-        //     <View>{this.props.children}</View>
-        // )
+        const contentHeight = this.props.height || height * 0.5;
         return (
-            <FadeInView
+            // <FadeInView
+            //     visible={this.props.modalVisible}
+            //     backgroundColor={this.props.backgroundColor}
+            // >
+            <Modal
+                animationType={"slide"}
+                transparent={true}
                 visible={this.props.modalVisible}
-                backgroundColor={this.props.backgroundColor}
+                onRequestClose={this.props.onCancel}
             >
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.props.modalVisible}
-                    onRequestClose={this.props.onCancel}
+                {/*<View
+                    style={[styles.container, {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    }]}>*/}
+
+                <KeyboardAvoidingView
+                    keyboardVerticalOffset={-50}
+                    behavior='padding'
+                    style={[styles.container, {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    }]}
                 >
-                    <View style={styles.modalContainer}>
-                        <TouchableOpacity style={styles.container} onPress={this.props.onCancel}></TouchableOpacity>
-                        <View style={[styles.content,]}>
-                            <View style={{
-                                flex: 1,
-                                padding: 20,
-                            }}>
-                                {this.props.children}
-                            </View>
-                            <View style={{
-                                flexDirection: 'row',
-                                borderTopWidth: 1,
-                            }}>
-                                {this.renderCancelButton()}
-                                {this.renderOkButton()}
-                            </View>
+                    <View style={[styles.innerContainer, { height: contentHeight }]}>
+                        <View style={{
+                            flex: 1,
+                            paddingTop: 10,
+                            paddingLeft: 10,
+                            paddingRight: 10,
+                            flexDirection: 'column',
+                        }}>
+                            {this.props.children}
                         </View>
-                        <TouchableOpacity style={styles.container} onPress={this.props.onCancel}></TouchableOpacity>
+                        <View style={{
+                            // flex: 1,
+                            flexDirection: 'row',
+                            borderTopWidth: 1,
+                            borderTopColor: 'grey',
+                            // paddingBottom: 10,
+                        }}>
+                            {this.renderCancelButton()}
+                            {this.renderOkButton()}
                         </View>
-                </Modal>
-            </FadeInView>
+                    </View>
+                </KeyboardAvoidingView>
+                {/*</View>*/}
+            </Modal >
+
+            //</FadeInView>
         );
     }
 }
@@ -76,24 +105,19 @@ export default Dialog;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
-    },
-    modalContainer: {
         flex: 1,
-        padding: 8,
-        paddingBottom: 0,
-        justifyContent: "flex-end"
+        justifyContent: 'center',
+        // padding: 20,
     },
-    content: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignContent: 'flex-end',
-        alignItems: 'stretch',
+    innerContainer: {
+        // flex: 1,
+        // flexDirection: 'column',
         borderRadius: 10,
         backgroundColor: 'white',
-        marginLeft: '10%',
-        marginRight: '10%',
+        marginLeft: '5%',
+        marginRight: '5%',
+        // width: width * 0.8,
+        // height: height * 0.4,
     },
     buttonText: {
         color: '#0069d5',
@@ -104,10 +128,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 36,
         backgroundColor: 'white',
-        borderColor: 'white',
-        borderWidth: 1,
-        marginBottom: 10,
-        alignSelf: 'stretch',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignSelf: 'center'
     }
 });

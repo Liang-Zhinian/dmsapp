@@ -8,6 +8,9 @@ import More from './More';
 import Account from './Account';
 import FileViewer from './FileViewer';
 import Settings from './Settings';
+import RepositoryUsage from './RepositoryUsage';
+import CheckedoutReport from './CheckedoutReport';
+import LockedReport from './LockedReport';
 
 
 export default {
@@ -21,4 +24,7 @@ export default {
     Account,
     FileViewer,
     Settings,
+    RepositoryUsage,
+    CheckedoutReport,
+    LockedReport,
 };
