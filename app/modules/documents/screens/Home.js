@@ -30,7 +30,7 @@ const firstLineItems = [{
 	icon: (<Octicons name='file-submodule'
 		size={36}
 		color={StyleConfig.color_white}
-		style={[CommonStyles.m_b_2, CommonStyles.background_transparent]} />),
+		style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
 	route: 'ExplorerTab',
 },
 {
@@ -51,7 +51,7 @@ const secondLineItems = [{
 	icon: (<FontAwesome name='pie-chart'
 		size={36}
 		color={StyleConfig.color_white}
-		style={[CommonStyles.m_b_2, CommonStyles.background_transparent]} />),
+		style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
 	route: 'RepositoryUsage',
 },];
 
@@ -63,7 +63,7 @@ const thirdLineItems = [
 		icon: (<FontAwesome name='briefcase'
 			size={36}
 			color={StyleConfig.color_white}
-			style={[CommonStyles.m_b_2, CommonStyles.background_transparent]} />),
+			style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
 		route: 'CheckedoutReport',
 	},
 	{
@@ -73,7 +73,7 @@ const thirdLineItems = [
 		icon: (<MaterialCommunityIcons name='file-lock'
 			size={36}
 			color={StyleConfig.color_white}
-			style={[CommonStyles.m_b_2, CommonStyles.background_transparent]} />),
+			style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
 		route: 'LockedReport',
 	}];
 
@@ -142,8 +142,14 @@ class Home extends Component {
 		console.log('constructor');
 		super(props);
 		this.state = {
-			hasFocus: false
+			hasFocus: false,
+			layout: {
+				width: Dimensions.get('window').width,
+				height: Dimensions.get('window').height,
+			}
 		};
+
+		this.onLayout = this.onLayout.bind(this);
 		// this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 	}
 
@@ -161,6 +167,15 @@ class Home extends Component {
 		}
 	}
 
+	onLayout(e) {
+		this.setState({
+			layout: {
+				width: Dimensions.get('window').width,
+				height: Dimensions.get('window').height,
+			}
+		})
+	}
+
 	renderSpacer() {
 		return (
 			<View style={styles.spacer}></View>
@@ -173,7 +188,7 @@ class Home extends Component {
 			icon = <Icon name={item.icon}
 				size={36}
 				color={item.color}
-				style={[CommonStyles.m_b_2, CommonStyles.background_transparent]} />;
+				style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />;
 		else
 			icon = item.icon;
 		return (
@@ -209,7 +224,7 @@ class Home extends Component {
 				CommonStyles.flexItemsMiddle,
 			]}>
 				<Image
-					style={styles.image}
+					style={[styles.image, { width: this.state.layout.width - 50, }]}
 					resizeMode={Image.resizeMode.contain}
 					source={require("../assets/logo2.png")}
 				/>
@@ -220,7 +235,7 @@ class Home extends Component {
 
 	renderNavContent() {
 		return (
-			<View style={[CommonStyles.flex_4]}>
+			<View style={[CommonStyles.flex_4, CommonStyles.flexColumn]}>
 				<View style={[CommonStyles.flex_1, CommonStyles.flexRow, styles.row]}>
 					{
 						firstLineItems && firstLineItems.map((nav, index) => {
@@ -229,7 +244,7 @@ class Home extends Component {
 					}
 				</View>
 				{/*this.renderSpacer()*/}
-				<View style={[CommonStyles.flexRow, styles.row]}>
+				<View style={[CommonStyles.flex_1, CommonStyles.flexRow, styles.row]}>
 					{
 						secondLineItems && secondLineItems.map((nav, index) => {
 							return this.renderNavItem(nav, index)
@@ -237,7 +252,7 @@ class Home extends Component {
 					}
 				</View>
 				{/*this.renderSpacer()*/}
-				<View style={[CommonStyles.flexRow, styles.row, styles.lastRow]}>
+				<View style={[CommonStyles.flex_1, CommonStyles.flexRow, styles.row, styles.lastRow]}>
 					{
 						thirdLineItems && thirdLineItems.map((nav, index) => {
 							return this.renderNavItem(nav, index)
@@ -245,7 +260,7 @@ class Home extends Component {
 					}
 				</View>
 				{/*this.renderSpacer()*/}
-				<View style={[CommonStyles.flexRow, styles.row, styles.lastRow]}>
+				<View style={[CommonStyles.flex_1, CommonStyles.flexRow, styles.row, styles.lastRow]}>
 					{
 						fourthLineItems && fourthLineItems.map((nav, index) => {
 							return this.renderNavItem(nav, index)
@@ -260,9 +275,10 @@ class Home extends Component {
 
 	renderContent() {
 		return (
-			<View style={[CommonStyles.flex_1, CommonStyles.flexSelfTop]}>
-				{this.renderLogo()}
+			<View style={[/*CommonStyles.flex_1, CommonStyles.flexSelfTop,*/ { borderColor: 'grey', borderWidth: 2 }]}>
+				{/*this.renderLogo()*/}
 				{this.renderNavContent()}
+				{/*<Text>Hello World</Text>*/}
 			</View>
 		)
 	}
@@ -270,9 +286,14 @@ class Home extends Component {
 	render() {
 		const { router, user } = this.props;
 		return (
-			<View style={[ComponentStyles.container, styles.container]}>
-				{this.renderContent()}
-			</View >
+			<View
+				onLayout={this.onLayout}
+				style={[styles.container, { flexDirection: 'column' }]}
+			>
+				{/*this.renderContent()*/}
+				{this.renderLogo()}
+				{this.renderNavContent()}
+			</View>
 		)
 	}
 }
@@ -280,14 +301,15 @@ class Home extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
-		width: null,
-		height: null,
+		//alignItems: 'center',
+		//justifyContent: 'center',
+		//width: null,
+		//height: null,
 		backgroundColor: colors.primary,
 	},
 	row: {
-		flex: 1,
-		width: StyleConfig.screen_width,
+		//flex: 1,
+		//width: StyleConfig.screen_width,
 
 		"borderTopColor": colors.borderOnPrimary,
 		"borderTopWidth": 1,
@@ -331,9 +353,12 @@ const styles = StyleSheet.create({
 		marginLeft: 14
 	},
 	image: {
+		//flex: 1,
+		//marginLeft: 30,
+		//marginRight: 30,
 		// marginTop: 0,
 		// marginBottom: 0,
-		width: Dimensions.get("window").width - 50,
+		// width: Dimensions.get("window").width - 50,
 		// height: 365 * (Dimensions.get("window").width - 150) / 651,
 	},
 	welcome: {

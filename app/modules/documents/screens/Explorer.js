@@ -12,7 +12,8 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
-  RefreshControl
+  RefreshControl,
+  NetInfo,
 } from 'react-native'
 import { connect } from 'react-redux'
 import ImagePicker from 'react-native-image-picker';
@@ -38,6 +39,7 @@ import { HeaderButton } from './components/HeaderButtons';
 import SearchBox from './components/SearchBox';
 import DocumentList from './components/DocumentList';
 import FileViewerAndroid from '../../../components/RCTFileViewerAndroid';
+import Spinner from '../../../components/Spinner';
 
 function isExpired(expires_date) {
   let currentTime = new Date();
@@ -96,6 +98,7 @@ class Explorer extends Component {
       isLoginLoading: false,
       searchListDataSource: [],
       searchListVisible: false,
+      isConnected: null,
     }
 
     this.downloadTask = null;
@@ -126,15 +129,25 @@ class Explorer extends Component {
   }
 
   componentDidMount() {
+
     // console.log('componentDidMount');
-    const { navigation, isEditMode } = this.props;
+    const that = this;
+
+    const { navigation, isEditMode } = that.props;
     // We can only set the function after the component has been initialized
     navigation.setParams({
-      onAddButtonPressed: this.showImagePicker.bind(this),
-      toggleEdit: this.toggleEdit.bind(this),
+      onAddButtonPressed: that.showImagePicker.bind(that),
+      toggleEdit: that.toggleEdit.bind(that),
       isEditMode
     });
-    // this.setState({ folderCreationModalVisible: true });
+
+    NetInfo.isConnected.addEventListener(
+      'connectionChange',
+      that._handleConnectivityChange.bind(this)
+    );
+    NetInfo.isConnected.fetch().done(
+      (isConnected) => { that.setState({ isConnected }); }
+    );
   }
 
   // Start changing images with timer on first initial load
@@ -182,11 +195,26 @@ class Explorer extends Component {
 
   componentWillUnmount() {
     // console.log('componentWillUnmount');
-    this.resetDownloadTask();
+    const that = this;
+
+    that.resetDownloadTask();
+
+    NetInfo.isConnected.removeEventListener(
+      'connectionChange',
+      that._handleConnectivityChange.bind(that)
+    )
+  }
+
+  _handleConnectivityChange(isConnected) {
+    this.setState({ isConnected });
   }
 
   render() {
     console.log('render');
+
+    // if (this.state.isConnected ==null || !this.state.isConnected){
+    //   return null;
+    // }
 
     const { username } = this.state;
     if (!username) {
@@ -363,7 +391,8 @@ class Explorer extends Component {
             .catch(reason => {
               reject(reason);
             })
-        });
+        })
+        .catch(reason => console.log(reason));
     })
   }
 
@@ -384,8 +413,7 @@ class Explorer extends Component {
   renderLoadingView() {
     return (
       <View style={styles.container}>
-        <ActivityIndicator
-          animating={true}
+        <Spinner
           style={[styles.gray, { height: 80 }]}
           color='red'
           size="large"

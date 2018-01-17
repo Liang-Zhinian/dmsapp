@@ -11,7 +11,7 @@ const { height, width } = Dimensions.get('window');
 // ===============================================
 
 export default StyleConfig = {
-
+    
     color_primary: 'rgba(60, 177, 158, 1)',
     color_danger: 'rgba(199, 85, 74, 1)',
     color_warning: 'rgba(216, 196, 128, 1)',
@@ -22,7 +22,7 @@ export default StyleConfig = {
     color_gray: 'rgba(0, 0, 0, 0.6)',
     color_dark: 'rgba(0, 0, 0, 0.7)',
     color_black: 'rgba(0, 0, 0, 0.8)',
-    color_transparent: "transparent",
+    color_transparent: 'transparent',
 
     font_eg: 24,
     font_lg: 20,

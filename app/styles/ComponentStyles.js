@@ -13,6 +13,7 @@ import StyleConfig from './StyleConfig';
 
 export default ComponentStyles = StyleSheet.create({
     
+    
         // container
     
         container: {

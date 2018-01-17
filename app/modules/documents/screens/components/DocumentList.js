@@ -48,27 +48,27 @@ export class DocumentList extends Component {
     }
 
     renderItem = ({ item }: { item: any }) => {
-  
-      const lastModified = moment(item.lastModified, 'YYYY-MM-DD HH:mm:ss.sss ZZ').format('YYYY-MM-DD HH:mm:ss')
-      const fileSize = !(item.type == 0 || item.type == 1) ? ` | ${item.fileSize} Bytes` : '';
-      const description = lastModified + fileSize;
-      const data = {
-        id: item.id,
-        title: item.name || item.fileName,
-        description: description,
-        type: item.type,
-      };
-      return (
-        <ListItem
-          {...this.props}
-          data={data}
-          downloadManger={this.downloadManger}
-          onPressCheckbox={this.props.onPressCheckbox}
-          onPress={() => this.props.onPressItem(item)}
-          onPressInfo={() => this.props.onPressItemInfo(item)}
-          onPressCross={this.props.onPressItemCross}
-        />
-      );
+
+        const lastModified = moment(item.lastModified, 'YYYY-MM-DD HH:mm:ss.sss ZZ').format('YYYY-MM-DD HH:mm:ss')
+        const fileSize = !(item.type == 0 || item.type == 1) ? ` | ${item.fileSize} Bytes` : '';
+        const description = lastModified + fileSize;
+        const data = {
+            id: item.id,
+            title: item.name || item.fileName,
+            description: description,
+            type: item.type,
+        };
+        return (
+            <ListItem
+                {...this.props}
+                data={data}
+                downloadManger={this.downloadManger}
+                onPressCheckbox={this.props.onPressCheckbox}
+                onPress={() => this.props.onPressItem(item)}
+                onPressInfo={() => this.props.onPressItemInfo(item)}
+                onPressCross={this.props.onPressItemCross}
+            />
+        );
     }
 }
 
