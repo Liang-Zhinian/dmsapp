@@ -68,6 +68,8 @@ class Upload extends Component {
             lastPosition: 'unknown',
         };
         this.props.navigation.setParams({ uploadButtonDisabled: true });
+
+        this.watchID = null;
     }
 
     renderSpacer() {
@@ -195,22 +197,23 @@ class Upload extends Component {
                 timeout: 20000,
                 maximumAge: 0
             });
+        try {
+            that.watchID = navigator.geolocation.watchPosition((pos) => {
+                var lastPosition = JSON.stringify(pos);
+                that.setState({ lastPosition });
 
-        that.watchID = navigator.geolocation.watchPosition((pos) => {
-            var lastPosition = JSON.stringify(pos);
-            that.setState({ lastPosition });
-
-            var crd = pos.coords;
-            translate(crd)
-                .then(coord => {
-                    coordToAddress(coord)
-                        .then(address => {
-                            that.setState({ address });
-                        })
-                        .catch(error => console.warn(error))
-                })
-                .catch(error => console.warn(error))
-        })
+                var crd = pos.coords;
+                translate(crd)
+                    .then(coord => {
+                        coordToAddress(coord)
+                            .then(address => {
+                                that.setState({ address });
+                            })
+                            .catch(error => console.warn(error))
+                    })
+                    .catch(error => console.warn(error))
+            })
+        } catch (error){ console.log(error); }
     }
 
     // Start changing images with timer on first initial load
@@ -295,6 +298,7 @@ class Upload extends Component {
     }
 
     render() {
+        return null;
         const { navigation } = this.props;
         const params = navigation.state.params;
         const { width, height, uri } = params.source;

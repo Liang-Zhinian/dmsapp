@@ -284,6 +284,7 @@ class Explorer extends Component {
 
       }
       else {
+        debugger;
         let source = response;
 
         // You can also display the image using data:
