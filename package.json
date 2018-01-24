@@ -8,16 +8,28 @@
 	},
 	"scripts": {
 		"eslint": "eslint .",
-        "lint": "eslint .",
-		"start": "node node_modules/react-native/local-cli/cli.js start",
-		"test": "jest",
-		"release-android": "cd android && ./gradlew assembleRelease && cd ..",
+		"flow": "flow",
+		"format": "prettier-standard 'app/**/*.js'",
+		"lint-staged": "lint-staged",
 		"log": "adb logcat *:S ReactNative:V ReactNativeJS:V",
-		"reverse": "adb reverse tcp:8081 tcp:8081",
-		"test-android": "cd android && gradlew installRelease",
+		"precommit": "lint-staged && yarn test",
+		"prepush": "yarn test",
+		"release-android": "cd android && ./gradlew assembleRelease && cd ..",
 		"release-ios": "react-native bundle --entry-file index.ios.js --platform ios --dev false --bundle-output ./ios/bundle/main.jsbundle --assets-dest ./ios/bundle",
+		"reverse": "adb reverse tcp:8081 tcp:8081",
+		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"test": "flow && standard && jest",
+		"test-android": "cd android && gradlew installRelease",
 		"update-android": "code-push release-react dmsapp android",
 		"update-android-production": "code-push promote dmsapp Staging Production"
+	},
+	"lint-staged": {
+		"linters": {
+			"app/**/*.js": [
+				"prettier-standard",
+				"git add"
+			]
+		}
 	},
 	"dependencies": {
 		"crypto-js": "^3.1.9-1",
@@ -51,17 +63,47 @@
 		"chai": "^3.5.0",
 		"eslint": "^3.5.0",
 		"eslint-config-airbnb": "^11.1.0",
+		"eslint-plugin-flowtype": "^2.41.0",
 		"eslint-plugin-import": "^1.14.0",
 		"eslint-plugin-jsx-a11y": "^2.2.1",
 		"eslint-plugin-react": "^6.2.0",
 		"eslint-plugin-react-native": "^2.0.0",
+		"flow-bin": "0.42.0",
 		"jest": "17.0.0",
 		"jest-react-native": "17.0.0",
+		"lint-staged": "6.0.0",
 		"mocha": "^2.5.3",
+		"prettier-standard": "^8.0.0",
 		"react-test-renderer": "15.3.2",
-		"redux-immutable-state-invariant": "^2.1.0"
+		"redux-immutable-state-invariant": "^2.1.0",
+		"standard": "^10.0.3"
 	},
 	"jest": {
-		"preset": "jest-react-native"
+		"preset": "react-native",
+		"setupFiles": [
+			"<rootDir>/jest-setup.js"
+		],
+		"transformIgnorePatterns": [
+			"node_modules/(?!react-native|react-navigation)/"
+		]
+	},
+	"standard": {
+		"plugins": [
+			"flowtype"
+		],
+		"parser": "babel-eslint",
+		"globals": [
+			"describe",
+			"it",
+			"expect",
+			"beforeEach",
+			"afterEach",
+			"jest",
+			"jasmine",
+			"fetch"
+		],
+		"ignore": [
+			"/js/__generated__/"
+		]
 	}
 }

@@ -1,3 +1,5 @@
+//@flow
+
 import React, { Component } from 'react';
 import {
     Platform,
@@ -47,12 +49,12 @@ class Upload extends Component {
         return { headerTitle, headerRight };
     };
 
-    static propTypes = {
-        watchID: (null: ?number)
-    };
-    static defaultProps = {
-        watchID: null
-    };
+    // static propTypes = {
+    //     watchID: ? number
+    // };
+    // static defaultProps = {
+    //     watchID: null
+    // };
 
     constructor(props) {
         super(props);
@@ -82,10 +84,10 @@ class Upload extends Component {
         this.props.navigation.setParams({ uploadButtonDisabled: true });
         const { sid, username, password, navigation } = this.props;
         const params = navigation.state.params;
-        const { uri, fileName, fileSize, data } = params.source;
+        const { uri, fileName, fileSize, data, path } = params.source;
 
         let name = this.state.name;
-        let type = uri.split('.').pop() || 'jpg';
+        let type = (path || uri).split('.').pop() || 'jpg';
         let folderId = params.folderId;
         let document = {
             "id": 0,
@@ -192,13 +194,15 @@ class Upload extends Component {
                 .catch(error => console.warn(error))
         }, err => {
             console.warn(`ERROR(${err.code}): ${err.message}`);
+            Alert.alert('Location request', `ERROR(${err.code}): ${err.message}`, [{ text: 'OK', onPress: () => console.log('OK Pressed') },], { cancelable: false });
         }, {
                 enableHighAccuracy: true,
                 timeout: 20000,
                 maximumAge: 0
             });
+
         try {
-            that.watchID = navigator.geolocation.watchPosition((pos) => {
+            that.watchID = navigator.geolocation.watchPosition(pos => {
                 var lastPosition = JSON.stringify(pos);
                 that.setState({ lastPosition });
 
@@ -212,8 +216,12 @@ class Upload extends Component {
                             .catch(error => console.warn(error))
                     })
                     .catch(error => console.warn(error))
+            }, error => {
+                console.log(error);
             })
-        } catch (error){ console.log(error); }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     // Start changing images with timer on first initial load
@@ -298,10 +306,9 @@ class Upload extends Component {
     }
 
     render() {
-        return null;
         const { navigation } = this.props;
         const params = navigation.state.params;
-        const { width, height, uri } = params.source;
+        const { width, height, uri, fileName } = params.source;
         let viewHeight = 300, viewWidth = width / height * viewHeight;
 
         return (
@@ -331,6 +338,7 @@ class Upload extends Component {
                         {Platform.OS === 'ios' && <RNQuickLook
                             style={{ flex: 1, width: viewWidth, height: viewHeight }}
                             url={uri} />}
+                        {Platform.OS === 'android' && <Text>{fileName||uri}</Text>}
                     </View>
                     {this.renderSpacer()}
                     <View style={[{ flex: 1 }, styles.row]}>

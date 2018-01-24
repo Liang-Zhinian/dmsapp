@@ -43,7 +43,7 @@ export const coordToAddress = (location) => {
             if (responseJson.status === 0) {
                 var { nation, province, city, district } = responseJson.result.address_component;
                 var {recommend} = responseJson.result.formatted_addresses;
-                var address = `${nation} ${province} ${city} ${district} ${recommend}`
+                var address = `${nation} ${province} ${city} ${district} ${recommend || ''}`
                 return address;
             }
 
