@@ -80,6 +80,7 @@ const {
     RepositoryUsage,
     CheckedoutReport,
     LockedReport,
+    Scan
 } = DocumentRoutes; 
 
 const HomeStack = StackNavigator(
@@ -92,6 +93,7 @@ const HomeStack = StackNavigator(
         CheckedoutReport,
         LockedReport,
         RepositoryUsage,
+        Scan
     },
     {
         headerMode: 'screen',

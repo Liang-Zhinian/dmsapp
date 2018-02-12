@@ -41,4 +41,7 @@ export default Routes = {
     CheckedoutReport: {
         screen: Screens.CheckedoutReport,
     },
+    Scan: {
+        screen: Screens.Scan,
+    },
 }

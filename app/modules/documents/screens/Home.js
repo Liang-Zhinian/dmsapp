@@ -79,10 +79,10 @@ const thirdLineItems = [
 
 const fourthLineItems = [
 	{
-		title: 'Account',
+		title: 'Scan',
 		color: StyleConfig.color_white,
 		icon: 'account-circle',
-		route: 'Account',
+		route: 'Scan',
 	}, {
 		title: 'Settings',
 		color: StyleConfig.color_white,

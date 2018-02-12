@@ -9,6 +9,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Routes from '../config/routes';
 import { defaultHeader } from './styles';
 import { stackNavigationOptions } from './util';
+import UpdateScreen from '../../../components/UpdateScreen';
 
 const {
     Downloads,
@@ -22,6 +23,9 @@ export default MoreStack = StackNavigator({
     Downloads,
     Account,
     Settings,
+    Update:{
+        screen: UpdateScreen,
+    },
 }, {
         headerMode: 'screen',
         initialRouteName: 'More',
