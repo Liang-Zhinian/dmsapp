@@ -16,13 +16,16 @@ import {
     DeviceEventEmitter,
     ScrollView,
 } from 'react-native';
+import { connect } from 'react-redux'
+import { NAME } from '../constants'
 import RicohScannerAndroid from '../../../components/RCTRicohScannerAndroid';
+import * as actions from '../actions'
 
 function alert(msg) {
     Alert.alert('Scan Module', msg, [{ text: 'OK', onPress: () => console.log('OK Pressed') },], { cancelable: false });
 }
 
-export default class Scan extends Component<{}> {
+class Scan extends Component<{}> {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,7 +34,7 @@ export default class Scan extends Component<{}> {
             scanServiceAttributeState: '',
             scanServiceAttributeListenerError: '',
             scanJobListenerError: '',
-            scannedImage:''
+            scannedImage: ''
         };
     }
 
@@ -61,15 +64,16 @@ export default class Scan extends Component<{}> {
         DeviceEventEmitter.addListener('ScannedImageUpdated', function (e) {
             // alert("ScanJobStateUpdated event listener success" + e.stateLabel);
             that.setState({ scannedImage: e.stateLabel });
+            console.log(e.stateLabel);
         });
-        
-        
+
+
 
         that.init();
     }
     render() {
         return (
-            <ScrollView contentContainerStyle={{justifyContent:'center', alignItems:'center'}} style={styles.container}>
+            <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }} style={styles.container}>
                 <Text style={styles.title}>
                     Scan
                 </Text>
@@ -79,6 +83,10 @@ export default class Scan extends Component<{}> {
 
                 <TouchableOpacity onPress={this.start.bind(this)}>
                     <Text style={styles.scanButton}>Start scanning</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={this.upload.bind(this)}>
+                    <Text style={styles.scanButton}>Start uploading</Text>
                 </TouchableOpacity>
 
                 <Text style={styles.title}>Connection State: {this.state.connectState}</Text>
@@ -127,7 +135,46 @@ export default class Scan extends Component<{}> {
                 console.log('error!!')
             });
     }
+
+    upload() {
+        const { sid, username, password, navigation } = this.props;
+        let name = "scan_x1";
+        let type = 'tif';
+        let folderId = 4;
+        let document = {
+            "id": 0,
+            "fileSize": this.state.scannedImage.length,
+            "title": name,
+            "type": type,
+            "fileName": name + (type === '' ? '' : `.${type}`),
+            "folderId": folderId,
+        };
+
+        const { upload } = this.props;
+        upload(sid, document, this.state.scannedImage);
+    }
 }
+
+function select(store) {
+    return {
+        sid: store[NAME].account.token.sid,
+        username: store[NAME].account.username,
+        password: store[NAME].account.password,
+        uploaded: store[NAME].document.uploaded,
+        progress: store[NAME].document.progress,
+        isLoading: store[NAME].document.isLoading,
+    };
+}
+
+function dispatch(dispatch) {
+    return {
+        // 发送行为
+        startUpload: () => dispatch(actions.startUpload()),
+        upload: (sid, document, content) => { dispatch(actions.upload(sid, document, content)) }
+    }
+};
+
+export default connect(select, dispatch)(Scan);
 
 const styles = StyleSheet.create({
     container: {

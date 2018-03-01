@@ -20,8 +20,8 @@ import { NAME } from '../constants'
 
 import RNQuickLook from "../../../components/RNQuickLook";
 import Base64 from '../lib/Base64';
-import * as actions from '../actions'
-import { translate, coordToAddress } from '../api/geolocation'
+import * as actions from '../actions';
+import { translate, coordToAddress } from '../api/geolocation';
 
 class Upload extends Component {
     static navigationOptions = ({ navigation }) => {

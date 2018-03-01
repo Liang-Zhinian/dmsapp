@@ -59,12 +59,15 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.nimbusds.jose.util.IOUtils;
 
 import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -281,7 +284,7 @@ public class RCTRicohScanner extends ReactContextBaseJavaModule implements IScan
             requestAttributes.add(jobMode);
 
             FileSetting fileSetting = new FileSetting();
-            fileSetting.setFileFormat(FileSetting.FileFormat.TIFF_JPEG);
+            fileSetting.setFileFormat(FileSetting.FileFormat.PDF);
             fileSetting.setMultiPageFormat(false);
             requestAttributes.add(fileSetting);
 
@@ -732,9 +735,51 @@ public class RCTRicohScanner extends ReactContextBaseJavaModule implements IScan
             sendEvent(reactContext, "ScanJobStateUpdated", params);
 
             ScanImage scanImage = new ScanImage(mScanJob);
+            InputStream inputStream = scanImage.getImageInputStream(1);
+//            String filePath = scanImage.getImageFilePath(1);
+
+            try {
+//                String result = IOUtils.readInputStreamToString(inputStream, StandardCharsets.US_ASCII);
+//                ByteArrayOutputStream result = new ByteArrayOutputStream();
+//                byte[] buffer = new byte[1024];
+//                int length;
+//                while ((length = inputStream.read(buffer)) != -1) {
+//                    result.write(buffer, 0, length);
+//                }
+//                String imgString = result.toString("UTF-8");
+
+                byte[] b = readStream(inputStream);
+                String imgString = Base64.encodeToString(b, Base64.DEFAULT);
+
+                reactContext = getReactApplicationContext();
+                params = Arguments.createMap();
+                params.putString("stateLabel", imgString);
+                sendEvent(reactContext, "ScannedImageUpdated", params);
+            } catch (Exception e) {
+                reactContext = getReactApplicationContext();
+                params = Arguments.createMap();
+                params.putString("stateLabel", "readInputStreamToString error: " + e.getMessage());
+                sendEvent(reactContext, "ScanJobListenerErrorUpdated", params);
+            }
+//
+//            Bitmap bmp = BitmapFactory.decodeResourceStream(getCurrentActivity().getResources(), new TypedValue(), inputStream, new Rect(), null);
+//            String encodedImage = encodeImage(bmp);
+//
+//            reactContext = getReactApplicationContext();
+//            params = Arguments.createMap();
+//            params.putString("stateLabel", encodedImage);
+//            sendEvent(reactContext, "ScannedImageUpdated", params);
+
 //            InputStream inputStream = scanImage.getImageInputStream(0);
-            String filePath = "";
-            File file = null;
+//            String filePath = "";
+//            File file = null;
+//
+//            ScanJobScanningInfo scanningInfo = (ScanJobScanningInfo) mScanJob.getJobAttribute(ScanJobScanningInfo.class);
+//            if (scanningInfo == null) {
+//                return 1;
+//            }
+//            String thumbnaiUri = scanningInfo.getScannedThumbnailUri();
+/*
             try {
                 filePath = scanImage.getImageFilePath(1);
                 file = new File(filePath);
@@ -792,7 +837,7 @@ public class RCTRicohScanner extends ReactContextBaseJavaModule implements IScan
 
 
 //            Bitmap bmp = BitmapFactory.decodeResourceStream(getCurrentActivity().getResources(), new TypedValue(), inputStream, new Rect(), null);
-
+*/
         }
 
         @Override
@@ -1035,5 +1080,17 @@ public class RCTRicohScanner extends ReactContextBaseJavaModule implements IScan
         String encImage = Base64.encodeToString(b, Base64.DEFAULT);
 
         return encImage;
+    }
+
+    private byte[] readStream(InputStream inStream) throws Exception{
+        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len = -1;
+        while((len = inStream.read(buffer)) != -1){
+            outStream.write(buffer, 0, len);
+        }
+        outStream.close();
+        inStream.close();
+        return outStream.toByteArray();
     }
 }
