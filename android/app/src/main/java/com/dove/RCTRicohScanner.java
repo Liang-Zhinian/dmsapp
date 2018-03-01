@@ -65,8 +65,10 @@ import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -755,6 +757,37 @@ public class RCTRicohScanner extends ReactContextBaseJavaModule implements IScan
                 params = Arguments.createMap();
                 params.putString("stateLabel", imgString);
                 sendEvent(reactContext, "ScannedImageUpdated", params);
+
+                String path="/sdcard/download/";
+                File file=new File(path);
+                if(!file.exists()){
+                    if(!file.mkdirs()){//若创建文件夹不成功
+                        System.out.println("Unable to create external cache directory");
+                    }
+                }
+
+                File targetfile=new File(path+"test.tif");
+                OutputStream os=null;
+                try{
+                    os=new FileOutputStream(targetfile);
+                    int ch=0;
+                    while((ch=inputStream.read())!=-1){
+                        os.write(ch);
+                    }
+                    os.flush();
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+                finally{
+                    try{
+                        os.close();
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+
             } catch (Exception e) {
                 reactContext = getReactApplicationContext();
                 params = Arguments.createMap();
