@@ -7,6 +7,7 @@ package com.dove.sample.function.scan;
 import android.util.Log;
 
 import com.dove.sample.function.common.SmartSDKApplication;
+//import com.dove.sample.network.ApiNetwork;
 import com.dove.sample.wrapper.common.BinaryResponseBody;
 import com.dove.sample.wrapper.common.InvalidResponseException;
 import com.dove.sample.wrapper.common.Request;
@@ -129,6 +130,25 @@ public class ScanImage {
             Log.d(SmartSDKApplication.getTagName(), PREFIX + ex.toString());
         }catch(InvalidResponseException ex){
             Log.d(SmartSDKApplication.getTagName(), PREFIX + ex.toString());
+        }
+
+        return null;
+    }
+
+    public Response<BinaryResponseBody> getImageBinaryResponse() {
+        RequestQuery query = new RequestQuery();
+//        query.put("pageNo", Integer.toString(pageNo));
+        query.put("getMethod", "direct");
+        Request request = new Request();
+        request.setQuery(query);
+
+        try{
+            Response<BinaryResponseBody> response = mJob.getFile(request);
+            return response;
+        } catch (InvalidResponseException e) {
+            Log.d(SmartSDKApplication.getTagName(), PREFIX + e.toString());
+        } catch (IOException e) {
+            Log.d(SmartSDKApplication.getTagName(), PREFIX + e.toString());
         }
 
         return null;

@@ -19,7 +19,8 @@ import {
 import { connect } from 'react-redux'
 import { NAME } from '../constants'
 import RicohScannerAndroid from '../../../components/RCTRicohScannerAndroid';
-import * as actions from '../actions'
+import * as actions from '../actions';
+import Base64 from '../lib/Base64';
 
 function alert(msg) {
     Alert.alert('Scan Module', msg, [{ text: 'OK', onPress: () => console.log('OK Pressed') },], { cancelable: false });
@@ -72,6 +73,7 @@ class Scan extends Component<{}> {
         that.init();
     }
     render() {
+        let {progress} = this.props;
         return (
             <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }} style={styles.container}>
                 <Text style={styles.title}>
@@ -85,8 +87,8 @@ class Scan extends Component<{}> {
                     <Text style={styles.scanButton}>Start scanning</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={this.upload.bind(this)}>
-                    <Text style={styles.scanButton}>Start uploading</Text>
+                <TouchableOpacity onPress={this.doUpload.bind(this)}>
+                    <Text style={styles.scanButton}>Start uploading {Math.floor((progress / 100) * 10000)}%</Text>
                 </TouchableOpacity>
 
                 <Text style={styles.title}>Connection State: {this.state.connectState}</Text>
@@ -136,10 +138,10 @@ class Scan extends Component<{}> {
             });
     }
 
-    upload() {
+    doUpload() {
         const { sid, username, password, navigation } = this.props;
         let name = "scan_x1";
-        let type = 'tif';
+        let type = 'pdf';
         let folderId = 4;
         let document = {
             "id": 0,
@@ -151,7 +153,8 @@ class Scan extends Component<{}> {
         };
 
         const { upload } = this.props;
-        upload(sid, document, this.state.scannedImage);
+        const data = Base64.atob(this.state.scannedImage);
+        upload(sid, document, data);
     }
 }
 

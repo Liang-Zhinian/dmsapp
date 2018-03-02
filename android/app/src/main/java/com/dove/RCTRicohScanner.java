@@ -1,6 +1,7 @@
 package com.dove;
 
 import android.content.Intent;
+import android.database.Observable;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
@@ -51,6 +52,9 @@ import com.dove.sample.function.scan.event.ScanJobEvent;
 import com.dove.sample.function.scan.event.ScanJobListener;
 import com.dove.sample.function.scan.event.ScanServiceAttributeEvent;
 import com.dove.sample.function.scan.event.ScanServiceAttributeListener;
+import com.dove.sample.wrapper.common.BinaryResponseBody;
+import com.dove.sample.wrapper.common.Response;
+import com.dove.sample.wrapper.common.ResponseBody;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -76,6 +80,8 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
+
+import com.dove.DocumentService;
 
 
 /**
@@ -738,10 +744,15 @@ public class RCTRicohScanner extends ReactContextBaseJavaModule implements IScan
 
             ScanImage scanImage = new ScanImage(mScanJob);
             InputStream inputStream = scanImage.getImageInputStream(1);
-//            String filePath = scanImage.getImageFilePath(1);
+            Response<BinaryResponseBody> binResp = scanImage.getImageBinaryResponse();
 
             try {
-//                String result = IOUtils.readInputStreamToString(inputStream, StandardCharsets.US_ASCII);
+
+                // 1
+//                byte[] b = binResp.getBytes();
+//                String imgString = Base64.encodeToString(b, Base64.NO_WRAP);
+
+                // 2
 //                ByteArrayOutputStream result = new ByteArrayOutputStream();
 //                byte[] buffer = new byte[1024];
 //                int length;
@@ -750,43 +761,19 @@ public class RCTRicohScanner extends ReactContextBaseJavaModule implements IScan
 //                }
 //                String imgString = result.toString("UTF-8");
 
+                // 3
                 byte[] b = readStream(inputStream);
                 String imgString = Base64.encodeToString(b, Base64.DEFAULT);
+
+                // 4
+//                Bitmap bmp = BitmapFactory.decodeResourceStream(getCurrentActivity().getResources(), new TypedValue(), inputStream, new Rect(), null);
+//                String imgString = encodeImage(bmp);
 
                 reactContext = getReactApplicationContext();
                 params = Arguments.createMap();
                 params.putString("stateLabel", imgString);
                 sendEvent(reactContext, "ScannedImageUpdated", params);
 
-                String path="/sdcard/download/";
-                File file=new File(path);
-                if(!file.exists()){
-                    if(!file.mkdirs()){//若创建文件夹不成功
-                        System.out.println("Unable to create external cache directory");
-                    }
-                }
-
-                File targetfile=new File(path+"test.tif");
-                OutputStream os=null;
-                try{
-                    os=new FileOutputStream(targetfile);
-                    int ch=0;
-                    while((ch=inputStream.read())!=-1){
-                        os.write(ch);
-                    }
-                    os.flush();
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                }
-                finally{
-                    try{
-                        os.close();
-                    }
-                    catch(Exception e){
-                        e.printStackTrace();
-                    }
-                }
 
             } catch (Exception e) {
                 reactContext = getReactApplicationContext();
@@ -794,83 +781,7 @@ public class RCTRicohScanner extends ReactContextBaseJavaModule implements IScan
                 params.putString("stateLabel", "readInputStreamToString error: " + e.getMessage());
                 sendEvent(reactContext, "ScanJobListenerErrorUpdated", params);
             }
-//
-//            Bitmap bmp = BitmapFactory.decodeResourceStream(getCurrentActivity().getResources(), new TypedValue(), inputStream, new Rect(), null);
-//            String encodedImage = encodeImage(bmp);
-//
-//            reactContext = getReactApplicationContext();
-//            params = Arguments.createMap();
-//            params.putString("stateLabel", encodedImage);
-//            sendEvent(reactContext, "ScannedImageUpdated", params);
 
-//            InputStream inputStream = scanImage.getImageInputStream(0);
-//            String filePath = "";
-//            File file = null;
-//
-//            ScanJobScanningInfo scanningInfo = (ScanJobScanningInfo) mScanJob.getJobAttribute(ScanJobScanningInfo.class);
-//            if (scanningInfo == null) {
-//                return 1;
-//            }
-//            String thumbnaiUri = scanningInfo.getScannedThumbnailUri();
-/*
-            try {
-                filePath = scanImage.getImageFilePath(1);
-                file = new File(filePath);
-
-                reactContext = getReactApplicationContext();
-                params = Arguments.createMap();
-                params.putString("stateLabel", filePath);
-                sendEvent(reactContext, "ScannedImageUpdated", params);
-
-                if (file.exists()) {
-                    try {
-                        String extension = MimeTypeMap.getFileExtensionFromUrl(filePath);
-                        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-
-                        Uri uri = FileProvider.getUriForFile(getReactApplicationContext(), getReactApplicationContext().getPackageName() + ".fileprovider", file);
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setDataAndType(uri, mimeType);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        getReactApplicationContext().startActivity(intent);
-
-                    } catch (android.content.ActivityNotFoundException e) {
-
-                        String message = "open scanned image failed. " + e.getMessage();
-                        Log.w(Const.TAG, PREFIX + message);
-                        reactContext = getReactApplicationContext();
-                        params = Arguments.createMap();
-                        params.putString("stateLabel", message);
-                        sendEvent(reactContext, "ScanJobListenerErrorUpdated", params);
-                    }
-                } else {
-                    reactContext = getReactApplicationContext();
-                    params = Arguments.createMap();
-                    params.putString("stateLabel", "file not exists.");
-                    sendEvent(reactContext, "ScanJobListenerErrorUpdated", params);
-
-                    InputStream inputStream = scanImage.getImageInputStream(1);
-                    Bitmap bmp = BitmapFactory.decodeResourceStream(getCurrentActivity().getResources(), new TypedValue(), inputStream, new Rect(), null);
-                    String encodedImage = encodeImage(bmp);
-
-                    reactContext = getReactApplicationContext();
-                    params = Arguments.createMap();
-                    params.putString("stateLabel", encodedImage);
-                    sendEvent(reactContext, "ScannedImageUpdated", params);
-                }
-            } catch (Exception e) {
-
-                String message = e.getMessage();
-                Log.w(Const.TAG, PREFIX + message);
-                reactContext = getReactApplicationContext();
-                params = Arguments.createMap();
-                params.putString("stateLabel", message);
-                sendEvent(reactContext, "ScanJobListenerErrorUpdated", params);
-            }
-
-
-//            Bitmap bmp = BitmapFactory.decodeResourceStream(getCurrentActivity().getResources(), new TypedValue(), inputStream, new Rect(), null);
-*/
         }
 
         @Override
@@ -1115,11 +1026,11 @@ public class RCTRicohScanner extends ReactContextBaseJavaModule implements IScan
         return encImage;
     }
 
-    private byte[] readStream(InputStream inStream) throws Exception{
+    private byte[] readStream(InputStream inStream) throws Exception {
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len = -1;
-        while((len = inStream.read(buffer)) != -1){
+        while ((len = inStream.read(buffer)) != -1) {
             outStream.write(buffer, 0, len);
         }
         outStream.close();
