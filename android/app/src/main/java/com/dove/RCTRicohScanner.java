@@ -81,7 +81,6 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import com.dove.DocumentService;
 
 
 /**
@@ -164,6 +163,12 @@ public class RCTRicohScanner extends ReactContextBaseJavaModule implements IScan
         //Registers a new listener to the new scan job.
         mScanJob.addScanJobListener(mScanJobListener);
         mScanJob.addScanJobAttributeListener(mScanJobAttrListener);
+
+
+        ReactApplicationContext reactContext = getReactApplicationContext();
+        WritableMap params = Arguments.createMap();
+        params.putString("stateLabel", "READY");
+        sendEvent(reactContext, "ScanJobStateUpdated", params);
     }
 
     @Override
@@ -293,7 +298,7 @@ public class RCTRicohScanner extends ReactContextBaseJavaModule implements IScan
 
             FileSetting fileSetting = new FileSetting();
             fileSetting.setFileFormat(FileSetting.FileFormat.PDF);
-            fileSetting.setMultiPageFormat(false);
+            fileSetting.setMultiPageFormat(true);
             requestAttributes.add(fileSetting);
 
 //            SmbAddressManualDestinationSetting dest = new SmbAddressManualDestinationSetting();
@@ -752,6 +757,9 @@ public class RCTRicohScanner extends ReactContextBaseJavaModule implements IScan
 //                byte[] b = binResp.getBytes();
 //                String imgString = Base64.encodeToString(b, Base64.NO_WRAP);
 
+                byte[] b = binResp.getBytes();
+                String imgString = Base64.encodeToString(b, Base64.DEFAULT);
+
                 // 2
 //                ByteArrayOutputStream result = new ByteArrayOutputStream();
 //                byte[] buffer = new byte[1024];
@@ -762,8 +770,8 @@ public class RCTRicohScanner extends ReactContextBaseJavaModule implements IScan
 //                String imgString = result.toString("UTF-8");
 
                 // 3
-                byte[] b = readStream(inputStream);
-                String imgString = Base64.encodeToString(b, Base64.DEFAULT);
+//                byte[] b = readStream(inputStream);
+//                String imgString = Base64.encodeToString(b, Base64.DEFAULT);
 
                 // 4
 //                Bitmap bmp = BitmapFactory.decodeResourceStream(getCurrentActivity().getResources(), new TypedValue(), inputStream, new Rect(), null);
@@ -782,6 +790,7 @@ public class RCTRicohScanner extends ReactContextBaseJavaModule implements IScan
                 sendEvent(reactContext, "ScanJobListenerErrorUpdated", params);
             }
 
+            init();
         }
 
         @Override

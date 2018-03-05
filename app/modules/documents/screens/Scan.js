@@ -73,7 +73,7 @@ class Scan extends Component<{}> {
         that.init();
     }
     render() {
-        let {progress} = this.props;
+        let { progress } = this.props;
         return (
             <ScrollView contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }} style={styles.container}>
                 <Text style={styles.title}>
@@ -90,6 +90,10 @@ class Scan extends Component<{}> {
                 <TouchableOpacity onPress={this.doUpload.bind(this)}>
                     <Text style={styles.scanButton}>Start uploading {Math.floor((progress / 100) * 10000)}%</Text>
                 </TouchableOpacity>
+
+                {/* <TouchableOpacity onPress={this.doUpload2.bind(this)}>
+                    <Text style={styles.scanButton}>Start uploading 2 {Math.floor((progress / 100) * 10000)}%</Text>
+                </TouchableOpacity> */}
 
                 <Text style={styles.title}>Connection State: {this.state.connectState}</Text>
                 <Text style={styles.title}>Scan Job State: {this.state.scanJobState}</Text>
@@ -138,6 +142,29 @@ class Scan extends Component<{}> {
             });
     }
 
+    doUpload2() {
+        const { sid, username, password, navigation } = this.props;
+        let name = "scan_x1";
+        let type = 'pdf';
+        let folderId = 4;
+        let document = {
+            "id": 0,
+            "fileSize": this.state.scannedImage.length,
+            "title": name,
+            "type": type,
+            "fileName": name + (type === '' ? '' : `.${type}`),
+            "folderId": folderId,
+        };
+
+        const { upload } = this.props;
+        try {
+            const data = Base64.atob(this.state.scannedImage);
+            upload(sid, document, data);
+        } catch (error) {
+            this.setState({ scanJobListenerError: error.message });
+        }
+    }
+
     doUpload() {
         const { sid, username, password, navigation } = this.props;
         let name = "scan_x1";
@@ -153,8 +180,12 @@ class Scan extends Component<{}> {
         };
 
         const { upload } = this.props;
-        const data = Base64.atob(this.state.scannedImage);
-        upload(sid, document, data);
+        try {
+            const data = this.state.scannedImage;
+            upload(sid, document, data);
+        } catch (error) {
+            this.setState({ scanJobListenerError: error.message });
+        }
     }
 }
 
