@@ -1,8 +1,7 @@
 package com.dove;
 
-//import android.app.Application;
+import android.app.Application;
 
-import com.dove.sample.function.common.SmartSDKApplication;
 import com.facebook.react.ReactApplication;
 import com.microsoft.codepush.react.CodePush;
 import com.horcrux.svg.SvgPackage;
@@ -19,7 +18,7 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends SmartSDKApplication implements ReactApplication {
+public class MainApplication extends Application implements ReactApplication {
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
@@ -44,9 +43,7 @@ public class MainApplication extends SmartSDKApplication implements ReactApplica
                     new RNFetchBlobPackage(),
                     new RNReactNativeDocViewerPackage(),
                     new VectorIconsPackage(),
-                    new RCTFileViewerReactPackage(),
-                    new RCTRicohScannerReactPackage(),
-                    new RCTSimpleIntentModuleReactPackage()
+                    new RCTFileViewerReactPackage()
             );
         }
 
