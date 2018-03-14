@@ -40,6 +40,7 @@ import SearchBox from './components/SearchBox';
 import DocumentList from './components/DocumentList';
 import FileViewerAndroid from '../../../components/RCTFileViewerAndroid';
 import Spinner from '../../../components/Spinner';
+import { alert } from '../lib/alert';
 
 function isExpired(expires_date) {
   let currentTime = new Date();
@@ -113,19 +114,20 @@ class Explorer extends Component {
     // console.log('componentWillMount');
 
     const { username, password, sid, expires_date, login } = this.props;
-    // console.log(`${username} | ${password} | ${sid} | ${expires_date}`)
+
+    // alert('Explorer screen', 'username: ' + username);
 
     // check if sid is expired
-    // if (isExpired(expires_date)) {
-    //   login(username, password);
-    // }
-    // else {
-    this.setState({
-      username,
-      password,
-      sid,
-    }, this.fetchData.bind(this));
-    // }
+    if (!username) {
+      this.fetchData();
+    }
+    else {
+      this.setState({
+        username,
+        password,
+        sid,
+      }, this.fetchData.bind(this));
+    }
   }
 
   componentDidMount() {
@@ -284,7 +286,7 @@ class Explorer extends Component {
 
       }
       else {
-        debugger;
+        //debugger;
         let source = response;
 
         // You can also display the image using data:

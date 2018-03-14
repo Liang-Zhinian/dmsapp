@@ -12,10 +12,17 @@ import RepositoryUsage from './RepositoryUsage';
 import CheckedoutReport from './CheckedoutReport';
 import LockedReport from './LockedReport';
 import Scan from './Scan';
+import Login from './Login';
+import Logout from './Logout';
+import Registration from './Registration';
+
 
 
 
 export default {
+    Login,
+    Logout,
+    Registration,
     Home,
     Explorer,
     DocumentDetails,

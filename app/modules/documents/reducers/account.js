@@ -6,6 +6,7 @@ import * as types from '../middlewares/authenticationTypes';
 type State = {
   username: ?string,
   password: ?string,
+  isAuthenticated: ?boolean,
   token: ?{
     sid: ?string,
     expires_date: ?string
@@ -15,6 +16,7 @@ type State = {
 const initialState: State = {
   username: null,
   password: null,
+  isAuthenticated: false,
   token: {
     sid: null,
     expires_date: null
@@ -53,6 +55,7 @@ export default handleActions(
         ...state,
         // username,
         // password,
+        isAuthenticated: true,
         token,
       }
     },
@@ -61,6 +64,7 @@ export default handleActions(
       const { payload: { token } } = action;
       return {
         ...state,
+        isAuthenticated: true,
         token,
       }
     },
@@ -70,6 +74,7 @@ export default handleActions(
       return {
         ...state,
         valid,
+        isAuthenticated: valid,
       }
     },
 

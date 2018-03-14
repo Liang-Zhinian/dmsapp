@@ -8,24 +8,22 @@ import { BackHandler, Platform } from 'react-native';
 
 
 class ReduxNavigation extends Component {
-
     componentDidMount() {
-        if (Platform.OS === 'android') {
-            BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
-        }
-
+        BackHandler.addEventListener("hardwareBackPress", this.onBackPress);
     }
+
     componentWillUnmount() {
-        if (Platform.OS === 'android') {
-            BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
-        }
+        BackHandler.removeEventListener("hardwareBackPress", this.onBackPress);
     }
 
     onBackPress = () => {
         const { dispatch, nav } = this.props;
-        if (this.isRootScreen(nav)) return false;
+        if (this.isRootScreen(nav)) {
+            BackHandler.exitApp();
+            return;
+        }
 
-        dispatch(ReactNavigation.NavigationActions.back(null));
+        dispatch(ReactNavigation.NavigationActions.back());
 
         return true;
     }
@@ -53,7 +51,8 @@ class ReduxNavigation extends Component {
     }
 
     render() {
-        const { dispatch, nav } = this.props
+        const { dispatch, nav, } = this.props;
+
         const navigation = ReactNavigation.addNavigationHelpers({
             dispatch,
             state: nav
@@ -62,8 +61,8 @@ class ReduxNavigation extends Component {
     }
 }
 const mapStateToProps = state => {
-    return { 
-        nav: state.nav 
+    return {
+        nav: state.nav,
     }
 };
 export default connect(mapStateToProps)(ReduxNavigation)

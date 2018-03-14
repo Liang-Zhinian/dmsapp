@@ -4,9 +4,10 @@ import { NAME } from '../constants'
 // import nav from './nav';
 import account from './account';
 import document from './document';
+import login from './login';
 
 const reducers = {
-    // nav,
+    login,
     account,
     document,
 };

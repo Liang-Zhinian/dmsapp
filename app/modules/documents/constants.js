@@ -3,14 +3,12 @@
 export const NAME = 'Documents'
 
 //action types
+export const INITIALIZE_APP = `${NAME}/INITIALIZE_APP`;
+
 export const SAVE_ACCOUNT = `${NAME}/SAVE_ACCOUNT`;
 export const LOGIN = `${NAME}/LOGIN`;
 export const RENEW = `${NAME}/RENEW`;
 export const VALID = `${NAME}/VALID`;
-// export const GET_CONTENT = `${NAME}/GET_CONTENT`;
-// export const CHOOSE_DOCUMENT = `${NAME}/CHOOSE_DOCUMENT`;
-// export const CHOOSE_FILE = `${NAME}/CHOOSE_FILE`;
-// export const RELOADED = `${NAME}/RELOADED`;
 
 export const CHANGING_FOLDER = `${NAME}/CHANGING_FOLDER`;
 export const DONE_CHANGING_FOLDER = `${NAME}/DONE_CHANGING_FOLDER`;
@@ -27,4 +25,10 @@ export const DONE_UPLOADING_DOCUMENT = `${NAME}/DONE_UPLOADING_DOCUMENT`;
 export const IS_EDIT_MODE = `${NAME}/IS_EDIT_MODE`;
 
 export const IS_DOWNLOADING = `${NAME}/IS_DOWNLOADING`;
+
+// auth
+export const LOGIN_INITIALIZE = `${NAME}/LOGIN_INITIALIZE`;
+export const LOGIN_SUCCESS = `${NAME}/LOGIN_SUCCESS`;
+export const LOGIN_FAIL = `${NAME}/LOGIN_FAIL`;
+export const LOGOUT = `${NAME}/LOGOUT`;
 

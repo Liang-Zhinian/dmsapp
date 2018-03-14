@@ -72,6 +72,9 @@ const defaultHeader = {
 }
 
 const {
+    Login,
+    Logout,
+    Registration,
     Home,
     Search,
     Downloads,
@@ -85,6 +88,9 @@ const {
 
 const HomeStack = StackNavigator(
     {
+        Login,
+        Logout,
+        Registration,
         Home,
         Search,
         Downloads,
@@ -97,7 +103,7 @@ const HomeStack = StackNavigator(
     },
     {
         headerMode: 'screen',
-        initialRouteName: 'Home',
+        initialRouteName: 'Login',
         navigationOptions: {
             ...defaultHeader
         }
