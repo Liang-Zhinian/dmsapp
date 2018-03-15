@@ -43,7 +43,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNFetchBlobPackage(),
                     new RNReactNativeDocViewerPackage(),
                     new VectorIconsPackage(),
-                    new RCTFileViewerReactPackage()
+                    new RCTFileViewerReactPackage(),
+                    new RCTToastReactPackage()
             );
         }
 
