@@ -552,8 +552,11 @@ class Explorer extends Component {
         that.resetDownloadTask();
       })
       .catch((err) => {
+        that.resetDownloadTask();
         if (err.message === 'cancelled') return;
         console.log(err);
+        // Toast.show(err.message, Toast.SHORT);
+        alert('Preview', err.message);
       });
 
     // that.downloadManger.onReset = that.resetDownloadTask;
@@ -664,6 +667,9 @@ class Explorer extends Component {
         console.log(resp)
         that.setState({ folderCreationModalVisible: false });
         that.fetchData();
+      })
+      .catch(reason=>{
+        alert('Create folder', reason.message);
       })
   }
 
