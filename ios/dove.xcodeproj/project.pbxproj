@@ -22,6 +22,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		19740F005C0C4DFD80507F15 /* libSQLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE00EAB74DE0447D8C5F135F /* libSQLite.a */; };
 		1B86703671E241F2A5639765 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 01427E5F07844D139069EC0F /* libRNImagePicker.a */; };
 		1E4CE059DE274353BAAD16E2 /* libRNReactNativeDocViewer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36EF0567759A449BA44101D6 /* libRNReactNativeDocViewer.a */; };
 		244E5502C903457BAC6E8002 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 10AD036F40194DD4BE6DF4DA /* Entypo.ttf */; };
@@ -59,12 +60,6 @@
 		CDE4A4F9B81F47A08850006E /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 40EA60A507364BC082ADDA2B /* Foundation.ttf */; };
 		DB25FB6C23C545DEAF4C4A2B /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 489B2824FB1C4C258BFF8AAF /* Zocial.ttf */; };
 		FE34EBF46BC24609BE25B6C0 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B875BF41A7214088BAF918A3 /* MaterialCommunityIcons.ttf */; };
-<<<<<<< HEAD
-		9E20EF1251274436B7C357DB /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 712D7006650246C18D304660 /* libCodePush.a */; };
-		B04D6679516B40AC9BCE5B1E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C84F0DC05A7407FBFBB5578 /* libz.tbd */; };
-		19740F005C0C4DFD80507F15 /* libSQLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CE00EAB74DE0447D8C5F135F /* libSQLite.a */; };
-=======
->>>>>>> 564e1682a46c6335b7b45487293a5bdd933ec1ee
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -383,6 +378,13 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+		D7ADB456205FB25400717084 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 47B4FE7F5D974ABEACE19914 /* SQLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E23D7B471ACEFE2A00C59171;
+			remoteInfo = SQLite;
+		};
 		D7C57961204E800600D70C7E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A254E84A8653492DB76243BB /* CodePush.xcodeproj */;
@@ -434,6 +436,7 @@
 		36EF0567759A449BA44101D6 /* libRNReactNativeDocViewer.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReactNativeDocViewer.a; sourceTree = "<group>"; };
 		3A6AD31779DF4AE99BBBAAF6 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
 		40EA60A507364BC082ADDA2B /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		47B4FE7F5D974ABEACE19914 /* SQLite.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = "../node_modules/react-native-sqlite-storage/src/ios/SQLite.xcodeproj"; sourceTree = "<group>"; };
 		489B2824FB1C4C258BFF8AAF /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		50C517F45AE347E89189AF9B /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
@@ -452,19 +455,12 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		AF645DADBBEA49E395A36297 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		B875BF41A7214088BAF918A3 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
+		CE00EAB74DE0447D8C5F135F /* libSQLite.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSQLite.a; sourceTree = "<group>"; };
 		D3E5F1AEFB6B4A379F679E14 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		D56BA0FD23804A5F861E0623 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		D6B6075A470D4C77A35F6ED9 /* libRNFS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFS.a; sourceTree = "<group>"; };
 		E637F9E0489445CAB5BBC1B3 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		FDFDB3D6BCB8461882834214 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
-<<<<<<< HEAD
-		A254E84A8653492DB76243BB /* CodePush.xcodeproj */ = {isa = PBXFileReference; name = "CodePush.xcodeproj"; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		712D7006650246C18D304660 /* libCodePush.a */ = {isa = PBXFileReference; name = "libCodePush.a"; path = "libCodePush.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		0C84F0DC05A7407FBFBB5578 /* libz.tbd */ = {isa = PBXFileReference; name = "libz.tbd"; path = "usr/lib/libz.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
-		47B4FE7F5D974ABEACE19914 /* SQLite.xcodeproj */ = {isa = PBXFileReference; name = "SQLite.xcodeproj"; path = "../node_modules/react-native-sqlite-storage/src/ios/SQLite.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		CE00EAB74DE0447D8C5F135F /* libSQLite.a */ = {isa = PBXFileReference; name = "libSQLite.a"; path = "libSQLite.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-=======
->>>>>>> 564e1682a46c6335b7b45487293a5bdd933ec1ee
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -666,6 +662,7 @@
 				141A141465AC496D9DEB72C0 /* libRNSVG.a */,
 				AB2AE742661847CEB20BB042 /* libRNSVG-tvOS.a */,
 				712D7006650246C18D304660 /* libCodePush.a */,
+				CE00EAB74DE0447D8C5F135F /* libSQLite.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -844,6 +841,14 @@
 				489B2824FB1C4C258BFF8AAF /* Zocial.ttf */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		D7ADB453205FB25400717084 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D7ADB457205FB25400717084 /* libSQLite.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		D7C5795D204E7FB600D70C7E /* Products */ = {
@@ -1044,6 +1049,10 @@
 				{
 					ProductGroup = 653C385C1FC098E2007582FE /* Products */;
 					ProjectRef = FDFDB3D6BCB8461882834214 /* RNVectorIcons.xcodeproj */;
+				},
+				{
+					ProductGroup = D7ADB453205FB25400717084 /* Products */;
+					ProjectRef = 47B4FE7F5D974ABEACE19914 /* SQLite.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1358,6 +1367,13 @@
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		D7ADB457205FB25400717084 /* libSQLite.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSQLite.a;
+			remoteRef = D7ADB456205FB25400717084 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		D7C57962204E800600D70C7E /* libCodePush.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1532,12 +1548,9 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-<<<<<<< HEAD
-					"$(SRCROOT)\..\node_modules\react-native-code-push\ios\CodePush/**",
-					"$(SRCROOT)\..\node_modules\react-native-sqlite-storage\src\ios",
-=======
 					"$(SRCROOT)..\node_modules\neact-native-code-pushiosCodePush/**",
->>>>>>> 564e1682a46c6335b7b45487293a5bdd933ec1ee
+					"$(SRCROOT)..\node_modules\neact-native-sqlite-storagesrcios",
+					"$(SRCROOT)..\node_modules\neact-native-code-pushiosCodePush/**",
 				);
 				INFOPLIST_FILE = doveTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1572,12 +1585,9 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-<<<<<<< HEAD
-					"$(SRCROOT)\..\node_modules\react-native-code-push\ios\CodePush/**",
-					"$(SRCROOT)\..\node_modules\react-native-sqlite-storage\src\ios",
-=======
 					"$(SRCROOT)..\node_modules\neact-native-code-pushiosCodePush/**",
->>>>>>> 564e1682a46c6335b7b45487293a5bdd933ec1ee
+					"$(SRCROOT)..\node_modules\neact-native-sqlite-storagesrcios",
+					"$(SRCROOT)..\node_modules\neact-native-code-pushiosCodePush/**",
 				);
 				INFOPLIST_FILE = doveTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1614,12 +1624,9 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-<<<<<<< HEAD
-					"$(SRCROOT)\..\node_modules\react-native-code-push\ios\CodePush/**",
-					"$(SRCROOT)\..\node_modules\react-native-sqlite-storage\src\ios",
-=======
 					"$(SRCROOT)..\node_modules\neact-native-code-pushiosCodePush/**",
->>>>>>> 564e1682a46c6335b7b45487293a5bdd933ec1ee
+					"$(SRCROOT)..\node_modules\neact-native-sqlite-storagesrcios",
+					"$(SRCROOT)..\node_modules\neact-native-code-pushiosCodePush/**",
 				);
 				INFOPLIST_FILE = dove/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1649,12 +1656,9 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-<<<<<<< HEAD
-					"$(SRCROOT)\..\node_modules\react-native-code-push\ios\CodePush/**",
-					"$(SRCROOT)\..\node_modules\react-native-sqlite-storage\src\ios",
-=======
 					"$(SRCROOT)..\node_modules\neact-native-code-pushiosCodePush/**",
->>>>>>> 564e1682a46c6335b7b45487293a5bdd933ec1ee
+					"$(SRCROOT)..\node_modules\neact-native-sqlite-storagesrcios",
+					"$(SRCROOT)..\node_modules\neact-native-code-pushiosCodePush/**",
 				);
 				INFOPLIST_FILE = dove/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1690,12 +1694,9 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-<<<<<<< HEAD
-					"$(SRCROOT)\..\node_modules\react-native-code-push\ios\CodePush/**",
-					"$(SRCROOT)\..\node_modules\react-native-sqlite-storage\src\ios",
-=======
 					"$(SRCROOT)..\node_modules\neact-native-code-pushiosCodePush/**",
->>>>>>> 564e1682a46c6335b7b45487293a5bdd933ec1ee
+					"$(SRCROOT)..\node_modules\neact-native-sqlite-storagesrcios",
+					"$(SRCROOT)..\node_modules\neact-native-code-pushiosCodePush/**",
 				);
 				INFOPLIST_FILE = "dove-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1739,12 +1740,9 @@
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
-<<<<<<< HEAD
-					"$(SRCROOT)\..\node_modules\react-native-code-push\ios\CodePush/**",
-					"$(SRCROOT)\..\node_modules\react-native-sqlite-storage\src\ios",
-=======
 					"$(SRCROOT)..\node_modules\neact-native-code-pushiosCodePush/**",
->>>>>>> 564e1682a46c6335b7b45487293a5bdd933ec1ee
+					"$(SRCROOT)..\node_modules\neact-native-sqlite-storagesrcios",
+					"$(SRCROOT)..\node_modules\neact-native-code-pushiosCodePush/**",
 				);
 				INFOPLIST_FILE = "dove-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
