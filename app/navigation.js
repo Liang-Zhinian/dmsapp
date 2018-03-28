@@ -63,7 +63,7 @@ const defaultHeader = {
         elevation: 0,
     },
     headerTitleStyle: {
-        alignSelf: 'flex-start',
+        // alignSelf: 'flex-start',
         fontSize: 20,
         marginLeft: Platform.OS === 'ios' ? -10 : 10
     },
@@ -83,14 +83,14 @@ const {
     RepositoryUsage,
     CheckedoutReport,
     LockedReport,
-    Scan
+    // Scan
 } = DocumentRoutes; 
 
 const HomeStack = StackNavigator(
     {
-        Login,
-        Logout,
-        Registration,
+        // Login,
+        // Logout,
+        // Registration,
         Home,
         Search,
         Downloads,
@@ -99,11 +99,11 @@ const HomeStack = StackNavigator(
         CheckedoutReport,
         LockedReport,
         RepositoryUsage,
-        Scan
+        // Scan
     },
     {
         headerMode: 'screen',
-        initialRouteName: 'Login',
+        initialRouteName: 'Home',
         navigationOptions: {
             ...defaultHeader
         }
@@ -139,6 +139,17 @@ const BottomTabs = TabNavigator(
         }
     }
 )
+
+const MainStack = StackNavigator({
+    Login,
+    Main: {
+        screen: BottomTabs
+    },
+    Logout,
+    Registration
+}, {
+    headerMode: 'none'
+})
 
 const styles = StyleSheet.create({
     drawer: {
@@ -186,4 +197,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default BottomTabs
+export default MainStack

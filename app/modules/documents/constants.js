@@ -6,9 +6,6 @@ export const NAME = 'Documents'
 export const INITIALIZE_APP = `${NAME}/INITIALIZE_APP`;
 
 export const SAVE_ACCOUNT = `${NAME}/SAVE_ACCOUNT`;
-export const LOGIN = `${NAME}/LOGIN`;
-export const RENEW = `${NAME}/RENEW`;
-export const VALID = `${NAME}/VALID`;
 
 export const CHANGING_FOLDER = `${NAME}/CHANGING_FOLDER`;
 export const DONE_CHANGING_FOLDER = `${NAME}/DONE_CHANGING_FOLDER`;
@@ -31,4 +28,7 @@ export const LOGIN_INITIALIZE = `${NAME}/LOGIN_INITIALIZE`;
 export const LOGIN_SUCCESS = `${NAME}/LOGIN_SUCCESS`;
 export const LOGIN_FAIL = `${NAME}/LOGIN_FAIL`;
 export const LOGOUT = `${NAME}/LOGOUT`;
+export const LOGIN = `${NAME}/LOGIN`;
+export const RENEW = `${NAME}/RENEW`;
+export const VALID = `${NAME}/VALID`;
 

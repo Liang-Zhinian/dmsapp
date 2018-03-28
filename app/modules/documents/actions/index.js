@@ -7,11 +7,11 @@ import * as auth from './login';
 // account actions
 export const saveAccount = account.saveAccount;
 export const login = account.login;
+export const logout = account.logout;
 export const valid = account.valid;
 export const renew = account.renew;
 
 export const initializeApp = auth.initializeApp;
-export const logout = auth.logout;
 
 // document actions
 

@@ -24,8 +24,16 @@ class Login extends Component {
         };
     }
 
-    componentDidMount(){
-        this.props.navigation.navigate('Home');
+    componentWillMount() {
+        const { username, password, sid } = this.props;
+        // if (username && password && sid)
+        //     this.props.navigation.navigate('Main');
+    }
+
+    componentDidMount() {
+        const { username, password, sid } = this.props;
+        if (username && password)
+            this.setState({ username, password })
     }
 
     render() {
@@ -43,7 +51,7 @@ class Login extends Component {
                     secureTextEntry={true} />
                 <View style={{ margin: 7 }} />
                 <Button
-                    onPress={this.submit}
+                    onPress={this.submit.bind(this)}
                     title="Submit"
                 />
             </ScrollView>
@@ -51,8 +59,10 @@ class Login extends Component {
     }
 
     submit() {
-        const { login } = this.props;
+        const { login, navigation } = this.props;
         login(this.state.username, this.state.password);
+        navigation.dispatch({ type: 'Login' });
+        navigation.navigate('Main');
     }
 }
 
@@ -60,6 +70,9 @@ class Login extends Component {
 
 function select(store) {
     return {
+        username: store[NAME].account.username,
+        password: store[NAME].account.password,
+        sid: store[NAME].account.token.sid,
     };
 }
 

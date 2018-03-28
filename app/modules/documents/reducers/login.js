@@ -58,17 +58,17 @@ export default handleActions(
       }
     },
 
-    [LOGOUT]: (state: State = initialState, action) => {
-      const { payload: { } } = action
+    // [LOGOUT]: (state: State = initialState, action) => {
+    //   const { payload: { } } = action
 
-      //because payload contains the id and we already know that we are about
-      //to increment the value of that id, we modify only that value by one
+    //   //because payload contains the id and we already know that we are about
+    //   //to increment the value of that id, we modify only that value by one
 
-      return {
-        ...state,
-        isAuthenticated: false,
-      }
-    },
+    //   return {
+    //     ...state,
+    //     isAuthenticated: false,
+    //   }
+    // },
 
     // Handle API request errors
     ['ERROR']: (state: State = initialState, action) => { return initialState; },

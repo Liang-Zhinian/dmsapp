@@ -1,6 +1,6 @@
 
 import { handleActions } from 'redux-actions'
-import { SAVE_ACCOUNT, LOGIN, RENEW, VALID, } from '../constants'
+import { SAVE_ACCOUNT, LOGIN, LOGOUT, RENEW, VALID, } from '../constants'
 import * as types from '../middlewares/authenticationTypes';
 
 type State = {
@@ -57,6 +57,19 @@ export default handleActions(
         // password,
         isAuthenticated: true,
         token,
+      }
+    },
+
+    [LOGOUT]: (state: State = initialState, action) => {
+      return {
+        ...state,
+        username: null,
+        password: null,
+        isAuthenticated: false,
+        token: {
+          sid: null,
+          expires_date: null
+        },
       }
     },
 

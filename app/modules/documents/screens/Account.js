@@ -116,7 +116,7 @@ class Account extends Component {
       this.refs.txtUserName.focus();
       this.refs.txtUserName.selection = { start: 3, end: 3 };
       //Alert.alert('UserName focused', 'Focused!', [{ text: 'OK', onPress: () => console.log('OK Pressed') },], { cancelable: false });
-      
+
     }
 
     this.setState({
@@ -210,6 +210,20 @@ class Account extends Component {
       </TouchableOpacity>
     )
   }
+
+  renderLogoutButton = () => {
+    return (
+      <TouchableOpacity
+        activeOpacity={StyleConfig.touchable_press_opacity}
+        style={[ComponentStyles.btn, { backgroundColor: '#8a8482' }]}
+        onPress={() => this.handleLogout()}>
+        <Text style={ComponentStyles.btn_text}>
+          Log out
+        </Text>
+      </TouchableOpacity>
+    )
+  }
+
   renderFormPanel = () => {
     return (
       <View style={[styles.section]}>
@@ -222,7 +236,10 @@ class Account extends Component {
           <Text style={[styles.title]}>Password</Text>
           <View style={[styles.content]}>{this.renderPassword()}</View>
         </View>
-        {/*this.renderSpacer()*/}
+        {this.renderSpacer()}
+        <View style={[{ flex: 1 }, styles.row]}>
+          {this.renderLogoutButton()}
+        </View>
       </View>
     );
   }
@@ -290,6 +307,11 @@ class Account extends Component {
     }
   }
 
+  handleLogout = () => {
+    const { sid, logout, navigation } = this.props;
+    logout(sid, navigation);
+  }
+
   handleAccountResolved = (data) => {
     let backup = ConfigAction.getConfig(storageKey.USER_TOKEN);
     if (!!backup) {
@@ -323,7 +345,7 @@ const mapStateToProps = (state) => {
     isLoggedIn: state[NAME].account.isLoggedIn,
     username: state[NAME].account.username,
     password: state[NAME].account.password,
-    sid: state[NAME].account.sid
+    sid: state[NAME].account.token.sid
   }
 };
 
@@ -332,6 +354,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     // 发送行为
     login: (username, password) => dispatch(actions.login(username, password)),
+    logout: (sid, navigation) => dispatch(actions.logout(sid, navigation)),
     saveAccount: (username, password) => dispatch(actions.saveAccount(username, password)),
   }
 };

@@ -7,7 +7,7 @@ import document from './document';
 import login from './login';
 
 const reducers = {
-    login,
+    // login,
     account,
     document,
 };
