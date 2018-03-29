@@ -11,10 +11,11 @@ import { Provider } from 'react-redux';
 import configureStore from './configureStore';
 
 import { Home, Documents } from './modules';
-import AppWithNavigation from './ReduxNavigation';
+import AppWithNavigationState from './AppNavigator';
+// import AppWithNavigation from './navigation';
 
 
-export default class App extends Component<{}> {
+export default class setup extends Component<{}> {
   constructor() {
     super();
     this.state = {
@@ -33,7 +34,7 @@ export default class App extends Component<{}> {
         {/*<View style={{ flex: 1 }}>
           {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
     {Platform.OS === 'android' && <View style={{ backgroundColor: 'rgba(0,0,0,0.2)' }} />}*/}
-          <AppWithNavigation />
+          <AppWithNavigationState />
         {/*</View>*/}
       </Provider>
     );

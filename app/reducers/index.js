@@ -14,7 +14,7 @@ export default combineReducers({
 import { NavigationActions } from 'react-navigation';
 
 // import { AppNavigator } from '../navigators/AppNavigator';
-import { default as AppNavigator } from '../navigation';
+import { AppNavigator } from '../AppNavigator';
 
 // Start with two routes: The Main screen, with the Login screen on top.
 const firstAction = AppNavigator.router.getActionForPathAndParams('Main');
@@ -60,6 +60,7 @@ function auth(state = initialAuthState, action) {
       console.log('auth.Login');
       return { ...state, isLoggedIn: true };
     case 'Logout':
+    console.log('auth.Logout');
       return { ...state, isLoggedIn: false };
     default:
       return state;
@@ -68,8 +69,8 @@ function auth(state = initialAuthState, action) {
 
 const AppReducer = combineReducers({
   nav,
-  // auth,
-  [Documents.NAME]: Documents.reducer
+  auth,
+  // [Documents.NAME]: Documents.reducer
 });
 
 export default AppReducer;

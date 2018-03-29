@@ -7,7 +7,8 @@ import {
 	Platform,
 	Dimensions,
 	Image,
-	TouchableOpacity
+	TouchableOpacity,
+	DeviceEventEmitter,
 } from 'react-native';
 import { DrawerNavigator } from 'react-navigation'
 import { default as Icon } from 'react-native-vector-icons/MaterialIcons';
@@ -157,6 +158,21 @@ class Home extends Component {
 		this.setState({
 			hasFocus: true
 		});
+	}
+
+	componentWillMount(){
+		// DeviceEventEmitter.addListener('appStateChange', function (e) {
+			
+		// 	console.log(`current state: ${e.currentAppState}`);
+		// });
+	}
+
+	componentDidMount() {
+		console.log('componentDidMount');
+	}
+
+	componentWillUnmount() {
+		console.log('componentWillUnmount');
 	}
 
 	onNavItemPress(item) {

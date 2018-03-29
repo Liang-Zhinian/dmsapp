@@ -44,7 +44,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNReactNativeDocViewerPackage(),
                     new VectorIconsPackage(),
                     new RCTFileViewerReactPackage(),
-                    new RCTToastReactPackage()
+                    new RCTToastReactPackage(),
+                    new AppStateAndroidPluginPackage()
             );
         }
 
