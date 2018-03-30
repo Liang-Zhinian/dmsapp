@@ -9,9 +9,9 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import { AsyncStorage } from 'react-native';
-import reducers from './reducers';
+import AppReducer from '../reducers';
 
-import { middleware } from './utils/redux';
+import { middleware } from '../utils/redux';
 
 
 var isDebuggingInChrome = __DEV__ && !!window.navigator.userAgent;
@@ -31,8 +31,8 @@ var enhancer = compose(
 
 export default function configureStore(onComplete: ?() => void) {
 	const store = createStore(
-		reducers,
-		undefined,
+		AppReducer,
+		{},
 		enhancer
 	);
 	persistStore(store, { storage: AsyncStorage }, onComplete);

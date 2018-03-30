@@ -2,18 +2,22 @@ package com.dove;
 
 import android.app.Application;
 
-import com.facebook.react.ReactApplication;
-import com.microsoft.codepush.react.CodePush;
-import com.horcrux.svg.SvgPackage;
-import com.imagepicker.ImagePickerPackage;
-import com.rnfs.RNFSPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import com.reactlibrary.RNReactNativeDocViewerPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.horcrux.svg.SvgPackage;
+import com.imagepicker.ImagePickerPackage;
+import com.microsoft.codepush.react.CodePush;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.reactlibrary.RNReactNativeDocViewerPackage;
+import com.rnfs.RNFSPackage;
+
+import org.wonday.pdf.RCTPdfView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,12 +40,15 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
-                    new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
-                    new SvgPackage(),
+                    new ReactNativePushNotificationPackage(),
+                    new RCTPdfView(),
+                    new LinearGradientPackage(),
                     new ImagePickerPackage(),
                     new RNFSPackage(),
                     new RNFetchBlobPackage(),
                     new RNReactNativeDocViewerPackage(),
+                    new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
+                    new SvgPackage(),
                     new VectorIconsPackage(),
                     new RCTFileViewerReactPackage(),
                     new RCTToastReactPackage(),

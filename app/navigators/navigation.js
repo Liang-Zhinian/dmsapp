@@ -16,11 +16,10 @@ import {
     TabBarBottom,
     NavigationActions
 } from 'react-navigation';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 
-import { Documents } from './modules';
-import Styles from './styles';
+import { Documents } from '../modules';
+import Styles from '../styles';
 
 const colors = Styles.colors;
 const DocumentRoutes = Documents.Routes;
@@ -110,7 +109,7 @@ const HomeStack = StackNavigator(
     },
 )
 
-const BottomTabs = TabNavigator(
+export const BottomTabs = TabNavigator(
     {
         HomeTab: {
             screen: HomeStack,

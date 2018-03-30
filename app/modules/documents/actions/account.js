@@ -69,6 +69,7 @@ export const logout = (sid: string, navigation: any): ActionAsync => {
         //   index: 0,
         //   actions: [{ type: 'Navigate', routeName: 'Login' }]
         // })
+        // await AsyncStorage.clear();
         dispatch({ type: 'Logout' });
 
         dispatch({

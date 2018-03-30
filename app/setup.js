@@ -8,11 +8,9 @@ import React, { Component } from 'react';
 import { View, Platform, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 
-import configureStore from './configureStore';
+import configureStore from './store';
 
-import { Home, Documents } from './modules';
-import AppWithNavigationState from './AppNavigator';
-// import AppWithNavigation from './navigation';
+import AppWithNavigationState from './navigators/AppNavigator';
 
 
 export default class setup extends Component<{}> {
