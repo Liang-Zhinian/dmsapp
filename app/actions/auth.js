@@ -81,10 +81,8 @@ export const valid = (sid: string): ActionAsync => {
     return async (dispatch, getState) => {
         let valid = await validSOAP(sid)
             .then(valid => {
-                console.log('validSOAP returns: ');
-                console.log(valid);
-                debugger;
-                return valid === 'true';
+                console.log('validSOAP returns');
+                return valid == true;
             })
             .catch((error) => {
                 dispatch({
