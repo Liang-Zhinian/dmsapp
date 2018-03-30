@@ -169,15 +169,17 @@ class Home extends Component {
 	_bootstrapAsync = async () => {
 		const { login, valid, auth } = this.props;
 		const { user } = auth;
-		debugger;
+		
 		if (!user) {
 			this.props.navigation.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
 			return;
 		}
 
 		if (user.token.sid) {
-			let isValid = await valid(sid);
+			let isValid = await valid(user.token.sid);
+			console.log(`isValid: ${isValid}`);
 			if (!isValid) {
+				console.log(`login again`);
 				await login(user.username, user.password);
 			}
 		}
