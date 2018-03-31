@@ -48,9 +48,9 @@ class AppWithNavigationState extends Component {
     }
 
     render() {
-        // if (!this.props.isLoggedIn) {
-        //     return <LoginScreen />;
-        // }
+        if (!this.props.isLoggedIn) {
+            return <LoginScreen />;
+        }
 
         const { dispatch, nav } = this.props;
         return (

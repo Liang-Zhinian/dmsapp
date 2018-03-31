@@ -75,6 +75,15 @@ export const logout = (sid: string): ActionAsync => {
 
                 dispatch({ type: 'Logout' });
 
+                dispatch({
+                    type: `${Documents.NAME}/LOGOUT`,
+                    payload: {
+                      token: { sid: null, expires_date: null },
+                      username: null,
+                      password: null,
+                    }
+                  });
+
             })
             .catch((error) => {
                 dispatch({
