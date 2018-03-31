@@ -44,9 +44,13 @@ const initialAuthState = { isLoggedIn: false };
 function auth(state = initialAuthState, action) {
   switch (action.type) {
     case 'Login':
-      const { payload: { user } } = action;
-      return { ...state, isLoggedIn: true, user };
+      const { payload } = action;
+      return { ...state, isLoggedIn: true, user: payload };
     case 'Logout':
+      return { ...state, isLoggedIn: false, user: null };
+    case 'ERROR':
+      const { payload } = action;
+      console.log(payload);
       return { ...state, isLoggedIn: false, user: null };
     default:
       return state;

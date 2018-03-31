@@ -5,6 +5,7 @@ import {
 import { createAction } from 'redux-actions';
 import moment from 'moment';
 import { loginSOAP, logoutSOAP, validSOAP, renewSOAP } from '../modules/documents/api';
+import { Documents } from '../modules';
 
 export type ActionAsync = (dispatch: Function, getState: Function) => void
 
@@ -42,14 +43,24 @@ export const login = (username: string, password: string): ActionAsync => {
 
                 dispatch({
                     type: 'Login',
-                    payload: { user }
+                    payload: user
+                })
+
+                dispatch({
+                    type: Documents.Constants.LOGIN,
+                    payload: user
+                })
+
+                dispatch({
+                    type: Documents.Constants.SAVE_ACCOUNT,
+                    payload: user
                 })
 
             })
             .catch((error) => {
                 dispatch({
                     type: 'ERROR',
-                    error
+                    payload: error
                 })
             })
 
@@ -68,7 +79,7 @@ export const logout = (sid: string): ActionAsync => {
             .catch((error) => {
                 dispatch({
                     type: 'ERROR',
-                    error
+                    payload: error
                 })
             })
 
@@ -87,7 +98,7 @@ export const valid = (sid: string): ActionAsync => {
             .catch((error) => {
                 dispatch({
                     type: 'ERROR',
-                    error
+                    payload: error
                 });
             })
         return valid;
