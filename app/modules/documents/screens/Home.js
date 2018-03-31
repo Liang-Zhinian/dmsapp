@@ -140,11 +140,11 @@ class Home extends Component {
 							style={{ color: colors.textOnPrimary }}
 						/>
 					</TouchableOpacity>
-
+{params.isLoggedIn &&
 					<HeaderButton
 						onPress={params.onLogoutButtonPressed}
 						text='Log Out!'
-					/>
+					/>}
 				</View>
 			),
 		}
@@ -187,6 +187,13 @@ class Home extends Component {
 
 	_signOutAsync = async () => {
 		const { logout, auth } = this.props;
+		const { user } = auth;
+		
+		if (!user) {
+			this.props.navigation.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
+			return;
+		}
+
 		const sid = auth.user.token.sid;
 		await logout(sid);
 	}
@@ -206,6 +213,7 @@ class Home extends Component {
 		// We can only set the function after the component has been initialized
 		navigation.setParams({
 			onLogoutButtonPressed: this._signOutAsync.bind(this),
+			isLoggedIn: this.props.auth.isLoggedIn,
 		});
 	}
 

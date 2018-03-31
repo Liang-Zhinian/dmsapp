@@ -5,7 +5,6 @@ import * as actions from './actions';
 import * as Navigation from './navigation';
 import Screens from './screens';
 import Routes from './config/routes';
-import Constants from './constants'
 
 //to reduce the number of bugs, make sure not to export action types.
 //action types are internal only and only actions and reducer should access them
@@ -17,6 +16,5 @@ export default {
   actions,
   Navigation,
   // Screens,
-  Routes,
-  Constants
+  Routes
 }

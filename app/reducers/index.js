@@ -3,6 +3,7 @@ import { NavigationActions } from 'react-navigation';
 
 import { AppNavigator } from '../navigators/AppNavigator';
 import { Documents } from '../modules'
+import Toast from '../components/ToastModule';
 
 // Start with two routes: The Main screen, with the Login screen on top.
 const firstAction = AppNavigator.router.getActionForPathAndParams('Main');
@@ -42,15 +43,16 @@ function nav(state = initialNavState, action) {
 const initialAuthState = { isLoggedIn: false };
 
 function auth(state = initialAuthState, action) {
+  const { payload } = action;
   switch (action.type) {
     case 'Login':
-      const { payload } = action;
       return { ...state, isLoggedIn: true, user: payload };
     case 'Logout':
       return { ...state, isLoggedIn: false, user: null };
     case 'ERROR':
-      const { payload } = action;
       console.log(payload);
+      
+      Toast.show(payload.message, Toast.SHORT);
       return { ...state, isLoggedIn: false, user: null };
     default:
       return state;

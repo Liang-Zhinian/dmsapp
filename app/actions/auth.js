@@ -45,14 +45,14 @@ export const login = (username: string, password: string): ActionAsync => {
                     type: 'Login',
                     payload: user
                 })
-
+                
                 dispatch({
-                    type: Documents.Constants.LOGIN,
+                    type: `${Documents.NAME}/LOGIN`,
                     payload: user
                 })
 
                 dispatch({
-                    type: Documents.Constants.SAVE_ACCOUNT,
+                    type: `${Documents.NAME}/SAVE_ACCOUNT`,
                     payload: user
                 })
 

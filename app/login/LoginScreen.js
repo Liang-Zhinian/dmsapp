@@ -10,6 +10,7 @@ import {
 import { connect } from 'react-redux';
 import { login } from '../actions/auth';
 // import { NAME } from '../constants';
+import Toast from '../components/ToastModule';
 
 
 const AsyncStorageKey = "AS_";
@@ -37,6 +38,8 @@ class LoginScreen extends Component {
         const { username, password, sid } = this.props;
         // if (username && password)
         //     this.setState({ username, password })
+        
+        // Toast.show('Hello, Toast', Toast.SHORT);
     }
 
     render() {

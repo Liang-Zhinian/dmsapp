@@ -51,6 +51,8 @@
 		7E8CFA722FD54F66B640A8AC /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09B644389944454288ADF50F /* SimpleLineIcons.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		888AE714004B4593928D1A29 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 50C517F45AE347E89189AF9B /* Feather.ttf */; };
+		8A128866206FCD3600C29239 /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A128865206FCD3600C29239 /* Toast+UIView.m */; };
+		8A128868206FCD6C00C29239 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A128867206FCD6C00C29239 /* Toast.m */; };
 		94E129A02C2D4168B377D3F8 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A6AD31779DF4AE99BBBAAF6 /* libRNFetchBlob.a */; };
 		97595A45B6614809BBEFE746 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E637F9E0489445CAB5BBC1B3 /* MaterialIcons.ttf */; };
 		9B0BA09D1E574054A2543C52 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2FFD7D7D5D844687888A90A8 /* EvilIcons.ttf */; };
@@ -474,6 +476,9 @@
 		74EB8AE19F70454C9C0556EF /* libRCTPdf.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTPdf.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		8A128864206FCCFA00C29239 /* Toast+UIView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
+		8A128865206FCD3600C29239 /* Toast+UIView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
+		8A128867206FCD6C00C29239 /* Toast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Toast.m; sourceTree = "<group>"; };
 		9609451101B14496AF8E0177 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		A254E84A8653492DB76243BB /* CodePush.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		A7746D3FED5542328FC19006 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
@@ -637,6 +642,7 @@
 		13B07FAE1A68108700A75B9A /* dove */ = {
 			isa = PBXGroup;
 			children = (
+				8A128863206FCCCD00C29239 /* RCTToast */,
 				653C38CD1FC1A484007582FE /* Assets */,
 				653C388F1FC1482D007582FE /* RNQuickLook */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -864,6 +870,16 @@
 				8A12885E206FB49300C29239 /* libBVLinearGradient.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8A128863206FCCCD00C29239 /* RCTToast */ = {
+			isa = PBXGroup;
+			children = (
+				8A128864206FCCFA00C29239 /* Toast+UIView.h */,
+				8A128865206FCD3600C29239 /* Toast+UIView.m */,
+				8A128867206FCD6C00C29239 /* Toast.m */,
+			);
+			path = RCTToast;
 			sourceTree = "<group>";
 		};
 		ADBDB9201DFEBF0600ED6528 /* Products */ = {
@@ -1560,7 +1576,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				8A128866206FCD3600C29239 /* Toast+UIView.m in Sources */,
 				653C38CB1FC14884007582FE /* RNQuickLookView.m in Sources */,
+				8A128868206FCD6C00C29239 /* Toast.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				653C38CA1FC14884007582FE /* RNQuickLookManager.m in Sources */,
 			);
