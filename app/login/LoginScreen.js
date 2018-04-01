@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: 'gray',
         padding: 30,
     }
 });
