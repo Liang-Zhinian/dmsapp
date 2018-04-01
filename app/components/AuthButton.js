@@ -1,33 +1,97 @@
-import React from 'react';
+import React, { Component } from 'react';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity
+} from 'react-native';
+const { connect } = require('react-redux');
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Button, AsyncStorage } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import DoveButton from './DoveButton';
 
-const AuthButton = ({ logout, loginScreen, isLoggedIn }) => (
-  <Button
-    title={isLoggedIn ? 'Log Out' : 'Open Login Screen'}
-    onPress={isLoggedIn ? logout : loginScreen}
-  />
-);
+class AuthButton extends Component {
+  static propTypes = {
+      style: PropTypes.any,
+      source: PropTypes.string, // For Analytics
+      dispatch: (action: PropTypes.any) => Promise,
+      onLoggedIn: PropTypes.func
+  };
 
-AuthButton.propTypes = {
-  isLoggedIn: PropTypes.bool.isRequired,
-  logout: PropTypes.func.isRequired,
-  loginScreen: PropTypes.func.isRequired,
-};
+  static stateTypes = {
+      isLoading: PropTypes.bool,
+  };
 
-const mapStateToProps = state => ({
-  isLoggedIn: state.auth.isLoggedIn,
-});
+  static defaultProps = { _isMounted: PropTypes.bool };
 
-const mapDispatchToProps = dispatch => ({
-  logout: async () => {
-    await AsyncStorage.clear();
-    dispatch({ type: 'Logout' })
+  componentDidMount() {
+      this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+      this._isMounted = false;
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoading: false,
+    }
+  }
+  render() {
+    if (this.state.isLoading) {
+      return (
+        <DoveButton
+          style={[styles.button, this.props.style]}
+          caption="Please wait..."
+          onPress={() => { }}
+        />
+      );
+    }
+
+    return (
+      <DoveButton
+        style={[styles.button, this.props.style]}
+        caption="Log in"
+        onPress={() => this.logIn()}
+      />
+    );
+  }
+
+
+  async logIn() {
+    const { dispatch, onLoggedIn } = this.props;
+
+    this.setState({ isLoading: true });
+    try {
+      await Promise.race([
+        // dispatch(logInWithFacebook(this.props.source)),
+        timeout(15000),
+      ]);
+    } catch (e) {
+      const message = e.message || e;
+      if (message !== 'Timed out' && message !== 'Canceled by user') {
+        alert(message);
+        console.warn(e);
+      }
+      return;
+    } finally {
+      this._isMounted && this.setState({ isLoading: false });
+    }
+
+    onLoggedIn && onLoggedIn();
+  }
+}
+
+async function timeout(ms: number): Promise {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => reject(new Error('Timed out')), ms);
+  });
+}
+
+var styles = StyleSheet.create({
+  button: {
+    alignSelf: 'center',
+    width: 270,
   },
-  loginScreen: () =>
-    dispatch(NavigationActions.navigate({ routeName: 'Login' })),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AuthButton);
+export default connect()(AuthButton);
