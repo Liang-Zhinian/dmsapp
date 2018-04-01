@@ -13,7 +13,7 @@ export default function auth(state = initialAuthState, action) {
       console.log(payload);
       
       Toast.show(payload.message, Toast.SHORT);
-      return { ...state, isLoggedIn: false, user: null };
+      return { ...state, error: payload.message };
     default:
       return state;
   }

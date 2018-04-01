@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { getUserByUsername } from '../actions/security';
+import DoveButton from './DoveButton';
 
 class ProfileScreen extends React.Component {
   static navigationOptions = {
@@ -19,20 +20,30 @@ class ProfileScreen extends React.Component {
   componentDidMount() {
     const { sid, username, getUserByUsername } = this.props;
     getUserByUsername(sid, username);
-    this.setState({ isLoading: false });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { userProfile, error } = nextProps;
+    if (typeof userProfile != 'undefined' && userProfile) {
+      console.log('userProfile returns');
+      this.setState({ isLoading: false });
+    }
+
+    if (error) {
+      console.log('error returns');
+      this.setState({ isLoading: false });
+    }
   }
 
   render = () => {
-    const { userProfile } = this.props;
+    const { userProfile, error } = this.props;
 
-    if (this.state.isLoading && (typeof userProfile == 'undefined' || !userProfile)) {
-      return (
-        <View style={styles.container}>
-          <Text style={styles.welcome}>
-            Please wait ...
-      </Text>
-        </View>
-      )
+    if (error) {
+      return this.renderMessage(error);
+    }
+
+    if (this.state.isLoading) {
+      return this.renderMessage('Please wait ...');
     }
 
     return (<ScrollView style={{
@@ -42,8 +53,8 @@ class ProfileScreen extends React.Component {
       left: 0,
       right: 0,
     }}>
-      <View style={{flex: 1, marginTop: 50, alignItems: 'center'}}>
-        <Text style={[styles.title, {fontSize: 20}]}>User Profile</Text>
+      <View style={{ flex: 1, marginTop: 50, alignItems: 'center' }}>
+        <Text style={[styles.title, { fontSize: 20 }]}>User Profile</Text>
       </View>
       <View style={[styles.section]}>
         <View style={[{ flex: 1 }, styles.row]}>
@@ -68,6 +79,35 @@ class ProfileScreen extends React.Component {
       <View style={styles.spacer}></View>
     )
   }
+
+  renderMessage(message) {
+
+    return (
+      <View style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+      }}>
+        <Text style={{
+          fontSize: 20,
+          textAlign: 'center',
+          margin: 10,
+        }}>
+          {message}
+        </Text>
+        {this.props.error && <DoveButton
+            caption="Click to reload"
+            onPress={() => {
+              this.setState({ isLoading: true });
+              const { sid, username, getUserByUsername } = this.props;
+              getUserByUsername(sid, username);
+            }}
+          />
+        }
+      </View>
+    )
+  }
 }
 
 function select(store) {
@@ -75,6 +115,7 @@ function select(store) {
     username: store.auth.user.username,
     sid: store.auth.user.token.sid,
     userProfile: store.security.user,
+    error: store.security.error,
   };
 }
 

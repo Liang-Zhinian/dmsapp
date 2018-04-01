@@ -4,12 +4,12 @@ export default function security(state = {}, action) {
   const { payload } = action;
   switch (action.type) {
     case 'USER_PROFILE':
-      return { ...state, user: payload };
+      return { ...state, user: payload, error: null };
     case 'ERROR':
       console.log(payload);
       
       Toast.show(payload.message, Toast.SHORT);
-      return { ...state, user: null };
+      return { ...state, error: payload.message };
     default:
       return state;
   }
