@@ -20,6 +20,10 @@ import {
     ensureLogin
 } from './auth';
 
+import {
+    getUserByUsernameSOAP
+} from './security';
+
 
 const _listChildren = async (username: string, password: string, folderId: int, callback: (folderId, children) => {}) => {
 
@@ -97,5 +101,7 @@ export {
     logoutSOAP,
     renewSOAP,
     validSOAP,
-    ensureLogin
+    ensureLogin,
+
+    getUserByUsernameSOAP,
 };

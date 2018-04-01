@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-
-import LoginStatusMessage from './LoginStatusMessage';
-import AuthButton from './AuthButton';
+import Home from '../modules/documents/screens/Home';
+import { BottomTabs } from '../navigators/navigation';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,10 +13,7 @@ const styles = StyleSheet.create({
 });
 
 const MainScreen = () => (
-  <View style={styles.container}>
-    <LoginStatusMessage />
-    <AuthButton />
-  </View>
+  <BottomTabs />
 );
 
 MainScreen.navigationOptions = {

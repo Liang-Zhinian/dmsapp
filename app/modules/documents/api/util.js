@@ -15,6 +15,7 @@ export const FolderRestAPI = API + '/rest/folder'
 export const DocumentSoapAPI = API + '/Document?wsdl'
 export const DocumentRestAPI = API + '/rest/document'
 export const SearchRestAPI = API + '/rest/search'
+export const SecuritySoapAPI = API + '/Security?wsdl'
 
 
 export function buildJsonHeaders(username: string, password: string) {

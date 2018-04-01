@@ -32,3 +32,5 @@ export const LOGIN = `${NAME}/LOGIN`;
 export const RENEW = `${NAME}/RENEW`;
 export const VALID = `${NAME}/VALID`;
 
+export const USER_PROFILE = `${NAME}/USER_PROFILE`;
+

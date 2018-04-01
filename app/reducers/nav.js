@@ -1,14 +1,37 @@
+import { combineReducers } from 'redux';
 import { NavigationActions } from 'react-navigation';
-import { default as Navigator } from '../navigation';
 
-const initialState = Navigator.router.getStateForAction(NavigationActions.init());
+import { AppNavigator } from '../navigators/AppNavigator';
 
-export default (state = initialState, action) => {
-    
-    // **action**  will be of type: {"type": "Navigation/NAVIGATE", "routeName": SOME_ROUTE}
-    // gets the new updated state of the navigator (previous state + new route), will return null if the action is not understandable.
-    const nextState = Navigator.router.getStateForAction(action, state);
+// Start with two routes: The Main screen, with the Login screen on top.
+const firstAction = AppNavigator.router.getActionForPathAndParams('Main');
+const tempNavState = AppNavigator.router.getStateForAction(firstAction);
+const secondAction = AppNavigator.router.getActionForPathAndParams('Login');
+const initialNavState = AppNavigator.router.getStateForAction(
+  secondAction,
+  tempNavState
+);
 
-    // Simply return the original `state` if `nextState` is null or undefined.
-    return nextState || state;
+export default function nav(state = initialNavState, action) {
+  let nextState;
+  switch (action.type) {
+    case 'Login':
+      nextState = AppNavigator.router.getStateForAction(
+        NavigationActions.back(),
+        state
+      );
+      break;
+    case 'Logout':
+      nextState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'Login' }),
+        state
+      );
+      break;
+    default:
+      nextState = AppNavigator.router.getStateForAction(action, state);
+      break;
+  }
+
+  // Simply return the original `state` if `nextState` is null or undefined.
+  return nextState || state;
 }

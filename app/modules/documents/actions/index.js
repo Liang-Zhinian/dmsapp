@@ -2,7 +2,6 @@
 
 import * as account from './account';
 import * as document from './document';
-import * as auth from './login';
 
 // account actions
 export const saveAccount = account.saveAccount;
@@ -11,10 +10,7 @@ export const logout = account.logout;
 export const valid = account.valid;
 export const renew = account.renew;
 
-export const initializeApp = auth.initializeApp;
-
 // document actions
-
 export const fetchingList = document.fetchingList;
 export const doneFetchingList = document.doneFetchingList;
 
