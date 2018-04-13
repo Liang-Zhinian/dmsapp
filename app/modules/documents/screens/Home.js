@@ -220,7 +220,7 @@ class Home extends Component {
 	componentWillUnmount() {
 		console.log('componentWillUnmount');
 	}
-
+	
 	onNavItemPress(item) {
 		if (item && item.route) {
 			const { navigate } = this.props.navigation;
