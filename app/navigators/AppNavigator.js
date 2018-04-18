@@ -9,7 +9,6 @@ import {
 
 import AuthLoadingScreen from '../components/AuthLoadingScreen';
 import LoginScreen from '../login/LoginScreen';
-import SplashScreen from '../login/Splash';
 import MainScreen from '../components/MainScreen';
 import ProfileScreen from '../components/ProfileScreen';
 import { addListener } from '../utils/redux';
@@ -18,8 +17,8 @@ import { BottomTabs } from './navigation';
 
 export const AppNavigator = StackNavigator(
     {
-        AuthLoading: { screen: SplashScreen },
-        Login: { screen: LoginScreen },
+        // AuthLoading: { screen: AuthLoadingScreen },
+        // Login: { screen: LoginScreen },
         Main: { screen: BottomTabs },
         Profile: { screen: ProfileScreen },
     },

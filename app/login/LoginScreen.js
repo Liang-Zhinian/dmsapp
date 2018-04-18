@@ -45,8 +45,8 @@ class LoginScreen extends Component {
     }
 
     componentWillMount() {
-        const {username, password} = this.props;
-        this.setState({username, password});
+        // const {username, password} = this.props;
+        // this.setState({username, password});
     }
 
     render() {
@@ -129,8 +129,8 @@ async function timeout(ms: number): Promise {
 
 function select(store) {
     return {
-        username: store.auth.user.username,
-        password: store.auth.user.password,
+        // username: store.auth.user.username,
+        // password: store.auth.user.password,
         // sid: store[NAME].account.token.sid,
     };
 }
