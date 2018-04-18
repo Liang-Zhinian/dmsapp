@@ -6,6 +6,7 @@
 
 import React, { Component } from 'react';
 import {
+    ActionSheetIOS,
     Platform,
     StyleSheet,
     Text,
@@ -21,6 +22,16 @@ import { CommonStyles, colors } from '../styles';
 import ActionSheet from './components/ActionSheet';
 
 const { height, width } = Dimensions.get('window');
+
+var BUTTONS = [
+    'Option 0',
+    'Option 1',
+    'Option 2',
+    'Delete',
+    'Cancel',
+];
+var DESTRUCTIVE_INDEX = 3;
+var CANCEL_INDEX = 4;
 
 export default class FileViewer extends Component<{}> {
 
@@ -53,7 +64,22 @@ export default class FileViewer extends Component<{}> {
         super(props);
         this.state = {
             modalVisible: false,
+            clicked: 'none',
+            text: '',
         }
+    }
+
+    render() {
+
+        // let fileWidth = file.width, fileHeight = file.height;
+        // let viewWidth = 300, viewWidth = width / height * viewHeight;
+
+        return (
+            <View style={styles.container}>
+                {this.renderPreview()}
+                {this.renderActionSheet()}
+            </View>
+        );
     }
 
     download() {
@@ -101,13 +127,13 @@ export default class FileViewer extends Component<{}> {
 
     renderActionSheet() {
         const { readOnly = true } = this.props.navigation.state.params;
-        
+
         //if (typeof readOnly === undefined) readOnly = true;
 
         return (
             <ActionSheet modalVisible={this.state.modalVisible} onCancel={this.toggleActionSheet.bind(this)}>
                 <View style={styles.actionSheet}>
-                    <TouchableOpacity style={styles.button} onPress={() => { }}>
+                    <TouchableOpacity style={styles.button} onPress={this.showActionSheet}>
                         <Text style={styles.buttonText}>
                             Open in...
                             </Text>
@@ -165,17 +191,38 @@ export default class FileViewer extends Component<{}> {
         );
     }
 
-    render() {
+    showShareActionSheet() {
+        const { file } = this.props.navigation.state.params;
+        if (!file) return null;
 
-        // let fileWidth = file.width, fileHeight = file.height;
-        // let viewWidth = 300, viewWidth = width / height * viewHeight;
+        ActionSheetIOS.showShareActionSheetWithOptions(
+            {
+                url: file.uri,
+                excludedActivityTypes: [
+                    'com.apple.UIKit.activity.PostToTwitter'
+                ]
+            },
+            (error) => alert(error),
+            (success, method) => {
+                var text;
+                if (success) {
+                    text = `Shared via ${method}`;
+                } else {
+                    text = 'You didn\'t share';
+                }
+                this.setState({ text });
+            })
+    }
 
-        return (
-            <View style={styles.container}>
-                {this.renderPreview()}
-                {this.renderActionSheet()}
-            </View>
-        );
+    showActionSheet() {
+        ActionSheetIOS.showActionSheetWithOptions({
+            option: BUTTONS,
+            cancelButtonIndex: CANCEL_INDEX,
+            destructiveButtonIndex: DESTRUCTIVE_INDEX,
+        },
+            (buttonIndex) => {
+                this.setState({ clicked: BUTTONS[buttonIndex] })
+            })
     }
 }
 

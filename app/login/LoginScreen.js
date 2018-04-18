@@ -41,9 +41,12 @@ class LoginScreen extends Component {
 
     componentWillUnmount() {
         this._isMounted = false;
+
     }
 
     componentWillMount() {
+        const {username, password} = this.props;
+        this.setState({username, password});
     }
 
     render() {
@@ -71,12 +74,14 @@ class LoginScreen extends Component {
                         onChangeText={(username) => this.setState({ username })}
                         returnKeyType='next'
                         autoCapitalize='none'
+                        value={this.state.username}
                     />
                     <View style={{ margin: 7 }} />
                     <TextBox
                         placeholder={'Password'}
                         onChangeText={(password) => this.setState({ password })}
                         secureTextEntry={true}
+                        value={this.state.password}
                     />
                 </View>
                 <View style={{ margin: 7 }} />
@@ -124,8 +129,8 @@ async function timeout(ms: number): Promise {
 
 function select(store) {
     return {
-        // username: store[NAME].account.username,
-        // password: store[NAME].account.password,
+        username: store.auth.user.username,
+        password: store.auth.user.password,
         // sid: store[NAME].account.token.sid,
     };
 }

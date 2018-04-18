@@ -3,7 +3,7 @@ import {
     filterFault
 } from './util';
 
-const BASE = 'http://192.168.0.150:8082/webservice';
+const BASE = 'http://isd4u.com:8080/conversionservice';
 export const convert = (fileName, contentType, content) => {
 
     let xml = '<?xml version="1.0" encoding="utf-8"?>'
@@ -40,7 +40,7 @@ export const convert = (fileName, contentType, content) => {
     };
 
     return new Promise((resolve, reject) => {
-        fetch(`${BASE}/webservice/services/Convert?wsdl`, options)
+        fetch(`${BASE}/services/Convert?wsdl`, options)
             .then(response => response.text())
             .then(xml => convertToJson(xml))
             .then(filterFault)

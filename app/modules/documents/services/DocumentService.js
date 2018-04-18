@@ -62,7 +62,7 @@ const downloadToDocumentDirectory = (sid, docs) => {
                 console.log('saving ' + fileName);
                 let path = `${RNFS.DocumentDirectoryPath}/${fileName}`;
                 // write the file
-                RNFS.writeFile(path, Base64.atob(content), 'utf8')
+                RNFS.writeFile(path, content/*Base64.atob(content)*/, 'base64')
                     .then((success) => {
                         console.log(success)
                         console.log('FILE WRITTEN!');
@@ -79,34 +79,6 @@ const downloadToDocumentDirectory = (sid, docs) => {
             console.log(reason)
         });
 }
-
-/*
-const downloadToCacheDirectory = (sid, doc, onProgress) => {
-    const { fileName } = doc;
-
-    getContentSOAP(sid, doc.id, onProgress)
-        .then(({ id, response }) => {
-            return toJson(response).Body.getContentResponse.return;
-        })
-        .then(content => {
-            console.log('saving ' + fileName);
-            const SHA1 = require('crypto-js/sha1');
-            const path = RNFetchBlob.fs.dirs.CacheDir + '_immutable_images/' + fileName;
-            // write the file
-            RNFS.writeFile(path, Base64.atob(content), 'utf8')
-                .then((success) => {
-                    console.log(success)
-                    console.log('FILE WRITTEN!');
-                })
-                .catch((err) => {
-                    console.log(err.message);
-                });
-        })
-        .catch(reason => {
-            console.log(reason)
-        });
-
-}*/
 
 const downloadToCacheDirectory = (sid, doc, onProgress, onCanceled) => {
     const that = this;
@@ -125,7 +97,8 @@ const downloadToCacheDirectory = (sid, doc, onProgress, onCanceled) => {
                 // add this option that makes response data to be stored as a file,
                 // this is much more performant.
                 fileCache: true,
-                path,
+                //path,
+                appendExt: doc.type,
             });
         })
     //.then(man => { return man.task })

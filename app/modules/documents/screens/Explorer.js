@@ -41,6 +41,8 @@ import DocumentList from './components/DocumentList';
 import FileViewerAndroid from '../../../components/RCTFileViewerAndroid';
 import Spinner from '../../../components/Spinner';
 import { alert } from '../lib/alert';
+import { convert } from '../api/converter';
+import RNFS from 'react-native-fs';
 
 function isExpired(expires_date) {
   let currentTime = new Date();
@@ -655,6 +657,83 @@ class Explorer extends Component {
 
   }
 
+  _onPrintButtonPressed = () => {
+    const that = this;
+    const doc = that.state.selectedList[0];
+    that.props.updateDownloadStatus(true);
+    that.setState({
+      //progressBarVisible: true,
+      progress: 0,
+      docId: doc.id,
+    });
+    const { fileName, type, fileSize } = doc;
+    const { sid, navigation: { navigate } } = that.props;
+
+    DocumentService.downloadToCacheDirectory(sid, doc, that.updateProgress, that.resetDownloadTask)
+    .then(man => {
+      that.downloadManger = man;
+      that.downloadManger.onCanceled = that.resetDownloadTask;
+      that.downloadManger.onProgress = (received, total) => { that.updateProgress(received, fileSize) };
+
+      return man.task;
+    })
+    .then(task => { return task.path() })
+    .then((path) => {
+      if (!path) return;
+      // the temp file path
+      console.log('The file saved to ', path);
+      
+      that.resetDownloadTask();
+
+      var fileType = type;
+      var filePath = path;
+      var newPath = filePath + '.pdf';
+
+      if (fileType != 'pdf') {
+          RNFS.readFile(filePath, 'base64') // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
+              .then((content) => {
+                  console.log('GOT CONTENT', content);
+
+                  // convert to pdf
+                  convert(fileName, fileType, content)
+                      .then(pdfContent => {
+                          // save to a new path
+                          RNFS.writeFile(newPath, pdfContent, 'base64')
+                              .then(() => {
+                                  console.log('File save @', newPath);
+                                  
+                                  that.openLocalUrl(newPath, fileName, 'pdf');
+                              })
+                              .catch((err) => {
+                                  console.log(err.message, err.code);
+                                  // Toast.show(`WRITE FILE ERROR => ${err.code}: ${err.message}`, Toast.SHORT);
+                                  throw err;
+                              });;
+                      })
+              })
+              .catch((err) => {
+                  console.log(err.message, err.code);
+                  // Toast.show(`READ FILE ERROR => ${err.code}: ${err.message}`, Toast.SHORT);
+                  throw err;
+              });
+
+      }
+
+      //navigate('Print', { filePath: path });
+    })
+    .catch((err) => {
+      that.resetDownloadTask();
+      if (err.message === 'cancelled') return;
+      console.log(err);
+      // Toast.show(err.message, Toast.SHORT);
+
+      alert('Print', err.message);
+    });
+    
+      
+
+  }
+
   onFolderCreationOK = () => {
     const that = this,
       { folderName, folderId } = that.state,
@@ -784,6 +863,14 @@ class Explorer extends Component {
             <Text style={{ color: 'red', fontSize: 20 }}>{`Delete${this.state.selectedList.length > 0 ? '(' + this.state.selectedList.length + ')' : ''}`}</Text>
           </TouchableOpacity>
 
+          <TouchableOpacity
+            style={{ marginRight: 20, justifyContent: 'center' }}
+            accessibilityLabel='print'
+            onPress={this.selectionContainsFolders() ? null : this._onPrintButtonPressed}
+          >
+            <Text style={{ color: this.selectionContainsFolders() ? 'grey' : colors.primary, fontSize: 20 }}>{`Print${this.state.selectedList.length > 0 ? '(' + this.state.selectedList.length + ')' : ''}`}</Text>
+          </TouchableOpacity>
+
         </View>
         <MainActionSheet
           modalVisible={this.state.modalVisible}
@@ -842,7 +929,6 @@ function dispatch(dispatch) {
 };
 
 export default connect(select, dispatch)(Explorer);
-
 
 
 const styles = StyleSheet.create({

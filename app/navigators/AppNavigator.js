@@ -9,6 +9,7 @@ import {
 
 import AuthLoadingScreen from '../components/AuthLoadingScreen';
 import LoginScreen from '../login/LoginScreen';
+import SplashScreen from '../login/Splash';
 import MainScreen from '../components/MainScreen';
 import ProfileScreen from '../components/ProfileScreen';
 import { addListener } from '../utils/redux';
@@ -17,7 +18,7 @@ import { BottomTabs } from './navigation';
 
 export const AppNavigator = StackNavigator(
     {
-        // AuthLoading: { screen: AuthLoadingScreen },
+        AuthLoading: { screen: SplashScreen },
         Login: { screen: LoginScreen },
         Main: { screen: BottomTabs },
         Profile: { screen: ProfileScreen },
@@ -32,6 +33,10 @@ class AppWithNavigationState extends Component {
         dispatch: PropTypes.func.isRequired,
         nav: PropTypes.object.isRequired,
     };
+
+    // componentWillUnmount() {
+    //     setTimeout(() => { }, 2000);
+    // }
 
     componentDidMount() {
         if (Platform.OS === 'android') {

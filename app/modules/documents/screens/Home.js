@@ -20,6 +20,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { default as Ionicons } from 'react-native-vector-icons/Ionicons';
 import { HeaderButton } from './components/HeaderButtons';
 import { login, logout, valid } from '../../../actions/auth';
+import requireAuth from '../../../HOC/require_auth';
 
 import {
 	ComponentStyles,
@@ -449,4 +450,4 @@ const mapDispatchToProps = (dispatch) => {
 		login: (username, password) => dispatch(login(username, password)),
 	}
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(requireAuth(Home));

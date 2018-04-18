@@ -45,7 +45,7 @@ export const login = (username: string, password: string): ActionAsync => {
                     type: 'Login',
                     payload: user
                 })
-                
+
                 dispatch({
                     type: `${Documents.NAME}/LOGIN`,
                     payload: user
@@ -78,11 +78,11 @@ export const logout = (sid: string): ActionAsync => {
                 dispatch({
                     type: `${Documents.NAME}/LOGOUT`,
                     payload: {
-                      token: { sid: null, expires_date: null },
-                      username: null,
-                      password: null,
+                        token: { sid: null, expires_date: null },
+                        username: null,
+                        password: null,
                     }
-                  });
+                });
 
             })
             .catch((error) => {
@@ -111,5 +111,26 @@ export const valid = (sid: string): ActionAsync => {
                 });
             })
         return valid;
+    }
+}
+
+export const initializeApp = (sid: string) => {
+    return async (dispatch) => {
+        dispatch({ type: 'INITIALIZE_APP' })
+
+        const isValid = await validSOAP(sid)
+            .then(valid => {
+                console.log('validSOAP returns');
+                return valid == true;
+            })
+            .catch((error) => {
+                dispatch({
+                    type: 'ERROR',
+                    payload: error
+                });
+            })
+
+        if (!isValid) return dispatch({ type: 'ERROR', payload: 'Sesion has expired!' })
+
     }
 }
