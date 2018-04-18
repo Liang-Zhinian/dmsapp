@@ -168,36 +168,37 @@ class Home extends Component {
 
 	// Fetch the token from storage then navigate to our appropriate place
 	_bootstrapAsync = async () => {
-		const { login, valid, auth } = this.props;
+		const { login, valid, isLoggedIn, token, username, password } = this.props;
 		// const { isLoggedIn } = auth;
 
-		if (!auth.isLoggedIn) {
-			this.props.navigation.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
-			return;
-		}
+		// if (!isLoggedIn) {
+		// 	this.props.navigation.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
+		// 	return;
+		// }
 
-		if (auth.token.sid) {
-			let isValid = await valid(auth.token.sid);
-			console.log(`isValid: ${isValid}`);
-			if (!isValid) {
-				console.log(`login again`);
-				await login(auth.username, auth.password);
-			}
+		// if (token && token.sid) {
+		let isValid = await valid(token.sid);
+		console.log(`isValid: ${isValid}`);
+		if (!isValid) {
+			console.log(`login again`);
+			await login(username, password);
 		}
+		// }
 	};
 
 	_signOutAsync = async () => {
 		debugger;
-		const { logout, auth } = this.props;
+		const { logout, isLoggedIn, token, username, password } = this.props;
 		// const { user } = auth;
 
-		if (!auth.isLoggedIn) {
-			this.props.navigation.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
-			return;
-		}
+		// if (!isLoggedIn) {
+		// 	this.props.navigation.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
+		// 	return;
+		// }
 
-		const sid = auth.token.sid;
-		await logout(sid);
+		// if (token && token.sid) {
+		await logout(token.sid);
+		// }
 	}
 
 	componentDidFocus() {
@@ -212,19 +213,18 @@ class Home extends Component {
 	componentDidMount() {
 		console.log('componentDidMount');
 		const { navigation } = this.props;
-		debugger;
 		// We can only set the function after the component has been initialized
 		navigation.setParams({
 			onLogoutButtonPressed: this._signOutAsync.bind(this),
-			isAuthenticated: this.props.auth.isLoggedIn,
+			isAuthenticated: this.props.isLoggedIn,
 		});
 	}
 
 	componentWillReceiveProps(nextProps) {
 		const { navigation } = nextProps;
-		if (nextProps.auth.isLoggedIn != this.props.auth.isLoggedIn)
+		if (nextProps.isLoggedIn != this.props.isLoggedIn)
 			navigation.setParams({
-				isAuthenticated: nextProps.auth.isLoggedIn,
+				isAuthenticated: nextProps.isLoggedIn,
 			});
 	}
 
@@ -450,7 +450,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
 	return {
-		auth: state.auth
+		username: state.auth.username,
+		password: state.auth.password,
+		token: state.auth.token || {},
+		isLoggedIn: state.auth.isLoggedIn,
 	};
 }
 const mapDispatchToProps = (dispatch) => {

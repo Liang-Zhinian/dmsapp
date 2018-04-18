@@ -18,9 +18,9 @@ import { BottomTabs } from './navigation';
 export const AppNavigator = StackNavigator(
     {
         // AuthLoading: { screen: AuthLoadingScreen },
-        Login: { screen: LoginScreen },
+        // Login: { screen: LoginScreen },
         Main: { screen: BottomTabs },
-        Profile: { screen: ProfileScreen },
+        // Profile: { screen: ProfileScreen },
     },
     {
         headerMode: 'none',
@@ -112,7 +112,7 @@ class AppWithNavigationState extends Component {
 
 function mapStateToProps(state) {
     return {
-        isLoggedIn: state.auth.isLoggedIn,
+        // isLoggedIn: state.auth.isLoggedIn,
         nav: state.nav,
     };
 }

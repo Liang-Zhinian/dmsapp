@@ -23,57 +23,66 @@ export type ActionAsync = (dispatch: Function, getState: Function) => void
  */
 export const login = (username: string, password: string): ActionAsync => {
     return async (dispatch, getState) => {
+        if (username && password) {
+            await loginSOAP(username, password)
+                .then(sid => {
+                    console.log('loginSOAP returns');
+                    let expires_date = moment();
+                    expires_date.add(25, 'minutes');
+                    expires_date = expires_date.format('YYYY-MM-DD HH:mm:ss')
 
-        await loginSOAP(username, password)
-            .then(sid => {
-                console.log('loginSOAP returns');
-                let expires_date = moment();
-                expires_date.add(25, 'minutes');
-                expires_date = expires_date.format('YYYY-MM-DD HH:mm:ss')
+                    const user = {
+                        username,
+                        password,
+                        token: {
+                            sid,
+                            expires_date,
+                        }
+                    };
+                    // await AsyncStorage.setItem('userToken', user);
 
-                const user = {
-                    username,
-                    password,
-                    token: {
-                        sid,
-                        expires_date,
-                    }
-                };
-                // await AsyncStorage.setItem('userToken', user);
+                    dispatch({
+                        type: 'Login',
+                        payload: user
+                    })
 
-                dispatch({
-                    type: 'Login',
-                    payload: user
+                    dispatch({
+                        type: `${Documents.NAME}/LOGIN`,
+                        payload: user
+                    })
+
+                    dispatch({
+                        type: `${Documents.NAME}/SAVE_ACCOUNT`,
+                        payload: user
+                    })
+
                 })
-
-                dispatch({
-                    type: `${Documents.NAME}/LOGIN`,
-                    payload: user
+                .catch((error) => {
+                    dispatch({
+                        type: 'ERROR',
+                        payload: error
+                    })
                 })
+        } else {
 
-                dispatch({
-                    type: `${Documents.NAME}/SAVE_ACCOUNT`,
-                    payload: user
-                })
-
+            dispatch({
+                type: 'ERROR',
+                payload: new Error('Invalid username or password! ' + username + '>>' + password)
             })
-            .catch((error) => {
-                dispatch({
-                    type: 'ERROR',
-                    payload: error
-                })
-            })
-
+        }
     }
 }
 
 export const logout = (sid: string): ActionAsync => {
     return async (dispatch, getState) => {
-        await logoutSOAP(sid)
+
+        dispatch({ type: 'Logout' });
+        debugger;
+
+        sid && await logoutSOAP(sid)
             .then(result => {
                 console.log(`logoutSOAP.result.${result}`);
 
-                dispatch({ type: 'Logout' });
 
                 dispatch({
                     type: `${Documents.NAME}/LOGOUT`,
@@ -99,7 +108,7 @@ export const logout = (sid: string): ActionAsync => {
 
 export const valid = (sid: string): ActionAsync => {
     return async (dispatch, getState) => {
-        let valid = await validSOAP(sid)
+        let valid = sid && await validSOAP(sid)
             .then(valid => {
                 console.log('validSOAP returns');
                 return valid == true;

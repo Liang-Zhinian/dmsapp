@@ -4,35 +4,38 @@ import { NavigationActions } from 'react-navigation';
 import { AppNavigator } from '../navigators/AppNavigator';
 
 // Start with two routes: The Main screen, with the Login screen on top.
-const firstAction = AppNavigator.router.getActionForPathAndParams('Main');
-const tempNavState = AppNavigator.router.getStateForAction(firstAction);
-const secondAction = AppNavigator.router.getActionForPathAndParams('Login');
-const initialNavState = AppNavigator.router.getStateForAction(
-  secondAction,
-  tempNavState
-);
+// const firstAction = AppNavigator.router.getActionForPathAndParams('Main');
+// const tempNavState = AppNavigator.router.getStateForAction(firstAction);
+// const secondAction = AppNavigator.router.getActionForPathAndParams('Login');
+// const initialNavState = AppNavigator.router.getStateForAction(
+//   secondAction,
+//   tempNavState
+// );
+
+const initialNavState = AppNavigator.router.getStateForAction(NavigationActions.init());
+
 
 export default function nav(state = initialNavState, action) {
   let nextState;
   switch (action.type) {
-    case 'Login':
-      nextState = AppNavigator.router.getStateForAction(
-        NavigationActions.back(),
-        state
-      );
-      break;
-    case 'Logout':
-      nextState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'Login' }),
-        state
-      );
+    // case 'Login':
+    //   nextState = AppNavigator.router.getStateForAction(
+    //     NavigationActions.back(),
+    //     state
+    //   );
+    //   break;
+    // case 'Logout':
+    //   nextState = AppNavigator.router.getStateForAction(
+    //     NavigationActions.navigate({ routeName: 'Login' }),
+    //     state
+    //   );
       // nextState = AppNavigator.router.getStateForAction(
       //   NavigationActions.reset({
       //     index: 0,
       //     actions: [NavigationActions.navigate({ routeName: "Login" })]
       //   })
       // )
-      break;
+      // break;
     default:
       nextState = AppNavigator.router.getStateForAction(action, state);
       break;

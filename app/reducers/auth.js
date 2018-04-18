@@ -6,9 +6,9 @@ export default function auth(state = initialAuthState, action) {
   const { payload } = action;
   switch (action.type) {
     case 'Login':
-      return { ...state, isLoggedIn: true };
+      return { ...state, isLoggedIn: true, ...payload };
     case 'Logout':
-      return { ...state, isLoggedIn: false };
+      return { ...state, isLoggedIn: false, };
     case 'ERROR':
       console.log(payload);
 
