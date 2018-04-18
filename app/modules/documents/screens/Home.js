@@ -141,11 +141,11 @@ class Home extends Component {
 							style={{ color: colors.textOnPrimary }}
 						/>
 					</TouchableOpacity>
-{params.isLoggedIn &&
-					<HeaderButton
-						onPress={params.onLogoutButtonPressed}
-						text='Log Out!'
-					/>}
+					{params.isAuthenticated &&
+						<HeaderButton
+							onPress={params.onLogoutButtonPressed}
+							text='Log Out!'
+						/>}
 				</View>
 			),
 		}
@@ -169,33 +169,34 @@ class Home extends Component {
 	// Fetch the token from storage then navigate to our appropriate place
 	_bootstrapAsync = async () => {
 		const { login, valid, auth } = this.props;
-		const { user } = auth;
-		
-		if (!user) {
+		// const { isLoggedIn } = auth;
+
+		if (!auth.isLoggedIn) {
 			this.props.navigation.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
 			return;
 		}
 
-		if (user.token.sid) {
-			let isValid = await valid(user.token.sid);
+		if (auth.token.sid) {
+			let isValid = await valid(auth.token.sid);
 			console.log(`isValid: ${isValid}`);
 			if (!isValid) {
 				console.log(`login again`);
-				await login(user.username, user.password);
+				await login(auth.username, auth.password);
 			}
 		}
 	};
 
 	_signOutAsync = async () => {
+		debugger;
 		const { logout, auth } = this.props;
-		const { user } = auth;
-		
-		if (!user) {
+		// const { user } = auth;
+
+		if (!auth.isLoggedIn) {
 			this.props.navigation.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
 			return;
 		}
 
-		const sid = auth.user.token.sid;
+		const sid = auth.token.sid;
 		await logout(sid);
 	}
 
@@ -211,17 +212,26 @@ class Home extends Component {
 	componentDidMount() {
 		console.log('componentDidMount');
 		const { navigation } = this.props;
+		debugger;
 		// We can only set the function after the component has been initialized
 		navigation.setParams({
 			onLogoutButtonPressed: this._signOutAsync.bind(this),
-			isLoggedIn: this.props.auth.isLoggedIn,
+			isAuthenticated: this.props.auth.isLoggedIn,
 		});
+	}
+
+	componentWillReceiveProps(nextProps) {
+		const { navigation } = nextProps;
+		if (nextProps.auth.isLoggedIn != this.props.auth.isLoggedIn)
+			navigation.setParams({
+				isAuthenticated: nextProps.auth.isLoggedIn,
+			});
 	}
 
 	componentWillUnmount() {
 		console.log('componentWillUnmount');
 	}
-	
+
 	onNavItemPress(item) {
 		if (item && item.route) {
 			const { navigate } = this.props.navigation;
@@ -450,4 +460,4 @@ const mapDispatchToProps = (dispatch) => {
 		login: (username, password) => dispatch(login(username, password)),
 	}
 }
-export default connect(mapStateToProps, mapDispatchToProps)(requireAuth(Home));
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

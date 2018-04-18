@@ -7,6 +7,8 @@ import {
     View,
     Button,
     AsyncStorage,
+    Dimensions,
+    Image
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -32,6 +34,10 @@ class LoginScreen extends Component {
             username: '',
             password: '',
             isLoading: false,
+            layout: {
+                width: Dimensions.get('window').width,
+                height: Dimensions.get('window').height,
+            }
         };
     }
 
@@ -59,14 +65,11 @@ class LoginScreen extends Component {
                 keyboardShouldPersistTaps={'always'}
             >
                 <View style={{
-                    flexDirection: 'row', height: 50, marginTop: 1,
+                    flexDirection: 'row', height: 80, marginTop: 10,
                     justifyContent: 'center',
                     alignItems: 'flex-start',
                 }}>
-                    <Text
-                        style={{ fontSize: 27 }}>
-                        Login
-                    </Text>
+                    {this._renderLogo()}
                 </View>
                 <View style={{ marginTop: 10 }}>
                     <TextBox
@@ -119,6 +122,23 @@ class LoginScreen extends Component {
             this._isMounted && this.setState({ isLoading: false });
         }
     };
+
+    _renderLogo() {
+        return (
+            <View style={[
+                CommonStyles.flex_1,
+                CommonStyles.flexItemsCenter,
+                CommonStyles.flexItemsMiddle,
+            ]}>
+                <Image
+                    style={[styles.image, { width: this.state.layout.width - 20, }]}
+                    resizeMode={Image.resizeMode.contain}
+                    source={require("../assets/logo.png")}
+                />
+
+            </View>
+        )
+    }
 }
 
 async function timeout(ms: number): Promise {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import Home from '../modules/documents/screens/Home';
 import { BottomTabs } from '../navigators/navigation';
 
@@ -17,7 +17,7 @@ const MainScreen = () => (
 );
 
 MainScreen.navigationOptions = {
-  title: 'Home Screen',
+  headerTitle: 'Home Screen',
 };
 
 export default MainScreen;

@@ -71,9 +71,9 @@ const defaultHeader = {
 }
 
 const {
-    Login,
-    Logout,
-    Registration,
+    // Login,
+    // Logout,
+    // Registration,
     Home,
     Search,
     Downloads,
@@ -139,16 +139,16 @@ export const BottomTabs = TabNavigator(
     }
 )
 
-const MainStack = StackNavigator({
-    Login,
-    Main: {
-        screen: BottomTabs
-    },
-    Logout,
-    Registration
-}, {
-    headerMode: 'none'
-})
+// const MainStack = StackNavigator({
+//     Login,
+//     Main: {
+//         screen: BottomTabs
+//     },
+//     Logout,
+//     Registration
+// }, {
+//     headerMode: 'none'
+// })
 
 const styles = StyleSheet.create({
     drawer: {
@@ -196,4 +196,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default MainStack
+// export default MainStack

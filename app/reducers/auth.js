@@ -6,12 +6,12 @@ export default function auth(state = initialAuthState, action) {
   const { payload } = action;
   switch (action.type) {
     case 'Login':
-      return { ...state, isLoggedIn: true, user: payload };
+      return { ...state, isLoggedIn: true };
     case 'Logout':
-      return { ...state, isLoggedIn: false, user: null };
+      return { ...state, isLoggedIn: false };
     case 'ERROR':
       console.log(payload);
-      
+
       Toast.show(payload.message, Toast.SHORT);
       return { ...state };
     default:

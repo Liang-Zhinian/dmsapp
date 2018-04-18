@@ -26,6 +26,12 @@ export default function nav(state = initialNavState, action) {
         NavigationActions.navigate({ routeName: 'Login' }),
         state
       );
+      // nextState = AppNavigator.router.getStateForAction(
+      //   NavigationActions.reset({
+      //     index: 0,
+      //     actions: [NavigationActions.navigate({ routeName: "Login" })]
+      //   })
+      // )
       break;
     default:
       nextState = AppNavigator.router.getStateForAction(action, state);

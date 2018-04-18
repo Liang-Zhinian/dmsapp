@@ -18,13 +18,13 @@ import { BottomTabs } from './navigation';
 export const AppNavigator = StackNavigator(
     {
         // AuthLoading: { screen: AuthLoadingScreen },
-        // Login: { screen: LoginScreen },
+        Login: { screen: LoginScreen },
         Main: { screen: BottomTabs },
         Profile: { screen: ProfileScreen },
     },
     {
         headerMode: 'none',
-        initialRouteName: 'Main',
+        // initialRouteName: 'Main',
     });
 
 class AppWithNavigationState extends Component {
@@ -52,9 +52,9 @@ class AppWithNavigationState extends Component {
     }
 
     render() {
-        if (!this.props.isLoggedIn) {
-            return <LoginScreen />;
-        }
+        // if (!this.props.isLoggedIn) {
+        //     return <LoginScreen />;
+        // }
 
         const { dispatch, nav } = this.props;
         return (
