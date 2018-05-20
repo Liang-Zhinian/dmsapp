@@ -7,10 +7,10 @@ import {
     addNavigationHelpers,
 } from 'react-navigation';
 
-import AuthLoadingScreen from '../components/AuthLoadingScreen';
-import LoginScreen from '../login/LoginScreen';
-import MainScreen from '../components/MainScreen';
-import ProfileScreen from '../components/ProfileScreen';
+import AuthLoadingScreen from '../screens/AuthLoadingScreen';
+import LoginScreen from '../screens/LoginScreen';
+import MainScreen from '../screens/MainScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import { addListener } from '../utils/redux';
 
 import { BottomTabs } from './navigation';

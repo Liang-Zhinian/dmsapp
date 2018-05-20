@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { getUserByUsername } from '../actions/security';
-import DoveButton from './DoveButton';
+import DoveButton from '../components/DoveButton';
 
 class ProfileScreen extends React.Component {
   static navigationOptions = {
