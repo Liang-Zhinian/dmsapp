@@ -73,7 +73,8 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "index.js"
+    entryFile: "index.js",
+    nodeExecutableAndArgs :  ["/usr/local/bin/node"]
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -155,6 +156,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-code-push')
     compile project(':react-native-push-notification')
     compile project(':react-native-pdf')
     compile project(':react-native-linear-gradient')
@@ -162,7 +164,6 @@ dependencies {
     compile project(':react-native-fs')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-doc-viewer')
-    compile project(':react-native-code-push')
     compile project(':react-native-svg')
     compile project(':react-native-vector-icons')
     compile fileTree(dir: "libs", include: ["*.jar"])
