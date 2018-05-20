@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import {createRootNavigator} from './router';
+import {createRootNavigator} from './navigators/index';
 
 class App extends Component<{}> {
     render() {

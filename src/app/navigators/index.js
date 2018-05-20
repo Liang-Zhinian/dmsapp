@@ -6,21 +6,19 @@ import {
   addNavigationHelpers
 } from 'react-navigation';
 
-import AuthLoadingScreen from './screens/AuthLoadingScreen';
-import LoginScreen from './screens/LoginScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import SignupScreen from './screens/Registration';
-import { BottomTabs } from './navigators/navigation';
-
-const MainScreen = BottomTabs;
+import Splash from '../screens/AuthLoading';
+import Login from '../screens/Login';
+import Profile from '../screens/Profile';
+import Signup from '../screens/Signup';
+import Main from '../screens/Main';
 
 
 export const SignedOut = StackNavigator({
   Login: {
-    screen: LoginScreen,
+    screen: Login,
   },
   Signup: {
-    screen: SignupScreen,
+    screen: Signup,
     navigationOptions: {
       title: 'Sign Up'
     }
@@ -32,10 +30,10 @@ export const SignedOut = StackNavigator({
 export const SignedIn = StackNavigator(
   {
     Main: {
-      screen: MainScreen,
+      screen: Main,
     },
     Profile: {
-      screen: ProfileScreen
+      screen: Profile
     }
   }, {
     headerMode: 'none',
@@ -46,7 +44,7 @@ export const createRootNavigator = (signedIn = false) => {
   return StackNavigator(
     {
       Splash: {
-        screen: AuthLoadingScreen,
+        screen: Splash,
       },
       SignedIn: {
         screen: SignedIn,
