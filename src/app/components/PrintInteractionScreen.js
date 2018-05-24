@@ -182,8 +182,8 @@ class PrintInteractionScreen extends Component {
         var filePath = file.uri;
 
         if (file.fileType != 'pdf') {
-            filePath = await this.convertToPdf(file)
-                .catch(error => { alert(error.message) });
+            // filePath = await this.convertToPdf(file)
+            //     .catch(error => { alert(error.message) });
             if (!filePath) return;
         }
 

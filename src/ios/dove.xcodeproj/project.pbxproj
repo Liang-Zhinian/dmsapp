@@ -55,6 +55,8 @@
 		8A04C3F420B59EAA00FD5061 /* RNPrinting.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A04C3F320B59EAA00FD5061 /* RNPrinting.m */; };
 		8A128866206FCD3600C29239 /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A128865206FCD3600C29239 /* Toast+UIView.m */; };
 		8A128868206FCD6C00C29239 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A128867206FCD6C00C29239 /* Toast.m */; };
+		8A9D999520B72854001B6E64 /* DoveWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9D999420B72854001B6E64 /* DoveWebView.m */; };
+		8A9D99A220B72B13001B6E64 /* UIPrintPageRenderer+PDF.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A9D99A120B72B13001B6E64 /* UIPrintPageRenderer+PDF.m */; };
 		94E129A02C2D4168B377D3F8 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A6AD31779DF4AE99BBBAAF6 /* libRNFetchBlob.a */; };
 		97595A45B6614809BBEFE746 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E637F9E0489445CAB5BBC1B3 /* MaterialIcons.ttf */; };
 		9B0BA09D1E574054A2543C52 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2FFD7D7D5D844687888A90A8 /* EvilIcons.ttf */; };
@@ -517,6 +519,10 @@
 		8A128864206FCCFA00C29239 /* Toast+UIView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
 		8A128865206FCD3600C29239 /* Toast+UIView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
 		8A128867206FCD6C00C29239 /* Toast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Toast.m; sourceTree = "<group>"; };
+		8A9D999420B72854001B6E64 /* DoveWebView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoveWebView.m; sourceTree = "<group>"; };
+		8A9D999720B728CB001B6E64 /* DoveWebView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoveWebView.h; sourceTree = "<group>"; };
+		8A9D99A020B72B13001B6E64 /* UIPrintPageRenderer+PDF.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIPrintPageRenderer+PDF.h"; sourceTree = "<group>"; };
+		8A9D99A120B72B13001B6E64 /* UIPrintPageRenderer+PDF.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIPrintPageRenderer+PDF.m"; sourceTree = "<group>"; };
 		9609451101B14496AF8E0177 /* RNFS.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFS.xcodeproj; path = "../node_modules/react-native-fs/RNFS.xcodeproj"; sourceTree = "<group>"; };
 		A254E84A8653492DB76243BB /* CodePush.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		A7746D3FED5542328FC19006 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
@@ -685,6 +691,8 @@
 		13B07FAE1A68108700A75B9A /* dove */ = {
 			isa = PBXGroup;
 			children = (
+				8A9D999620B728AA001B6E64 /* DoveWebView */,
+				8A9D995B20B713B6001B6E64 /* UIPrintPageRenderer */,
 				8A04C3F120B59E5B00FD5061 /* RNPrinting */,
 				8A128863206FCCCD00C29239 /* RCTToast */,
 				653C38CD1FC1A484007582FE /* Assets */,
@@ -956,6 +964,24 @@
 				8A128867206FCD6C00C29239 /* Toast.m */,
 			);
 			path = RCTToast;
+			sourceTree = "<group>";
+		};
+		8A9D995B20B713B6001B6E64 /* UIPrintPageRenderer */ = {
+			isa = PBXGroup;
+			children = (
+				8A9D99A020B72B13001B6E64 /* UIPrintPageRenderer+PDF.h */,
+				8A9D99A120B72B13001B6E64 /* UIPrintPageRenderer+PDF.m */,
+			);
+			path = UIPrintPageRenderer;
+			sourceTree = "<group>";
+		};
+		8A9D999620B728AA001B6E64 /* DoveWebView */ = {
+			isa = PBXGroup;
+			children = (
+				8A9D999420B72854001B6E64 /* DoveWebView.m */,
+				8A9D999720B728CB001B6E64 /* DoveWebView.h */,
+			);
+			path = DoveWebView;
 			sourceTree = "<group>";
 		};
 		ADBDB9201DFEBF0600ED6528 /* Products */ = {
@@ -1703,9 +1729,11 @@
 				8A128866206FCD3600C29239 /* Toast+UIView.m in Sources */,
 				653C38CB1FC14884007582FE /* RNQuickLookView.m in Sources */,
 				8A128868206FCD6C00C29239 /* Toast.m in Sources */,
+				8A9D99A220B72B13001B6E64 /* UIPrintPageRenderer+PDF.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				653C38CA1FC14884007582FE /* RNQuickLookManager.m in Sources */,
 				8A04C3F420B59EAA00FD5061 /* RNPrinting.m in Sources */,
+				8A9D999520B72854001B6E64 /* DoveWebView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
