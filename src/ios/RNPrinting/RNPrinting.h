@@ -10,7 +10,7 @@
 #import <React/RCTView.h>
 #import <React/RCTBridgeModule.h>
 
-@interface RCTPrint : RCTView <RCTBridgeModule, UIPrintInteractionControllerDelegate, UIPrinterPickerControllerDelegate>
+@interface RCTPrinting : RCTView <RCTBridgeModule, UIPrintInteractionControllerDelegate, UIPrinterPickerControllerDelegate>
 @property UIPrinter *pickedPrinter;
 @property NSString *filePath;
 @property NSString *htmlString;

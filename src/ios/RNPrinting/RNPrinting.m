@@ -6,18 +6,18 @@
 //  Copyright © 2018年 Facebook. All rights reserved.
 //
 
-#import "RCTPrint.h"
+#import "RCTPrinting.h"
 #import <React/RCTConvert.h>
 #import <React/RCTUtils.h>
 
-@implementation RCTPrint
+@implementation RCTPrinting
 
 - (dispatch_queue_t)methodQueue
 {
   return dispatch_get_main_queue();
 }
 
-RCT_EXPORT_MODULE();
+RCT_EXPORT_MODULE(RCTPrinting);
 
 RCT_EXPORT_METHOD(print:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
