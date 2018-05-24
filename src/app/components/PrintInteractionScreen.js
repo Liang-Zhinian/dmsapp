@@ -17,12 +17,15 @@ import {
     SegmentedControlIOS,
     Dimensions
 } from 'react-native';
+import RNFS from 'react-native-fs';
 
 // import RNPrint from 'react-native-print';
 
 import RNPrinting from './RNPrinting';
 import QrCodeScannerScreen from '../screens/QRCodeScanner';
 import FileViewerIOS from "./RNQuickLook";
+import { convert } from '../modules/documents/api/converter';
+import { PromiseObservable } from 'rxjs/observable/PromiseObservable';
 
 var RNPrint = RNPrinting;
 
@@ -68,6 +71,9 @@ class PrintInteractionScreen extends Component {
 
     componentDidMount() {
         const that = this;
+        const { file } = that.props.navigation.state.params;
+        if (!file) return null;
+        console.log(file)
     }
 
     render() {
@@ -104,7 +110,7 @@ class PrintInteractionScreen extends Component {
                         <View style={[{ flex: 1 }, styles.row]}>
                             <Text style={[styles.title]}>{this.state.copies} {this.state.copies > 1 ? 'Copies' : 'Copy'}</Text>
                             <SegmentedControlIOS
-                                style={{ width: 200, fontSize: 20, size: 20 }}
+                                style={{ width: 120 }}
                                 momentary={true}
                                 values={['-', '+']}
                                 // selectedIndex={this.state.selectedIndex}
@@ -173,12 +179,24 @@ class PrintInteractionScreen extends Component {
 
     print = async () => {
         const { file } = this.props.navigation.state.params;
+        var filePath = file.uri;
+
+        if (file.fileType != 'pdf') {
+            filePath = await this.convertToPdf(file)
+                .catch(error => { alert(error.message) });
+            if (!filePath) return;
+        }
+
+        debugger;
+        if (filePath.indexOf('file://') == 0)
+            filePath = filePath.replace('file://', '')
         let copies = this.state.copies;
+        // alert('printing ' + copies + ' copies')
         for (i = 0; i < copies; i++) {
             await RNPrint.print({
                 // html: '<h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3>',
-                copies: copies,
-                filePath: file.uri
+                copies,
+                filePath
             })
         }
     }
@@ -229,6 +247,42 @@ class PrintInteractionScreen extends Component {
                 url={file.uri}
             />
         );
+    }
+
+    convertToPdf(file) {
+
+        const { uri, fileType, fileName } = file;
+        var newPath = uri + '.pdf';
+        return new Promise((resolve, reject) => {
+            RNFS.readFile(uri, 'base64') // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
+                .then((content) => {
+                    console.log('GOT ORIGINAL FILE CONTENT', content);
+
+                    // convert to pdf
+                    convert(fileName, fileType, content)
+                        .then(pdfContent => {
+                            console.log('GOT CONVERTTED FILE CONTENT', pdfContent);
+
+                            if (!pdfContent) {
+                                reject(new Error('Conversion failed.'));
+                                return false;
+                            }
+                            // save to a new path
+                            RNFS.writeFile(newPath, pdfContent, 'base64')
+                                .then(() => {
+                                    resolve(newPath);
+                                })
+                                .catch((err) => {
+                                    console.log(err.message, err.code);
+                                    reject(err);
+                                });;
+                        })
+                })
+                .catch((err) => {
+                    console.log(err.message, err.code);
+                    reject(err);
+                });
+        })
     }
 }
 

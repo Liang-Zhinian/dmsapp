@@ -36,6 +36,7 @@ export function createBasicAuthHeader(username: string, password: string) {
     return 'Basic ' + Base64.btoa(username + ':' + password)
 }
 export function convertToJson(xmlString) {
+    debugger;
   var xmlParser = new XMLParser();
   var xmlDoc = xmlParser.parseFromString(xmlString);
   let json = xmlParser.toJson(xmlDoc);

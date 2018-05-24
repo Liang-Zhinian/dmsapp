@@ -76,7 +76,7 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
   printInfo.jobName = [_filePath lastPathComponent];
   printInfo.duplex = UIPrintInfoDuplexLongEdge;
   printInfo.orientation = _isLandscape? UIPrintInfoOrientationLandscape: UIPrintInfoOrientationPortrait;
-  
+  printInteractionController.showsNumberOfCopies=YES;
   printInteractionController.printInfo = printInfo;
   printInteractionController.showsPageRange = YES;
   
@@ -90,7 +90,7 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
   // Completion handler
   void (^completionHandler)(UIPrintInteractionController *, BOOL, NSError *) =
   ^(UIPrintInteractionController *printController, BOOL completed, NSError *error) {
-    if (_copies > 0) return;
+//    if (--_copies > 0) return;
     if (!completed && error) {
       NSLog(@"Printing could not complete because of error: %@", error);
       reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(error.description));
@@ -100,11 +100,10 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
   };
   
   if (_pickedPrinter) {
-    if (!_copies) _copies=1;
-    while(_copies>0){
-      _copies--;
+//    if (!_copies) _copies=1;
+//    for(NSInteger i=0; i<_copies; i++){
     [printInteractionController printToPrinter:_pickedPrinter completionHandler:completionHandler];
-    }
+//    }
   } else if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) { // iPad
     UIView *view = [[UIApplication sharedApplication] keyWindow].rootViewController.view;
     [printInteractionController presentFromRect:view.frame inView:view animated:YES completionHandler:completionHandler];
