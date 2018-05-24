@@ -6,18 +6,18 @@
 //  Copyright © 2018年 Facebook. All rights reserved.
 //
 
-#import "RCTPrinting.h"
+#import "RNPrinting.h"
 #import <React/RCTConvert.h>
 #import <React/RCTUtils.h>
 
-@implementation RCTPrinting
+@implementation RNPrinting
 
 - (dispatch_queue_t)methodQueue
 {
   return dispatch_get_main_queue();
 }
 
-RCT_EXPORT_MODULE(RCTPrinting);
+RCT_EXPORT_MODULE(RNPrinting);
 
 RCT_EXPORT_METHOD(print:(NSDictionary *)options
                   resolver:(RCTPromiseResolveBlock)resolve
@@ -38,6 +38,10 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
   
   if(options[@"isLandscape"]) {
     _isLandscape = [[RCTConvert NSNumber:options[@"isLandscape"]] boolValue];
+  }
+  
+  if (options[@"copies"]){
+    _copies = [RCTConvert NSInteger:options[@"copies"]];
   }
   
   if ((_filePath && _htmlString) || (_filePath == nil && _htmlString == nil)) {
@@ -86,6 +90,7 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
   // Completion handler
   void (^completionHandler)(UIPrintInteractionController *, BOOL, NSError *) =
   ^(UIPrintInteractionController *printController, BOOL completed, NSError *error) {
+    if (_copies > 0) return;
     if (!completed && error) {
       NSLog(@"Printing could not complete because of error: %@", error);
       reject(RCTErrorUnspecified, nil, RCTErrorWithMessage(error.description));
@@ -95,7 +100,11 @@ RCT_EXPORT_METHOD(print:(NSDictionary *)options
   };
   
   if (_pickedPrinter) {
+    if (!_copies) _copies=1;
+    while(_copies>0){
+      _copies--;
     [printInteractionController printToPrinter:_pickedPrinter completionHandler:completionHandler];
+    }
   } else if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) { // iPad
     UIView *view = [[UIApplication sharedApplication] keyWindow].rootViewController.view;
     [printInteractionController presentFromRect:view.frame inView:view animated:YES completionHandler:completionHandler];

@@ -10,10 +10,11 @@
 #import <React/RCTView.h>
 #import <React/RCTBridgeModule.h>
 
-@interface RCTPrinting : RCTView <RCTBridgeModule, UIPrintInteractionControllerDelegate, UIPrinterPickerControllerDelegate>
+@interface RNPrinting : RCTView <RCTBridgeModule, UIPrintInteractionControllerDelegate, UIPrinterPickerControllerDelegate>
 @property UIPrinter *pickedPrinter;
 @property NSString *filePath;
 @property NSString *htmlString;
 @property NSURL *printerURL;
+@property NSInteger copies;
 @property (nonatomic, assign) BOOL isLandscape;
 @end

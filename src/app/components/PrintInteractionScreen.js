@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import {
+    NativeModules,
     Platform,
     View,
     ScrollView,
@@ -13,11 +14,19 @@ import {
     ProgressViewIOS,
     TouchableOpacity,
     Button,
+    SegmentedControlIOS,
+    Dimensions
 } from 'react-native';
-import RNPrint from 'react-native-print';
-// import { QRScannerView } from 'ac-qrcode';
 
-// import RNPrint from './RCTPrint';
+// import RNPrint from 'react-native-print';
+
+import RNPrinting from './RNPrinting';
+import QrCodeScannerScreen from '../screens/QRCodeScanner';
+import FileViewerIOS from "./RNQuickLook";
+
+var RNPrint = RNPrinting;
+
+const { height, width } = Dimensions.get('window');
 
 class PrintInteractionScreen extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -29,7 +38,7 @@ class PrintInteractionScreen extends Component {
                 CommonStyles.flexRow,
             ]}>
                 <TouchableOpacity
-                    style={{ marginRight: 14, justifyContent: 'center' }}
+                    style={{ marginLeft: 5, justifyContent: 'center' }}
                     accessibilityLabel='cancel'
                     onPress={() => { navigation.goBack(null) }}
                 >
@@ -46,7 +55,8 @@ class PrintInteractionScreen extends Component {
         this.state = {
             selectedPrinter: null,
             requestingQR: false,
-            printerUrl: null
+            printerUrl: null,
+            copies: 1,
         };
     }
 
@@ -78,45 +88,80 @@ class PrintInteractionScreen extends Component {
                         <View style={[{ flex: 1 }, styles.row]}>
                             <Text style={[styles.title]}>Printer</Text>
                             <Button onPress={this.selectPrinter} title={this.state.selectedPrinter ? this.state.selectedPrinter.name : 'Select Printer'} />
-                            {/* <Button onPress={this.scanQRCode} title='Scan' /> */}
-                            <Button onPress={this.selectPrinterWithUrl} title='Select Printer With Url' />
+                            <Button onPress={this.scanQRCode} title='Scan' />
+                            {/*<Button onPress={this.selectPrinterWithUrl} title='Select Printer With Url' />*/}
                         </View>
                     </View>
                     <View style={[styles.section]}>
+                        {/*
                         <View style={[{ flex: 5 }, styles.row]}>
                             <Text style={[styles.title]}>Range</Text>
                             <Button onPress={this.selectPrinter} title="Page 2" />
                         </View>
                         {this.renderSpacer()}
+                        */}
 
-                        <View style={[{ flex: 5 }, styles.row]}>
-                            <Text style={[styles.title]}>1 Copy</Text>
-                            <Button onPress={this.selectPrinter} title="Page 2" />
+                        <View style={[{ flex: 1 }, styles.row]}>
+                            <Text style={[styles.title]}>{this.state.copies} Copy</Text>
+                            <SegmentedControlIOS
+                                style={{ width: 200, fontSize: 20, size: 20 }}
+                                momentary={true}
+                                values={['-', '+']}
+                                // selectedIndex={this.state.selectedIndex}
+                                // onChange={(event) => {
+                                //     this.setState({ selectedIndex: event.nativeEvent.selectedSegmentIndex });
+                                // }}
+                                onValueChange={(value) => {
+                                    var copies = this.state.copies;
+                                    switch (value) {
+                                        case '-':
+                                            if (copies > 1) copies--;
+                                            break;
+                                        case '+':
+                                            copies++;
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    this.setState({ copies });
+                                }}
+                            />
                         </View>
                     </View>
 
                     <View style={[styles.section]}>
-                        <View style={[{ flex: 1 }, styles.row]}>
-                            <Button onPress={this.print} title="Print" />
+                        <View style={[{ flex: 1 }, styles.row, {
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }]}>
+                            <Button onPress={this.print.bind(this)} title="Print" />
+                        </View>
+                    </View>
+                    <View style={[styles.section]}>
+                        <View style={[{ flex: 1 }, styles.row, {
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }]}>
+                            {this.renderPreview()}
                         </View>
                     </View>
                 </ScrollView>
             );
 
-        // return <QRScannerView
-        //     onScanResultReceived={this.barcodeReceived.bind(this)}
-
-        //     renderTopBarView={() => this._renderTitleBar()}
-
-        //     renderBottomMenuView={() => this._renderMenu()}
-        // />
+        return (
+            <QrCodeScannerScreen
+                onSuccess={this.qrCodeReceived.bind(this)}
+                onCancel={() => { this.setState({ requestingQR: false }) }}
+            />
+        );
     }
 
     // @NOTE iOS Only
     selectPrinter = async () => {
         const selectedPrinter = await RNPrint.selectPrinter()
         this.setState({ selectedPrinter })
-        alert('Printer url: \n' + selectedPrinter.url);
+        // alert('Printer url: \n' + selectedPrinter.url);
     }
 
     selectPrinterWithUrl = async () => {
@@ -126,10 +171,16 @@ class PrintInteractionScreen extends Component {
         this.setState({ selectedPrinter })
     }
 
-    async print() {
-        await RNPrint.print({
-            html: '<h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3>'
-        })
+    print = async () => {
+        const { file } = this.props.navigation.state.params;
+        let copies = this.state.copies;
+        for (i = 0; i < copies; i++) {
+            await RNPrint.print({
+                // html: '<h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3>',
+                copies: copies,
+                filePath: file.uri
+            })
+        }
     }
 
     scanQRCode = () => {
@@ -154,9 +205,30 @@ class PrintInteractionScreen extends Component {
         )
     }
 
-    barcodeReceived(e) {
-        alert('Type: ' + e.type + '\nData: ' + e.data);
-        this.setState({ requestingQR: false, printerUrl: e.data })
+    qrCodeReceived(e) {
+        // alert('Type: ' + e.type + '\nData: ' + e.data);
+        this.setState({ requestingQR: false, printerUrl: e.data }, async () => {
+            const selectedPrinter = await RNPrint.selectPrinterWithUrl({
+                printerURL: e.data
+            })
+            this.setState({ selectedPrinter });
+        });
+    }
+
+    renderPreview() {
+        const { file } = this.props.navigation.state.params;
+        if (!file) return null;
+
+        return (
+            <FileViewerIOS
+                style={{
+                    flex: 1,
+                    width,
+                    height
+                }}
+                url={file.uri}
+            />
+        );
     }
 }
 
@@ -190,7 +262,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         // borderBottomWidth: 1,
         // borderBottomColor: 'gray',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         alignItems: 'center',
     },
     title: {

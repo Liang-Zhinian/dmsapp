@@ -1,0 +1,23 @@
+{
+  "name": "react-native-ui-kitten",
+  "version": "3.0.1",
+  "description": "React Native components",
+  "author": "akveo",
+  "homepage": "https://akveo.github.io/react-native-ui-kitten/",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "hoist-non-react-statics": "^2.0.0",
+    "prop-types": "^15.5.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/akveo/react-native-ui-kitten.git"
+  },
+  "bugs": {
+    "url": "https://github.com/akveo/react-native-ui-kitten/issues"
+  }
+}
