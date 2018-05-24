@@ -102,7 +102,7 @@ class PrintInteractionScreen extends Component {
                         */}
 
                         <View style={[{ flex: 1 }, styles.row]}>
-                            <Text style={[styles.title]}>{this.state.copies} Copy</Text>
+                            <Text style={[styles.title]}>{this.state.copies} {this.state.copies > 1 ? 'Copies' : 'Copy'}</Text>
                             <SegmentedControlIOS
                                 style={{ width: 200, fontSize: 20, size: 20 }}
                                 momentary={true}
