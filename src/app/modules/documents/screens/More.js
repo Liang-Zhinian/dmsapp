@@ -13,34 +13,35 @@ import {
     colors, 
     StyleConfig, 
 } from '../styles';
+import {translate} from '../../../i18n/i18n';
 
 const firstLineItems = [
     {
-        title: 'Downloads',
+        title: translate('Downloads'),
         color: StyleConfig.color_white,
         icon: 'ios-cloud-download-outline',
         route: 'Downloads',
     }, {
-        title: 'Account',
+        title: translate('Account'),
         color: StyleConfig.color_white,
         icon: 'ios-contact-outline',
         route: 'Account',
     }];
 
 const secondLineItems = [{
-    title: 'Settings',
+    title: translate('Settings'),
     color: StyleConfig.color_white,
     icon: 'ios-settings-outline',
     route: 'Settings',
 }, {
-    title: 'About',
+    title: translate('About'),
     color: StyleConfig.color_white,
     icon: 'ios-information-circle-outline',
     route: 'About',
 }];
 
 const thirdLineItems = [{
-    title: 'Check for Update',
+    title: translate('CheckForUpdate'),
     color: StyleConfig.color_white,
     icon: 'ios-settings-outline',
     route: 'Update',
@@ -50,7 +51,7 @@ class More extends Component {
     static navigationOptions = {
         // headerStyle: { backgroundColor: StyleConfig.color_primary },
         // headerTintColor: StyleConfig.textOnPrimary,
-        headerTitle: 'More',
+        headerTitle: translate('More'),
     };
 
     constructor(props) {

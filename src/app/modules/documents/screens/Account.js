@@ -14,12 +14,13 @@ import { CommonStyles } from '../styles';
 import * as actions from '../actions';
 import { NAME } from '../constants';
 import { HeaderButton } from './components/HeaderButtons';
+import {translate} from '../../../i18n/i18n';
 
 class Account extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
 
-    let headerTitle = 'Manage Account';
+    let headerTitle = translate('ManageAccount');
     let headerLeft = (
       <View style={[
         CommonStyles.flexRow,
@@ -27,7 +28,7 @@ class Account extends Component {
       ]}>
         <HeaderButton
           onPress={params.cancel ? params.cancel : () => null}
-          text='Cancel'
+          text={translate('Cancel')}
         />
       </View>
     );
@@ -37,7 +38,7 @@ class Account extends Component {
       ]}>
         <HeaderButton
           onPress={params.toggleEdit ? params.toggleEdit : () => null}
-          text={!params.isEditMode ? 'Edit' : 'Save'}
+          text={translate(!params.isEditMode ? 'Edit' : 'Save')}
         />
       </View>
     );
@@ -153,7 +154,7 @@ class Account extends Component {
         ref="txtUserName"
         style={[ComponentStyles.input]}
         placeholderTextColor={StyleConfig.color_gray}
-        placeholder={'User name'}
+        placeholder={translate('UserName')}
         blurOnSubmit={true}
         underlineColorAndroid={'transparent'}
         onChangeText={(username) => this.setState({ username })}
@@ -171,7 +172,7 @@ class Account extends Component {
         ref="txtPassword"
         style={[ComponentStyles.input]}
         placeholderTextColor={StyleConfig.color_gray}
-        placeholder={'Password'}
+        placeholder={translate('Password')}
         blurOnSubmit={true}
         underlineColorAndroid={'transparent'}
         onChangeText={(password) => this.setState({ password })}
@@ -218,7 +219,7 @@ class Account extends Component {
         style={[ComponentStyles.btn, { backgroundColor: '#8a8482' }]}
         onPress={() => this.handleLogout()}>
         <Text style={ComponentStyles.btn_text}>
-          Log out
+          {translate('SignOut')}
         </Text>
       </TouchableOpacity>
     )
@@ -228,12 +229,12 @@ class Account extends Component {
     return (
       <View style={[styles.section]}>
         <View style={[{ flex: 1 }, styles.row]}>
-          <Text style={[styles.title]}>Username</Text>
+          <Text style={[styles.title]}>{translate('UserName')}</Text>
           <View style={[styles.content]}>{this.renderUserName()}</View>
         </View>
         {this.renderSpacer()}
         <View style={[{ flex: 1 }, styles.row]}>
-          <Text style={[styles.title]}>Password</Text>
+          <Text style={[styles.title]}>{translate('Password')}</Text>
           <View style={[styles.content]}>{this.renderPassword()}</View>
         </View>
         {this.renderSpacer()}

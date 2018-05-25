@@ -20,6 +20,7 @@ import ComponentStyles from '../styles/ComponentStyles';
 import StyleConfig from '../styles/StyleConfig';
 // import AuthButton from '../components/AuthButton';
 import DoveButton from '../components/DoveButton';
+import {translate} from '../i18n/i18n';
 
 class LoginScreen extends Component {
     static defaultProps = { _isMounted: PropTypes.boolean };
@@ -91,11 +92,11 @@ class LoginScreen extends Component {
                 {this.state.isLoading ?
                     <DoveButton
                         style={[styles.button, this.props.style]}
-                        caption="Please wait..."
+                        caption={translate("PleaseWait...")}
                         onPress={() => { }}
                     />
                     : <DoveButton
-                        caption="Sign in!"
+                        caption={translate('SignIn')}
                         onPress={this._signInAsync}
                     />}
             </ScrollView>

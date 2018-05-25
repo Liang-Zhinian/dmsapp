@@ -18,6 +18,7 @@ import {
 } from 'react-navigation';
 import Octicons from 'react-native-vector-icons/Octicons';
 
+import I18n, {translate} from '../i18n/i18n';
 import { Documents } from '../modules';
 import Styles from '../styles';
 
@@ -105,19 +106,19 @@ export default TabNavigator(
     {
         HomeTab: {
             screen: HomeStack,
-            navigationOptions: tabNavigationOptions('Home', 'home')
+            navigationOptions: tabNavigationOptions(translate('Home'), 'home')
         },
         ExplorerTab: {
             screen: Documents.Navigation.ExplorerStack,
-            navigationOptions: tabNavigationOptions('My Documents', 'file-submodule')
+            navigationOptions: tabNavigationOptions(translate('Documents'), 'file-submodule')
         },
         SearchTab: {
             screen: Documents.Navigation.SearchStack,
-            navigationOptions: tabNavigationOptions('Search', 'search')
+            navigationOptions: tabNavigationOptions(translate('Search'), 'search')
         },
         MoreTab: {
             screen: Documents.Navigation.MoreStack,
-            navigationOptions: tabNavigationOptions('More', 'kebab-horizontal')
+            navigationOptions: tabNavigationOptions(translate('More'), 'kebab-horizontal')
         }
     },
     {

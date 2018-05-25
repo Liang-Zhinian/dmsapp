@@ -28,6 +28,7 @@ import DocumentService, { DownloadManager } from '../services/DocumentService';
 import SearchBox from './components/SearchBox';
 import DocumentList from './components/DocumentList';
 import FileViewerAndroid from '../../../components/RCTFileViewerAndroid';
+import {translate} from '../../../i18n/i18n';
 
 class Search extends Component {
     static defaultProps = {
@@ -38,7 +39,7 @@ class Search extends Component {
     static navigationOptions = ({ navigation }) => {
         const { params = {} } = navigation.state;
 
-        let headerTitle = 'Search Results';
+        let headerTitle = translate('SearchResults');
         return { headerTitle };
     };
 

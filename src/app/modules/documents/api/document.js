@@ -42,6 +42,27 @@ export const search = (username: string, password: string, expression: string) =
     return fetch(`${SearchRestAPI}/find`, options)
 }
 
+export const getDocument = (username: string, password: string, docId: int) => {
+
+    var options = {
+        method: 'GET',
+        headers: buildJsonHeaders(username, password)
+    };
+
+    return fetch(`${DocumentRestAPI}/getDocument?docId=${docId}`, options)
+}
+
+export const updateDocument = (username: string, password: string, document: {}}) => {
+
+    var options = {
+        method: 'PUT',
+        headers: buildJsonHeaders(username, password),
+        body: JSON.stringify(document),
+    };
+
+    return fetch(`${DocumentRestAPI}/update`, options)
+}
+
 // soap api
 export const getContentSOAP = (sid: string, docId: int, onProgress: (percent) => {}) => {
     return new Promise((resolve, reject) => {

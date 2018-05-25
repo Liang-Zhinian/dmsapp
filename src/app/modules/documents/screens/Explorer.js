@@ -43,6 +43,7 @@ import Spinner from '../../../components/Spinner';
 import { alert } from '../lib/alert';
 import { convert } from '../api/converter';
 import RNFS from 'react-native-fs';
+import {translate} from '../../../i18n/i18n';
 
 function isExpired(expires_date) {
   let currentTime = new Date();
@@ -55,7 +56,7 @@ class Explorer extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
 
-    let headerTitle = `${params.node ? params.node.name : 'Documents'}`;
+    let headerTitle = `${params.node ? params.node.name : translate('Documents')}`;
     let headerRight = (
       <View style={[
         CommonStyles.flexRow,
@@ -67,7 +68,7 @@ class Explorer extends Component {
         />
         <HeaderButton
           onPress={params.toggleEdit ? params.toggleEdit : () => null}
-          text={!params.isEditMode ? 'Edit' : 'Done'}
+          text={translate(!params.isEditMode ? 'Edit' : 'Done')}
         />
       </View>
     );
@@ -250,7 +251,7 @@ class Explorer extends Component {
     var options = {
       title: 'Select Avatar',
       customButtons: [
-        { name: 'create-folder', title: 'Create Folder' },
+        { name: 'create-folder', title: translate('CreateFolder') },
       ],
       storageOptions: {
         skipBackup: true,
@@ -852,7 +853,7 @@ class Explorer extends Component {
             accessibilityLabel='download'
             onPress={this.selectionContainsFolders() ? null : this._onDownloadButtonPressed}
           >
-            <Text style={{ color: this.selectionContainsFolders() ? 'grey' : colors.primary, fontSize: 20 }}>{`Download${this.state.selectedList.length > 0 ? '(' + this.state.selectedList.length + ')' : ''}`}</Text>
+            <Text style={{ color: this.selectionContainsFolders() ? 'grey' : colors.primary, fontSize: 20 }}>{`${translate('Download')}${this.state.selectedList.length > 0 ? '(' + this.state.selectedList.length + ')' : ''}`}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -860,7 +861,7 @@ class Explorer extends Component {
             accessibilityLabel='delete'
             onPress={() => { this._onDeleteButtonPressed(); }}
           >
-            <Text style={{ color: 'red', fontSize: 20 }}>{`Delete${this.state.selectedList.length > 0 ? '(' + this.state.selectedList.length + ')' : ''}`}</Text>
+            <Text style={{ color: 'red', fontSize: 20 }}>{`${translate('Delete')}${this.state.selectedList.length > 0 ? '(' + this.state.selectedList.length + ')' : ''}`}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -868,7 +869,7 @@ class Explorer extends Component {
             accessibilityLabel='print'
             onPress={this.selectionContainsFolders() ? null : this._onPrintButtonPressed}
           >
-            <Text style={{ color: this.selectionContainsFolders() ? 'grey' : colors.primary, fontSize: 20 }}>{`Print${this.state.selectedList.length > 0 ? '(' + this.state.selectedList.length + ')' : ''}`}</Text>
+            <Text style={{ color: this.selectionContainsFolders() ? 'grey' : colors.primary, fontSize: 20 }}>{`${translate('Print')}${this.state.selectedList.length > 0 ? '(' + this.state.selectedList.length + ')' : ''}`}</Text>
           </TouchableOpacity>
 
         </View>

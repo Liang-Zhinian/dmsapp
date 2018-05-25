@@ -25,7 +25,7 @@ import RNPrinting from './RNPrinting';
 import QrCodeScannerScreen from '../screens/QRCodeScanner';
 import FileViewerIOS from "./RNQuickLook";
 import { convert } from '../modules/documents/api/converter';
-import { PromiseObservable } from 'rxjs/observable/PromiseObservable';
+import {translate} from '../i18n/i18n';
 
 var RNPrint = RNPrinting;
 
@@ -35,7 +35,7 @@ class PrintInteractionScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         const { params = {} } = navigation.state;
 
-        let headerTitle = 'Printer Options';
+        let headerTitle = translate('PrinterOptions');
         let headerLeft = (
             <View style={[
                 CommonStyles.flexRow,
@@ -45,7 +45,7 @@ class PrintInteractionScreen extends Component {
                     accessibilityLabel='cancel'
                     onPress={() => { navigation.goBack(null) }}
                 >
-                    <Text style={{ color: '#ffffff', fontSize: 20 }}>Cancel</Text>
+                    <Text style={{ color: '#ffffff', fontSize: 20 }}>{translate('Cancel')}</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -92,8 +92,8 @@ class PrintInteractionScreen extends Component {
 
                     <View style={[styles.section]}>
                         <View style={[{ flex: 1 }, styles.row]}>
-                            <Text style={[styles.title]}>Printer</Text>
-                            <Button onPress={this.selectPrinter} title={this.state.selectedPrinter ? this.state.selectedPrinter.name : 'Select Printer'} />
+                            <Text style={[styles.title]}>{translate('Printer')}</Text>
+                            <Button onPress={this.selectPrinter} title={this.state.selectedPrinter ? this.state.selectedPrinter.name : translate('SelectPrinter')} />
                             <Button onPress={this.scanQRCode} title='Scan' />
                             {/*<Button onPress={this.selectPrinterWithUrl} title='Select Printer With Url' />*/}
                         </View>
@@ -108,7 +108,7 @@ class PrintInteractionScreen extends Component {
                         */}
 
                         <View style={[{ flex: 1 }, styles.row]}>
-                            <Text style={[styles.title]}>{this.state.copies} {this.state.copies > 1 ? 'Copies' : 'Copy'}</Text>
+                            <Text style={[styles.title]}>{this.state.copies} {translate(this.state.copies > 1 ? 'Copies' : 'Copy')}</Text>
                             <SegmentedControlIOS
                                 style={{ width: 120 }}
                                 momentary={true}
@@ -141,7 +141,7 @@ class PrintInteractionScreen extends Component {
                             justifyContent: 'center',
                             alignItems: 'center',
                         }]}>
-                            <Button onPress={this.print.bind(this)} title="Print" />
+                            <Button onPress={this.print.bind(this)} title={translate('Print')} />
                         </View>
                     </View>
                     <View style={[styles.section]}>
@@ -193,7 +193,7 @@ class PrintInteractionScreen extends Component {
         let copies = this.state.copies;
         // alert('printing ' + copies + ' copies')
         for (i = 0; i < copies; i++) {
-            await RNPrint.print({
+            await RNPrint.print2({
                 // html: '<h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3>',
                 copies,
                 filePath

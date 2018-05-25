@@ -11,10 +11,11 @@ import {
 import RNFS from 'react-native-fs';
 import moment from 'moment';
 import ListItem from './components/ListItem';
+import {translate} from '../../../i18n/i18n';
 
 class Downloads extends Component {
     static navigationOptions = {
-        headerTitle: 'Downloads',
+        headerTitle: translate('Downloads'),
     }
 
     constructor(props) {

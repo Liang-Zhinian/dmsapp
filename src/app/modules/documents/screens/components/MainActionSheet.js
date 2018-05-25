@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import ActionSheet from './ActionSheet';
+import {translate} from '../../../../i18n/i18n';
 
 class MainActionSheet extends Component {
 
@@ -88,12 +89,12 @@ class MainActionSheet extends Component {
                     <View style={styles.actionSheet}>
                         <TouchableOpacity style={styles.button} onPress={this.props.onCreateFolderButtonPressed}>
                             <Text style={styles.buttonText}>
-                                Create Folder
+                                {translate('CreateFolder')}
                                 </Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.button} onPress={() => { this.upload(); }}>
                             <Text style={styles.buttonText}>
-                                Upload
+                                {translate('Upload')}
                                 </Text>
                         </TouchableOpacity>
                         {/* <TouchableOpacity style={styles.button} onPress={() => { }}>

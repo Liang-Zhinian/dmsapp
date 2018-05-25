@@ -21,6 +21,7 @@ import { default as Ionicons } from 'react-native-vector-icons/Ionicons';
 import { HeaderButton } from './components/HeaderButtons';
 import { login, logout, valid } from '../../../actions/auth';
 import requireAuth from '../../../HOC/require_auth';
+import {translate} from '../../../i18n/i18n';
 
 import {
 	ComponentStyles,
@@ -30,7 +31,7 @@ import {
 } from '../styles';
 
 const firstLineItems = [{
-	title: 'My Documents',
+	title: translate('Documents'),
 	color: StyleConfig.color_white,
 	// icon: 'cloud',
 	icon: (<Octicons name='file-submodule'
@@ -40,14 +41,14 @@ const firstLineItems = [{
 	route: 'ExplorerTab',
 },
 {
-	title: 'Search',
+	title: translate('Search'),
 	color: StyleConfig.color_white,
 	icon: 'search',
 	route: 'SearchTab',
 }];
 
 const secondLineItems = [{
-	title: 'Downloads',
+	title: translate('Downloads'),
 	color: StyleConfig.color_white,
 	icon: 'cloud-download',
 	route: 'Downloads',
@@ -85,12 +86,12 @@ const thirdLineItems = [
 
 const fourthLineItems = [
 	{
-		title: 'Profile',
+		title: translate('Profile'),
 		color: StyleConfig.color_white,
 		icon: 'account-circle',
 		route: 'Profile',
 	}, {
-		title: 'Settings',
+		title: translate('Settings'),
 		color: StyleConfig.color_white,
 		icon: 'settings',
 		route: 'Settings',
@@ -101,7 +102,7 @@ class Home extends Component {
 		const { params = {} } = navigation.state;
 
 		return {
-			headerTitle: 'Home',
+			headerTitle: translate('Home'),
 			headerLeft: (
 				<TouchableOpacity
 					style={{ marginLeft: 14 }}
@@ -144,7 +145,7 @@ class Home extends Component {
 					{params.isAuthenticated &&
 						<HeaderButton
 							onPress={params.onLogoutButtonPressed}
-							text='Log Out!'
+							text={translate('SignOut')}
 						/>}
 				</View>
 			),

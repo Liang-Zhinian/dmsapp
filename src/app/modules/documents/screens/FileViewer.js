@@ -22,6 +22,7 @@ import FileViewerIOS from "../../../components/RNQuickLook";
 import FileViewerAndroid from '../../../components/RCTFileViewerAndroid';
 import { CommonStyles, colors } from '../styles';
 import ActionSheet from './components/ActionSheet';
+import {translate} from '../../../i18n/i18n';
 
 const { height, width } = Dimensions.get('window');
 
@@ -40,7 +41,7 @@ export default class FileViewer extends Component<{}> {
     static navigationOptions = ({ navigation }) => {
         const { params = {} } = navigation.state;
 
-        let headerTitle = `${params.file ? params.file.fileName : 'Document'}`;
+        let headerTitle = `${params.file ? params.file.fileName : translate('Document')}`;
         let headerRight = (
             <View style={[
                 CommonStyles.flexRow,
@@ -138,22 +139,22 @@ export default class FileViewer extends Component<{}> {
                 <View style={styles.actionSheet}>
                     <TouchableOpacity style={styles.button} onPress={this.showActionSheet}>
                         <Text style={styles.buttonText}>
-                            Open in...
+                            {translate('OpenIn')}
                             </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={() => { }}>
                         <Text style={styles.buttonText}>
-                            Email as Attachment
+                        {translate('EmailAsAttachment')}
                             </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.button, { display: readOnly ? 'flex' : 'none' }]} onPress={this.download.bind(this)}>
                         <Text style={styles.buttonText}>
-                            Download
+                        {translate('Download')}
                             </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.button, { display: readOnly ? 'none' : 'flex' }]} onPress={this.delete.bind(this)}>
                         <Text style={styles.buttonText}>
-                            Delete
+                        {translate('Delete')}
                             </Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.button, styles.lastButton]} onPress={() => {
@@ -161,7 +162,7 @@ export default class FileViewer extends Component<{}> {
                         this.toggleActionSheet();
                     }}>
                         <Text style={styles.buttonText}>
-                            Print
+                        {translate('Print')}
                             </Text>
                     </TouchableOpacity>
                 </View>
