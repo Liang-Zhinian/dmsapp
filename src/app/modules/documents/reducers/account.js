@@ -33,7 +33,15 @@ const initialState: State = {
 export default handleActions(
   {
     [SAVE_ACCOUNT]: (state: State = initialState, action) => {
-      const { payload: { username, password } } = action
+      const {
+        payload: {
+          username,
+          password,
+          server,
+          https,
+          port
+        }
+      } = action
 
       //because payload contains the id and we already know that we are about
       //to increment the value of that id, we modify only that value by one
@@ -42,6 +50,9 @@ export default handleActions(
         ...state,
         username,
         password,
+        server,
+        https,
+        port
       }
     },
 

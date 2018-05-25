@@ -24,6 +24,9 @@ export default {
     UserName:'用户名',
     Password:'密码',
     ManageAccount: '用户管理',
+    HTTPS: 'HTTPS',
+    Port:'端口',
+    ServerAddress:'服务器',
 
     // doc action sheet
     OpenIn:'打开',

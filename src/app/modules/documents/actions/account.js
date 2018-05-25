@@ -140,12 +140,16 @@ export const valid = (sid: string) => async (dispatch, getState) => {
 
 }
 
-export const saveAccount = (username: string, password: string): Action => {
+export const saveAccount = (username: string, password: string, server: string, https: boolean, port: int): Action => {
   return {
     type: SAVE_ACCOUNT,
     payload: {
       username,
       password,
+      server,
+      https,
+      port
     }
   };
 }
+

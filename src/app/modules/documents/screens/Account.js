@@ -54,10 +54,13 @@ class Account extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: '',
+      username: null,
+      password: null,
+      server: null,
+      port: null,
+      https: false,
       pending: false,
-      isEditMode: false
+      isEditMode: false,
     };
   }
 
@@ -225,6 +228,60 @@ class Account extends Component {
     )
   }
 
+  renderServerAddress = () => {
+    return (
+      <TextInput
+        ref="txtServerAddress"
+        style={[ComponentStyles.input]}
+        placeholderTextColor={StyleConfig.color_gray}
+        placeholder={translate('ServerAddress')}
+        blurOnSubmit={true}
+        underlineColorAndroid={'transparent'}
+        onChangeText={(server) => this.setState({ server })}
+        value={this.state.server}
+        autoCapitalize='none'
+        editable={this.state.isEditMode}
+        returnKeyType='next'
+      />
+    )
+  }
+
+  renderHTTPS = () => {
+    return (
+      <TextInput
+        ref="txtHTTPS"
+        style={[ComponentStyles.input]}
+        placeholderTextColor={StyleConfig.color_gray}
+        placeholder={translate('HTTPS')}
+        blurOnSubmit={true}
+        underlineColorAndroid={'transparent'}
+        onChangeText={(https) => this.setState({ https })}
+        value={this.state.https}
+        autoCapitalize='none'
+        editable={this.state.isEditMode}
+        returnKeyType='next'
+      />
+    )
+  }
+
+  renderPort = () => {
+    return (
+      <TextInput
+        ref="txtPort"
+        style={[ComponentStyles.input]}
+        placeholderTextColor={StyleConfig.color_gray}
+        placeholder={translate('Port')}
+        blurOnSubmit={true}
+        underlineColorAndroid={'transparent'}
+        onChangeText={(port) => this.setState({ port })}
+        value={this.state.port}
+        autoCapitalize='none'
+        editable={this.state.isEditMode}
+        returnKeyType='next'
+      />
+    )
+  }
+
   renderFormPanel = () => {
     return (
       <View style={[styles.section]}>
@@ -238,9 +295,24 @@ class Account extends Component {
           <View style={[styles.content]}>{this.renderPassword()}</View>
         </View>
         {this.renderSpacer()}
-        <View style={[{ flex: 1 }, styles.row]}>
+        {/* <View style={[{ flex: 1 }, styles.row]}>
           {this.renderLogoutButton()}
+        </View> */}
+        <View style={[{ flex: 1 }, styles.row]}>
+          <Text style={[styles.title]}>{translate('ServerAddress')}</Text>
+          <View style={[styles.content]}>{this.renderServerAddress()}</View>
         </View>
+        {this.renderSpacer()}
+        <View style={[{ flex: 1 }, styles.row]}>
+          <Text style={[styles.title]}>{translate('HTTPS')}</Text>
+          <View style={[styles.content]}>{this.renderHTTPS()}</View>
+        </View>
+        {this.renderSpacer()}
+        <View style={[{ flex: 1 }, styles.row]}>
+          <Text style={[styles.title]}>{translate('Port')}</Text>
+          <View style={[styles.content]}>{this.renderPort()}</View>
+        </View>
+        {this.renderSpacer()}
       </View>
     );
   }
@@ -262,11 +334,15 @@ class Account extends Component {
   accountValidator = () => {
     let username = this.state.username;
     let password = this.state.password;
-    //username = this.encryptData(username);
-    //password = this.encryptData(password);
+    let server = this.state.server;
+    let https = this.state.https;
+    let port = this.state.port;
     return {
       username,
-      password
+      password,
+      server,
+      https,
+      port
     };
   }
 
@@ -276,35 +352,21 @@ class Account extends Component {
     if (accountData) {
       _that.refs.txtUserName.blur();
       _that.refs.txtPassword.blur();
-      // _that.setState({ pending: true });
+      _that.refs.txtServerAddress.blur();
+      _that.refs.txtHTTPS.blur();
+      _that.refs.txtPort.blur();
 
       const { saveAccount, login } = _that.props;
-      login(
+      saveAccount(
         accountData.username,
-        accountData.password
+        accountData.password,
+        accountData.server,
+        accountData.https,
+        accountData.port,
       );
 
       this.setState({ pending: false });
       Alert.alert('Account setting', 'Saved!', [{ text: 'OK', onPress: () => console.log('OK Pressed') },], { cancelable: false });
-      // _that.setState({ sid: sid });
-
-      // _that.props.login({
-      //   username: accountData.username,
-      //   password: accountData.password,
-      //   resolved: (data)=>{
-      //       // this.handleLoginResolved(data);
-      //       _that.setState({ sid: data });
-      //   },
-      //   rejected: (data)=>{
-      //     _that.handleLoginRejected(data);
-      //   }
-      // });
-
-
-      // let data = {};
-      // data.username = accountData.username;
-      // data.password = accountData.password;
-      // _that.handleAccountResolved(data);
     }
   }
 

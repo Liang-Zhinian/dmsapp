@@ -24,6 +24,9 @@ export default {
     UserName:'User Name',
     Password:'Password',
     ManageAccount: 'Manage Account',
+    HTTPS: 'HTTPS',
+    Port:'Port',
+    ServerAddress:'ServerAddress',
 
     // doc action sheet
     OpenIn:'Open in ...',

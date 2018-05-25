@@ -167,7 +167,6 @@ class PrintInteractionScreen extends Component {
     selectPrinter = async () => {
         const selectedPrinter = await RNPrint.selectPrinter()
         this.setState({ selectedPrinter })
-        // alert('Printer url: \n' + selectedPrinter.url);
     }
 
     selectPrinterWithUrl = async () => {
@@ -181,20 +180,11 @@ class PrintInteractionScreen extends Component {
         const { file } = this.props.navigation.state.params;
         var filePath = file.uri;
 
-        if (file.fileType != 'pdf') {
-            // filePath = await this.convertToPdf(file)
-            //     .catch(error => { alert(error.message) });
-            if (!filePath) return;
-        }
-
-        debugger;
         if (filePath.indexOf('file://') == 0)
             filePath = filePath.replace('file://', '')
         let copies = this.state.copies;
-        // alert('printing ' + copies + ' copies')
         for (i = 0; i < copies; i++) {
             await RNPrint.print2({
-                // html: '<h1>Heading 1</h1><h2>Heading 2</h2><h3>Heading 3</h3>',
                 copies,
                 filePath
             })

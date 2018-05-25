@@ -86,12 +86,8 @@ class Registration extends Component<{}> {
             .setItem(that.state.key, JSON.stringify(user), (error) => {
 
                 if (error == null) {
-                    // that.props.saveAccount(user.username, user.password);
-                    // that.props.login(user.username, user.password);
                     alert('Registration finished.');
 
-                    // navigate to Explorer screen
-                    // that.props.navigation.navigate('Explorer');
                 } else {
                     alert('Registration failed.');
                 }
@@ -102,20 +98,12 @@ class Registration extends Component<{}> {
 // 获取 state 变化
 const mapStateToProps = (state) => {
     return {
-        // 获取 state 变化
-        // isLoggedIn: state[NAME].account.isLoggedIn,
-        // username: state[NAME].account.username,
-        // password: state[NAME].account.password,
-        // sid: state[NAME].account.sid
     }
 };
 
 // 发送行为
 const mapDispatchToProps = (dispatch) => {
     return {
-        // 发送行为
-        // login: (username, password) => dispatch(actions.login(username, password)),
-        // saveAccount: (username, password) => dispatch(actions.saveAccount(username, password)),
     }
 };
 

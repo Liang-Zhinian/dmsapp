@@ -4,7 +4,8 @@ import {
     SearchRestAPI,
     buildJsonHeaders,
     convertToJson,
-    filterFault
+    filterFault,
+    createBasicAuthHeader
 } from './util';
 
 // restful api
@@ -52,7 +53,7 @@ export const getDocument = (username: string, password: string, docId: int) => {
     return fetch(`${DocumentRestAPI}/getDocument?docId=${docId}`, options)
 }
 
-export const updateDocument = (username: string, password: string, document: {}}) => {
+export const updateDocument = (username: string, password: string, document: {}) => {
 
     var options = {
         method: 'PUT',
@@ -63,40 +64,32 @@ export const updateDocument = (username: string, password: string, document: {}}
     return fetch(`${DocumentRestAPI}/update`, options)
 }
 
-export const createDocument = (username: string, password: string, document: {}, content: string}) => {
+export const createDocument = (username: string, password: string, folderId: int, filename: string, filedata: string) => {
+    if (!folderId)
+    {
+        Promise.reject(new Error('invalid folderId'));
+    }
+    if (!filename)
+    {
+        Promise.reject(new Error('invalid filename'));
+    }
+    if (!filedata)
+    {
+        Promise.reject(new Error('invalid filedata'));
+    }
 
     var data = new FormData();
-    data.append('document', JSON.stringify(document));
-    data.append('content', content);
-
-    var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-
-    xhr.addEventListener('readystatechange', function(){
-        if (this.readyState === 4){
-
-        }
-    });
-
-
-    xhr.open("POST", DocumentSoapAPI);
-    // xhr.responseType = "moz-blob";
-    // xhr.setRequestHeader('Content-Length', xml.length);
-    // xhr.setRequestHeader('Accept', 'application/soap+xml; charset=utf-8');
-    // xhr.setRequestHeader('Content-Type', 'application/soap+xml; charset=utf-8');
-    // xhr.setRequestHeader('Accept-Encoding', 'application/soap+xml; charset=utf-8');
-    // xhr.setRequestHeader('SOAPAction', '""');
-
-
-    xhr.send(data);
+    data.append('folderId', folderId);
+    data.append('filename', folderId);
+    data.append('filedata', filedata);
 
     var options = {
-        method: 'PUT',
+        method: 'POST',
         headers: buildJsonHeaders(username, password),
-        body: JSON.stringify(document),
+        body: data,
     };
 
-    return fetch(`${DocumentRestAPI}/update`, options)
+    return fetch(`${DocumentRestAPI}/update`, options);
 }
 
 
