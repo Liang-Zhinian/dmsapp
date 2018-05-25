@@ -63,6 +63,43 @@ export const updateDocument = (username: string, password: string, document: {}}
     return fetch(`${DocumentRestAPI}/update`, options)
 }
 
+export const createDocument = (username: string, password: string, document: {}, content: string}) => {
+
+    var data = new FormData();
+    data.append('document', JSON.stringify(document));
+    data.append('content', content);
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener('readystatechange', function(){
+        if (this.readyState === 4){
+
+        }
+    });
+
+
+    xhr.open("POST", DocumentSoapAPI);
+    // xhr.responseType = "moz-blob";
+    // xhr.setRequestHeader('Content-Length', xml.length);
+    // xhr.setRequestHeader('Accept', 'application/soap+xml; charset=utf-8');
+    // xhr.setRequestHeader('Content-Type', 'application/soap+xml; charset=utf-8');
+    // xhr.setRequestHeader('Accept-Encoding', 'application/soap+xml; charset=utf-8');
+    // xhr.setRequestHeader('SOAPAction', '""');
+
+
+    xhr.send(data);
+
+    var options = {
+        method: 'PUT',
+        headers: buildJsonHeaders(username, password),
+        body: JSON.stringify(document),
+    };
+
+    return fetch(`${DocumentRestAPI}/update`, options)
+}
+
+
 // soap api
 export const getContentSOAP = (sid: string, docId: int, onProgress: (percent) => {}) => {
     return new Promise((resolve, reject) => {

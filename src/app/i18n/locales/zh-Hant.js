@@ -33,8 +33,8 @@ export default {
     // printng
     Print:'打印',
     Printer: '打印机',
-    Copy:'拷贝',
-    Copies:'拷贝',
+    Copy:'份',
+    Copies:'份',
     SelectPrinter:'选择打印机',
     PrinterOptions:'打印机选项',
 
