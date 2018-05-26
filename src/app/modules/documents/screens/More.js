@@ -7,13 +7,13 @@ import {
     Platform
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { 
-    ComponentStyles, 
-    CommonStyles, 
-    colors, 
-    StyleConfig, 
+import {
+    ComponentStyles,
+    CommonStyles,
+    colors,
+    StyleConfig,
 } from '../styles';
-import {translate} from '../../../i18n/i18n';
+import { translate } from '../../../i18n/i18n';
 
 const firstLineItems = [
     {
@@ -40,12 +40,18 @@ const secondLineItems = [{
     route: 'About',
 }];
 
-const thirdLineItems = [{
-    title: translate('CheckForUpdate'),
-    color: StyleConfig.color_white,
-    icon: 'ios-settings-outline',
-    route: 'Update',
-},];
+const thirdLineItems = [
+    {
+        title: translate('Profile'),
+        color: StyleConfig.color_white,
+        icon: 'ios-person-outline',
+        route: 'Profile',
+    }, {
+        title: translate('CheckForUpdate'),
+        color: StyleConfig.color_white,
+        icon: 'ios-settings-outline',
+        route: 'Update',
+    },];
 
 class More extends Component {
     static navigationOptions = {

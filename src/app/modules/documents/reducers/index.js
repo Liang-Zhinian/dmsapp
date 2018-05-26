@@ -5,10 +5,12 @@ import { NAME } from '../constants'
 import account from './account';
 import document from './document';
 import login from './login';
+import security from './security';
 
 const reducers = {
     // login,
     account,
     document,
+    security
 };
 export default combineReducers(reducers);

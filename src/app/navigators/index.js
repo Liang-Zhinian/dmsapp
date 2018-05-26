@@ -31,11 +31,9 @@ export const SignedIn = StackNavigator(
   {
     Main: {
       screen: Main,
-    },
-    Profile: {
-      screen: Profile
     }
   }, {
+    mode: 'card',
     headerMode: 'none',
   }
 );

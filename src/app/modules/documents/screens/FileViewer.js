@@ -174,6 +174,8 @@ export default class FileViewer extends Component<{}> {
         const { file } = this.props.navigation.state.params;
         if (!file) return null;
 
+        console.log('preview file:', file.uri)
+
         if (Platform.OS === 'ios')
             return (
                 <FileViewerIOS

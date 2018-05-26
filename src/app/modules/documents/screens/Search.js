@@ -28,7 +28,7 @@ import DocumentService, { DownloadManager } from '../services/DocumentService';
 import SearchBox from './components/SearchBox';
 import DocumentList from './components/DocumentList';
 import FileViewerAndroid from '../../../components/RCTFileViewerAndroid';
-import {translate} from '../../../i18n/i18n';
+import { translate } from '../../../i18n/i18n';
 
 class Search extends Component {
     static defaultProps = {
@@ -82,16 +82,14 @@ class Search extends Component {
                     </View>
                 </View>
                 <SearchBox
+                    placeholder={translate('Search')}
                     onSearch={this.filter.bind(this)}
                 />
                 <DocumentList
                     navigation={this.props.navigation}
                     dataSource={this.state.dataSource}
                     onRefresh={this._onRefresh}
-                    //onPressCheckbox={this._onPressCheckbox}
                     onPressItem={this._onPressItem}
-                    //onPressInfo={this._onPressItemInfo}
-                    //onPressCross={this._onPressItemCross}
                     downloadManger={this.downloadManger}
                     infoIconVisible={false}
                 />
@@ -109,7 +107,7 @@ class Search extends Component {
     async filter(text) {
         this.setState({ isLoading: true });
         const {
-          username,
+            username,
             password,
         } = this.props;
 
@@ -155,10 +153,6 @@ class Search extends Component {
 
 
     updateProgress = (received, total) => {
-
-        // if (total > 3 * 1000 * 1000 && Date.now() - this.state.lastTick < 1000)
-        //   return
-        // console.log(`progress: ${received} / ${total}`)
 
         this.setState({
             progress: received / total,

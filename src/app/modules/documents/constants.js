@@ -25,6 +25,8 @@ export const IS_EDIT_MODE = `${NAME}/IS_EDIT_MODE`;
 
 export const IS_DOWNLOADING = `${NAME}/IS_DOWNLOADING`;
 
+export const NEED_RELOADING = `${NAME}/NEED_RELOADING`;
+
 // auth
 export const LOGIN_INITIALIZE = `${NAME}/LOGIN_INITIALIZE`;
 export const LOGIN_SUCCESS = `${NAME}/LOGIN_SUCCESS`;

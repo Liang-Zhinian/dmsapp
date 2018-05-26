@@ -26,7 +26,10 @@ export default {
     ManageAccount: 'Manage Account',
     HTTPS: 'HTTPS',
     Port:'Port',
-    ServerAddress:'ServerAddress',
+    ServerAddress:'Server Address',
+    On: 'On',
+    Off: 'Off',
+    EmailAddress: 'Email Address',
 
     // doc action sheet
     OpenIn:'Open in ...',
@@ -46,5 +49,9 @@ export default {
     ChooseFromLibrary:'Choose from Library',
     CreateFolder:'Create Folder',
 
-    'PleaseWait...': 'Please wait...'
+    PleaseWait: 'Please wait...',
+
+    Storage: 'Storage',
+    CheckedOutDocuments: 'Documents Checked Out',
+    LockedDocuments: 'Documents Locked',
 };

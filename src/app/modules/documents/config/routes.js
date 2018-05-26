@@ -55,5 +55,8 @@ export default Routes = {
     },
     Print: {
         screen: Screens.Print
+    },
+    Profile: {
+        screen: Screens.Profile
     }
 }

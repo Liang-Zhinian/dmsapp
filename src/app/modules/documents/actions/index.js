@@ -9,6 +9,7 @@ export const login = account.login;
 export const logout = account.logout;
 export const valid = account.valid;
 export const renew = account.renew;
+export const setNeedReloading = account.setNeedReloading;
 
 // document actions
 export const fetchingList = document.fetchingList;

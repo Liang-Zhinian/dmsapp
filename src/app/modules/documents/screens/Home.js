@@ -21,7 +21,7 @@ import { default as Ionicons } from 'react-native-vector-icons/Ionicons';
 import { HeaderButton } from './components/HeaderButtons';
 import { login, logout, valid } from '../../../actions/auth';
 import requireAuth from '../../../HOC/require_auth';
-import {translate} from '../../../i18n/i18n';
+import { translate } from '../../../i18n/i18n';
 
 import {
 	ComponentStyles,
@@ -53,18 +53,23 @@ const secondLineItems = [{
 	icon: 'cloud-download',
 	route: 'Downloads',
 }, {
-	title: 'My Storage',
+	title: translate('Settings'),
+	color: StyleConfig.color_white,
+	icon: 'settings',
+	route: 'MoreTab',
+}/* {
+	title: translate('Storage'),
 	color: StyleConfig.color_white,
 	icon: (<FontAwesome name='pie-chart'
 		size={36}
 		color={StyleConfig.color_white}
 		style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
 	route: 'RepositoryUsage',
-},];
+},*/];
 
 const thirdLineItems = [
-	{
-		title: 'Documents Checked Out',
+	/*{
+		title: translate('CheckedOutDocuments'),
 		color: StyleConfig.color_white,
 		// icon: 'ios-cash',
 		icon: (<FontAwesome name='briefcase'
@@ -74,7 +79,7 @@ const thirdLineItems = [
 		route: 'CheckedoutReport',
 	},
 	{
-		title: 'Documents Locked',
+		title: translate('LockedDocuments'),
 		color: StyleConfig.color_white,
 		// icon: 'delete',
 		icon: (<MaterialCommunityIcons name='file-lock'
@@ -82,10 +87,11 @@ const thirdLineItems = [
 			color={StyleConfig.color_white}
 			style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
 		route: 'LockedReport',
-	}];
+	}*/
+];
 
 const fourthLineItems = [
-	{
+	/*{
 		title: translate('Profile'),
 		color: StyleConfig.color_white,
 		icon: 'account-circle',
@@ -95,7 +101,7 @@ const fourthLineItems = [
 		color: StyleConfig.color_white,
 		icon: 'settings',
 		route: 'Settings',
-	},];
+	},*/];
 
 class Home extends Component {
 	static navigationOptions = ({ navigation }) => {
@@ -103,6 +109,7 @@ class Home extends Component {
 
 		return {
 			headerTitle: translate('Home'),
+			/*
 			headerLeft: (
 				<TouchableOpacity
 					style={{ marginLeft: 14 }}
@@ -114,7 +121,7 @@ class Home extends Component {
 						style={{ color: colors.textOnPrimary }}
 					/>
 				</TouchableOpacity>
-			),
+			),*/
 			headerRight: (
 				<View style={[
 					// CommonStyles.headerRight,
@@ -122,6 +129,7 @@ class Home extends Component {
 					// CommonStyles.flexItemsMiddle, 
 					// CommonStyles.flexItemsBetween,
 				]}>
+				{/*
 					<TouchableOpacity
 						style={{ marginRight: 14 }}
 						accessibilityLabel='info'
@@ -141,7 +149,7 @@ class Home extends Component {
 							size={24}
 							style={{ color: colors.textOnPrimary }}
 						/>
-					</TouchableOpacity>
+					</TouchableOpacity>*/}
 					{params.isAuthenticated &&
 						<HeaderButton
 							onPress={params.onLogoutButtonPressed}
@@ -317,7 +325,7 @@ class Home extends Component {
 						})
 					}
 				</View>
-				{/*this.renderSpacer()*/}
+				
 				<View style={[CommonStyles.flex_1, CommonStyles.flexRow, styles.row]}>
 					{
 						secondLineItems && secondLineItems.map((nav, index) => {
@@ -325,31 +333,36 @@ class Home extends Component {
 						})
 					}
 				</View>
-				{/*this.renderSpacer()*/}
-				<View style={[CommonStyles.flex_1, CommonStyles.flexRow, styles.row, styles.lastRow]}>
-					{
-						thirdLineItems && thirdLineItems.map((nav, index) => {
-							return this.renderNavItem(nav, index)
-						})
-					}
-				</View>
-				{/*this.renderSpacer()*/}
-				<View style={[CommonStyles.flex_1, CommonStyles.flexRow, styles.row, styles.lastRow]}>
-					{
-						fourthLineItems && fourthLineItems.map((nav, index) => {
-							return this.renderNavItem(nav, index)
-						})
-					}
-				</View>
+				
+				{
+					thirdLineItems && thirdLineItems.length > 0 &&
+					<View style={[CommonStyles.flex_1, CommonStyles.flexRow, styles.row, styles.lastRow]}>
+						{
+							thirdLineItems && thirdLineItems.map((nav, index) => {
+								return this.renderNavItem(nav, index)
+							})
+						}
+					</View>
+				}
 
-				{this.renderSpacer()}
+				{
+					fourthLineItems && fourthLineItems.length > 0 &&
+					<View style={[CommonStyles.flex_1, CommonStyles.flexRow, styles.row, styles.lastRow]}>
+						{
+							fourthLineItems.map((nav, index) => {
+								return this.renderNavItem(nav, index)
+							})
+						}
+					</View>
+				}
+
 			</View>
 		)
 	}
 
 	renderContent() {
 		return (
-			<View style={[/*CommonStyles.flex_1, CommonStyles.flexSelfTop,*/ { borderColor: 'grey', borderWidth: 2 }]}>
+			<View style={[/*CommonStyles.flex_1, CommonStyles.flexSelfTop, { borderColor: 'grey', borderWidth: 2 }*/]}>
 				{/*this.renderLogo()*/}
 				{this.renderNavContent()}
 				{/*<Text>Hello World</Text>*/}

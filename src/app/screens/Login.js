@@ -92,7 +92,7 @@ class LoginScreen extends Component {
                 {this.state.isLoading ?
                     <DoveButton
                         style={[styles.button, this.props.style]}
-                        caption={translate("PleaseWait...")}
+                        caption={translate('PleaseWait')}
                         onPress={() => { }}
                     />
                     : <DoveButton

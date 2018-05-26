@@ -2,19 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import { getUserByUsername } from '../actions/security';
-import DoveButton from '../components/DoveButton';
-import { translate } from '../i18n/i18n';
+import { translate } from '../../../i18n/i18n';
+import { NAME } from '../constants';
 
 class ProfileScreen extends React.Component {
   static navigationOptions = {
     title: translate('Profile'),
-    headerStyle: {
-      backgroundColor: '#f4511e',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
   };
 
   constructor(props) {
@@ -62,7 +55,7 @@ class ProfileScreen extends React.Component {
       right: 0,
     }}>
       <View style={{ flex: 1, marginTop: 50, alignItems: 'center' }}>
-        <Text style={[styles.title, { fontSize: 20 }]}>{translate('Profile')}</Text>
+        
       </View>
       <View style={[styles.section]}>
         <View style={[{ flex: 1 }, styles.row]}>
@@ -122,8 +115,8 @@ function select(store) {
   return {
     username: store.auth.username,
     sid: store.auth.token.sid,
-    userProfile: store.security.user,
-    error: store.security.error,
+    userProfile: store[NAME].security.user,
+    error: store[NAME].security.error,
   };
 }
 

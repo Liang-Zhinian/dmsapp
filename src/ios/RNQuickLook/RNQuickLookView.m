@@ -52,7 +52,9 @@
 }
 
 - (void)setUrl:(NSString *)urlString {
-  _url = [urlString stringByRemovingPercentEncoding];
+  _url = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+  
+//  _url = [urlTextEscaped stringByRemovingPercentEncoding];
   [self.previewCtrl refreshCurrentPreviewItem];
 }
 

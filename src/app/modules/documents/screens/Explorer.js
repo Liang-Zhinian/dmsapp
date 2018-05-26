@@ -808,24 +808,7 @@ class Explorer extends Component {
           onPressCross={this._onPressItemCross}
           downloadManger={this.downloadManger}
         />
-        {/*
-        <ScrollView style={{
-          flex: 1,
-          display: this.state.mainListVisible ? 'flex' : 'none'
-        }}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this._onRefresh.bind(this)}
-            />
-          }
-        >
-          <FlatList
-            data={this.state.dataSource}
-            renderItem={this.renderItem}
-            keyExtractor={(item, index) => index}
-          />
-        </ScrollView>*/}
+        
         <ScrollView style={{
           flex: 1,
           display: this.state.searchListVisible ? 'flex' : 'none'

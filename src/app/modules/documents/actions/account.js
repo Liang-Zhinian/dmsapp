@@ -1,8 +1,9 @@
 import { createAction } from 'redux-actions';
 import moment from 'moment';
-import { SAVE_ACCOUNT, LOGIN, LOGOUT, RENEW, VALID, ERROR } from '../constants'
-import { loginSOAP, logoutSOAP, validSOAP, renewSOAP } from '../api'
-
+import { SAVE_ACCOUNT, LOGIN, LOGOUT, RENEW, VALID, ERROR, NEED_RELOADING } from '../constants';
+import { loginSOAP, logoutSOAP, validSOAP, renewSOAP } from '../api';
+import { setItem } from '../../../services/storageService';
+import { storageKey } from '../env';
 
 export type Action = {
   type: string,
@@ -53,7 +54,7 @@ export const login = (username: string, password: string): ActionAsync => {
       .catch((error) => {
         dispatch({
           type: ERROR,
-          payload: {error}
+          payload: { error }
         })
       })
   }
@@ -85,7 +86,7 @@ export const logout = (sid: string, navigation: any): ActionAsync => {
       .catch((error) => {
         dispatch({
           type: ERROR,
-          payload: {error}
+          payload: { error }
         })
       })
   }
@@ -114,7 +115,7 @@ export const renew = (sid: string) => async (dispatch, getState) => {
     .catch((error) => {
       dispatch({
         type: ERROR,
-        payload: {error}
+        payload: { error }
       })
     })
 }
@@ -134,22 +135,34 @@ export const valid = (sid: string) => async (dispatch, getState) => {
     .catch((error) => {
       dispatch({
         type: ERROR,
-        payload: {error}
+        payload: { error }
       });
     })
 
 }
 
 export const saveAccount = (username: string, password: string, server: string, https: boolean, port: int): Action => {
+
+  setItem(storageKey.DOCUMENT_SERVER, { server, https, port });
+  setNeedReloading(true);
+
   return {
     type: SAVE_ACCOUNT,
     payload: {
       username,
       password,
-      server,
-      https,
-      port
     }
   };
+}
+
+export const setNeedReloading = (needReloading: boolean): ActionAsync => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: NEED_RELOADING,
+      payload: {
+        needReloading,
+      }
+    });
+  }
 }
 

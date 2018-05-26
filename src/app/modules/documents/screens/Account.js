@@ -6,7 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Alert
+  Alert,
+  Switch,
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -14,7 +15,9 @@ import { CommonStyles } from '../styles';
 import * as actions from '../actions';
 import { NAME } from '../constants';
 import { HeaderButton } from './components/HeaderButtons';
-import {translate} from '../../../i18n/i18n';
+import { translate } from '../../../i18n/i18n';
+import { getItem } from '../../../services/storageService';
+import { storageKey } from '../env';
 
 class Account extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -64,7 +67,7 @@ class Account extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     console.log('componentDidMount');
     var that = this;
     const { navigation } = that.props;
@@ -76,9 +79,13 @@ class Account extends Component {
     });
 
     const { username, password, sid, valid } = that.props;
+
+    const doc_server = await getItem(storageKey.DOCUMENT_SERVER);
+
     that.setState({
       username,
-      password
+      password,
+      ...doc_server,
     })
   }
 
@@ -100,9 +107,19 @@ class Account extends Component {
           //marginLeft: 10,
         }}>
           <Text style={{ marginLeft: 10, fontSize: 14, color: 'grey' }}>ACCOUNT AUTHENTICATION</Text>
-          {this.renderFormPanel()}
+          {this.renderAccountAuthenticationPanel()}
         </View>
         {this.renderPending()}
+        <View style={{
+          flex: 1,
+          marginTop: 20,
+          marginRight: 0,
+          marginBottom: 0,
+          //marginLeft: 10,
+        }}>
+          <Text style={{ marginLeft: 10, fontSize: 14, color: 'grey' }}>ADVANCED</Text>
+          {this.renderAdvancedPanel()}
+        </View>
       </ScrollView>
       //</View>
 
@@ -247,6 +264,17 @@ class Account extends Component {
   }
 
   renderHTTPS = () => {
+    if (this.state.isEditMode)
+      return (
+        <Switch
+          ref="txtHTTPS"
+          value={this.state.https}
+          onValueChange={(value) => {
+            this.setState({
+              https: value
+            });
+          }} />
+      )
     return (
       <TextInput
         ref="txtHTTPS"
@@ -256,11 +284,12 @@ class Account extends Component {
         blurOnSubmit={true}
         underlineColorAndroid={'transparent'}
         onChangeText={(https) => this.setState({ https })}
-        value={this.state.https}
+        value={translate(this.state.https ? 'On' : 'Off')}
         autoCapitalize='none'
-        editable={this.state.isEditMode}
+        editable={false}
         returnKeyType='next'
       />
+
     )
   }
 
@@ -282,7 +311,7 @@ class Account extends Component {
     )
   }
 
-  renderFormPanel = () => {
+  renderAccountAuthenticationPanel = () => {
     return (
       <View style={[styles.section]}>
         <View style={[{ flex: 1 }, styles.row]}>
@@ -294,10 +323,13 @@ class Account extends Component {
           <Text style={[styles.title]}>{translate('Password')}</Text>
           <View style={[styles.content]}>{this.renderPassword()}</View>
         </View>
-        {this.renderSpacer()}
-        {/* <View style={[{ flex: 1 }, styles.row]}>
-          {this.renderLogoutButton()}
-        </View> */}
+      </View>
+    );
+  }
+
+  renderAdvancedPanel = () => {
+    return (
+      <View style={[styles.section]}>
         <View style={[{ flex: 1 }, styles.row]}>
           <Text style={[styles.title]}>{translate('ServerAddress')}</Text>
           <View style={[styles.content]}>{this.renderServerAddress()}</View>
@@ -312,7 +344,6 @@ class Account extends Component {
           <Text style={[styles.title]}>{translate('Port')}</Text>
           <View style={[styles.content]}>{this.renderPort()}</View>
         </View>
-        {this.renderSpacer()}
       </View>
     );
   }
@@ -408,6 +439,9 @@ const mapStateToProps = (state) => {
     isLoggedIn: state[NAME].account.isLoggedIn,
     username: state[NAME].account.username,
     password: state[NAME].account.password,
+    // server: state[NAME].account.server,
+    // https: state[NAME].account.https,
+    // port: state[NAME].account.port,
     sid: state[NAME].account.token.sid
   }
 };
@@ -418,7 +452,7 @@ const mapDispatchToProps = (dispatch) => {
     // 发送行为
     login: (username, password) => dispatch(actions.login(username, password)),
     logout: (sid, navigation) => dispatch(actions.logout(sid, navigation)),
-    saveAccount: (username, password) => dispatch(actions.saveAccount(username, password)),
+    saveAccount: (username, password, server, https, port) => dispatch(actions.saveAccount(username, password, server, https, port)),
   }
 };
 

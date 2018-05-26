@@ -27,6 +27,9 @@ export default {
     HTTPS: 'HTTPS',
     Port:'端口',
     ServerAddress:'服务器',
+    On: '是',
+    Off: '否',
+    EmailAddress: '邮件地址',
 
     // doc action sheet
     OpenIn:'打开',
@@ -46,5 +49,9 @@ export default {
     ChooseFromLibrary:'图库',
     CreateFolder:'创建文件夹',
 
-    'PleaseWait...': '加载中……'
+    PleaseWait: '加载中……',
+
+    Storage: '容量',
+    CheckedOutDocuments: '签出文档',
+    LockedDocuments: '上锁文档',
 };

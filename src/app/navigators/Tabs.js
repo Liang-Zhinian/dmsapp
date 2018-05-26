@@ -18,7 +18,7 @@ import {
 } from 'react-navigation';
 import Octicons from 'react-native-vector-icons/Octicons';
 
-import I18n, {translate} from '../i18n/i18n';
+import I18n, { translate } from '../i18n/i18n';
 import { Documents } from '../modules';
 import Styles from '../styles';
 
@@ -80,6 +80,7 @@ const {
     RepositoryUsage,
     CheckedoutReport,
     LockedReport,
+    FileViewer,
 } = DocumentRoutes;
 
 const HomeStack = StackNavigator(
@@ -92,6 +93,7 @@ const HomeStack = StackNavigator(
         CheckedoutReport,
         LockedReport,
         RepositoryUsage,
+        FileViewer,
     },
     {
         headerMode: 'screen',

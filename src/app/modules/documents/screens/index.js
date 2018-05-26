@@ -15,9 +15,8 @@ import Scan from './Scan';
 import Login from './Login';
 import Logout from './Logout';
 import Registration from './Registration';
+import Profile from './Profile';
 import Print from '../../../components/PrintInteractionScreen';
-
-
 
 
 export default {
@@ -39,4 +38,5 @@ export default {
     LockedReport,
     Scan,
     Print,
+    Profile,
 };

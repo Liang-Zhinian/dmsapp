@@ -1,22 +1,54 @@
 
 import Base64 from '../lib/Base64'
 import XMLParser from '../lib/XMLParser'
+import { getItem } from '../../../services/storageService';
+import { storageKey } from '../env';
 
-const PROTOCOL = 'http:'
-const HOST = 'dms.isd4u.com'
-const PORT = '8080'
+const getServerUrl = async () => {
+    const Document_Server = await getItem(storageKey.DOCUMENT_SERVER);
+    const PROTOCOL = Document_Server.https ? 'https:' : 'http:';
+    const HOST = Document_Server.server;
+    const PORT = Document_Server.port;
 
-// API URL
-const API = `${PROTOCOL}//${HOST}${PORT ? ':' + PORT : ''}/services`
+    // API URL
+    const API = `${PROTOCOL}//${HOST}${PORT ? ':' + PORT : ''}/services`;
+    return API;
+};
 
-export const AuthSoapAPI = API + '/Auth?wsdl'
-export const FolderSoapAPI = API + '/Folder?wsdl'
-export const FolderRestAPI = API + '/rest/folder'
-export const DocumentSoapAPI = API + '/Document?wsdl'
-export const DocumentRestAPI = API + '/rest/document'
-export const SearchRestAPI = API + '/rest/search'
-export const SecuritySoapAPI = API + '/Security?wsdl'
+export const getAuthSoapAPI = async () => {
+    const url = await getServerUrl();
+    return url + '/Auth?wsdl';
+}
 
+export const getFolderSoapAPI = async () => {
+    const url = await getServerUrl();
+    return url + '/Folder?wsdl';
+}
+
+export const getFolderRestAPI = async () => {
+    const url = await getServerUrl();
+    return url + '/rest/folder';
+}
+
+export const getDocumentSoapAPI = async () => {
+    const url = await getServerUrl();
+    return url + '/Document?wsdl';
+}
+
+export const getDocumentRestAPI = async () => {
+    const url = await getServerUrl();
+    return url + '/rest/document';
+}
+
+export const getSearchRestAPI = async () => {
+    const url = await getServerUrl();
+    return url + '/rest/search';
+}
+
+export const getSecuritySoapAPI = async () => {
+    const url = await getServerUrl();
+    return url + '/Security?wsdl';
+}
 
 export function buildJsonHeaders(username: string, password: string) {
     return {
@@ -36,14 +68,13 @@ export function createBasicAuthHeader(username: string, password: string) {
     return 'Basic ' + Base64.btoa(username + ':' + password)
 }
 export function convertToJson(xmlString) {
-    debugger;
-  var xmlParser = new XMLParser();
-  var xmlDoc = xmlParser.parseFromString(xmlString);
-  let json = xmlParser.toJson(xmlDoc);
-  return json;
+    var xmlParser = new XMLParser();
+    var xmlDoc = xmlParser.parseFromString(xmlString);
+    let json = xmlParser.toJson(xmlDoc);
+    return json;
 }
 
-export function filterFault(responseJson){
+export function filterFault(responseJson) {
     if (responseJson.Body.Fault) {
         throw new Error(responseJson.Body.Fault.faultstring);
     } else {

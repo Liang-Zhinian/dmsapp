@@ -1,6 +1,6 @@
 
 import { handleActions } from 'redux-actions'
-import { SAVE_ACCOUNT, LOGIN, LOGOUT, RENEW, VALID, ERROR } from '../constants'
+import { SAVE_ACCOUNT, LOGIN, LOGOUT, RENEW, VALID, ERROR, NEED_RELOADING } from '../constants'
 import * as types from '../middlewares/authenticationTypes';
 
 type State = {
@@ -32,14 +32,24 @@ const initialState: State = {
 
 export default handleActions(
   {
+    [NEED_RELOADING]: (state: State = initialState, action) => {
+      const {
+        payload: {
+          needReloading,
+        }
+      } = action
+
+      return {
+        ...state,
+        needReloading,
+      }
+    },
+
     [SAVE_ACCOUNT]: (state: State = initialState, action) => {
       const {
         payload: {
           username,
           password,
-          server,
-          https,
-          port
         }
       } = action
 
@@ -50,9 +60,6 @@ export default handleActions(
         ...state,
         username,
         password,
-        server,
-        https,
-        port
       }
     },
 

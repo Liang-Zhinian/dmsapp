@@ -11,7 +11,10 @@ import { Provider } from 'react-redux';
 import configureStore from './store/index';
 import App from './App';
 
-// import AppWithNavigationState from './navigators/AppNavigator';
+import { getItem, setItem } from './services/storageService';
+import env, { storageKey } from './modules/documents/env';
+
+
 
 
 export default class setup extends Component<{}> {
@@ -20,11 +23,16 @@ export default class setup extends Component<{}> {
     this.state = {
       isLoading: true,
       store: configureStore(() => this.setState({ isLoading: false })),
+      EnvChecked: false,
     };
   }
 
+  componentDidMount() {
+    this.checkEnv();
+  }
+
   render() {
-    if (this.state.isLoading) {
+    if (this.state.isLoading || !this.state.EnvChecked) {
       return null;
     }
 
@@ -33,10 +41,24 @@ export default class setup extends Component<{}> {
         {/*<View style={{ flex: 1 }}>
           {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
     {Platform.OS === 'android' && <View style={{ backgroundColor: 'rgba(0,0,0,0.2)' }} />}*/}
-          <App />
+        <App />
         {/*</View>*/}
       </Provider>
     );
+  }
+
+  checkEnv() {
+    getItem(storageKey.DOCUMENT_SERVER)
+      .then(server => {
+        if (!server) {
+          setItem(storageKey.DOCUMENT_SERVER, { server: env.host, https: env.https, port: env.port })
+            .then(() => {
+              this.setState({ EnvChecked: true });
+            })
+        } else {
+          this.setState({ EnvChecked: true });
+        }
+      });
   }
 }
 

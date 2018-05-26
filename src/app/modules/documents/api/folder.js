@@ -1,25 +1,27 @@
 import {
-    FolderSoapAPI,
-    FolderRestAPI,
+    getFolderSoapAPI,
+    getFolderRestAPI,
     buildJsonHeaders,
     convertToJson,
     filterFault
 } from './util';
 
 // rest api
-export const listChildrenFolders = (username: string, password: string, folderId: int) => {
+export const listChildrenFolders = async (username: string, password: string, folderId: int) => {
     var options = {
         method: 'GET',
         headers: buildJsonHeaders(username, password)
     };
+    const FolderRestAPI = await getFolderRestAPI();
     return fetch(`${FolderRestAPI}/listChildren?folderId=${folderId}`, options)
         .then(response => response.json());
 
 }
 
 // soap api
-export const getRootFolder = (sid: string) => {
+export const getRootFolder = async (sid: string) => {
     
+    const FolderSoapAPI = await getFolderSoapAPI();
     return new Promise((resolve, reject) => {
         let xml = '<?xml version="1.0" encoding="utf-8"?>'
         xml += '<soap:Envelope '
@@ -52,7 +54,9 @@ export const getRootFolder = (sid: string) => {
     });
 }
 
-export const createFolderSOAP = (sid: string, parentId: int, name: string, onProgress: (percent) => {}) => {
+export const createFolderSOAP = async (sid: string, parentId: int, name: string, onProgress: (percent) => {}) => {
+    
+    const FolderSoapAPI = await getFolderSoapAPI();
     return new Promise((resolve, reject) => {
         let xml = '<?xml version="1.0" encoding="utf-8"?>'
         xml += '<soap:Envelope '
