@@ -17,7 +17,19 @@ const {
     Upload,
     FileViewer,
     Print
-} = Routes; 
+} = Routes;
+
+const ModalStack = StackNavigator({
+    Print,
+}, {
+        mode: 'modal',
+        headerMode: 'none',
+        // initialRouteName: 'Explorer',
+        navigationOptions: {
+            ...defaultHeader
+        }
+    })
+
 
 export default ExplorerStack = StackNavigator({
     Explorer,

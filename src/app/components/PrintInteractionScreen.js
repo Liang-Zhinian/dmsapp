@@ -94,7 +94,7 @@ class PrintInteractionScreen extends Component {
                         <View style={[{ flex: 1 }, styles.row]}>
                             <Text style={[styles.title]}>{translate('Printer')}</Text>
                             <Button onPress={this.selectPrinter} title={this.state.selectedPrinter ? this.state.selectedPrinter.name : translate('SelectPrinter')} />
-                            <Button onPress={this.scanQRCode} title='Scan' />
+                            <Button onPress={this.scanQRCode} title={translate('Scan')} />
                             {/*<Button onPress={this.selectPrinterWithUrl} title='Select Printer With Url' />*/}
                         </View>
                     </View>

@@ -54,14 +54,6 @@ class ListItem extends React.Component {
         });
     }
 
-    componentWillReceiveProps(nextProps){
-        // if (typeof nextProps.props.isEditMode != 'undefined' && nextProps.props.isEditMode != this.props.isEditMode && !nextProps.props.isEditMode){
-            this.setState({
-                checked: false
-            })
-        // }
-    }
-
     render() {
         const {
             data,
@@ -86,49 +78,44 @@ class ListItem extends React.Component {
         const touched = document && document.id == id;
 
         return (
-
-            <View
-                style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                }}
-            >
+            <View style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignContent: 'center',
+                alignItems: 'center',
+            }}>
                 <TouchableOpacity
-                    onPress={isDownloading ? null : (isEditMode ? this.toggleCheckbox.bind(this) : onPress)}
+                    style={[
+                        CommonStyles.m_l_1,
+                        { display: isEditMode ? 'flex' : 'none' }
+                    ]}
+                    onPress={this.toggleCheckbox.bind(this)}
+                >
+                    <MaterialCommunityIcons
+                        name={this.state.checked ? 'checkbox-marked-circle' : 'checkbox-blank-circle-outline'}
+                        size={30} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    // onPress={isDownloading ? null : onPress}
+                    underlayColor={isDownloading ? '' : 'grey'}
+                    //backgroundColor={isDownloading ? 'grey' : 'white'}
+                    // testID='docuCell'
+                    // accessibilityLabel='docuCell'
                     style={{
                         flex: 1,
-                        flexDirection: 'row',
-                        paddingTop: 10,
+                        justifyContent: 'center',
+                        alignContent: 'center',
                     }}
                 >
-                    <View
-                        style={[
-                            CommonStyles.m_l_2, {
-                                display: isEditMode ? 'flex' : 'none',
-                            }, styles.center]}>
-                        <MaterialCommunityIcons
-                            name={this.state.checked ? 'checkbox-marked-circle' : 'checkbox-blank-circle-outline'}
-                            size={30} />
-                    </View>
-                    <View style={[CommonStyles.m_l_2, styles.center, {
-                    }]}>
-                        {getIcon(type)}
-                    </View>
-
-                    <View style={[{
-                        flex: 1,
-                    }]}>
-                        <View style={{
-                            flexDirection: 'row',
-                        }}>
-                            <View
-                                style={[CommonStyles.m_l_2, {
-                                    flex: 1,
-                                    marginBottom: 15
-                                }]}
-                            >
+                    <View>
+                        <View style={styles.rowContainer}>
+                            <View style={CommonStyles.m_r_1}>
+                                {getIcon(type)}
+                            </View>
+                            <View style={styles.textContainer}>
                                 <Text style={styles.title}>{title}</Text>
-                                <Text style={styles.details}>{description}</Text>
+                                <Text style={styles.content}>{description}</Text>
                                 {Platform.OS === 'ios' && <ProgressViewIOS
                                     progress={touched ? progress : 0}
                                     style={[{ display: touched ? 'flex' : 'none' }, styles.progress]}
@@ -139,21 +126,14 @@ class ListItem extends React.Component {
                                     styleAttr='Horizontal'
                                 />}
                             </View>
+                            <InfoIcon style={{ display: touched && isDownloading || !infoIconVisible ? 'none' : 'flex' }}
+                                onPress={isDownloading ? null : onPressInfo} />
+                            <CrossIcon style={{ display: touched && (false || isDownloading) ? 'flex' : 'none' }}
+                                onPress={onPressCross} />
                         </View>
                         <View style={styles.separator} />
                     </View>
                 </TouchableOpacity>
-                <View
-                    style={[
-                        CommonStyles.m_l_2,
-                        CommonStyles.m_r_2,
-                        styles.center, {
-                        }]}>
-                    <InfoIcon style={{ display: touched && isDownloading || !infoIconVisible ? 'none' : 'flex' }}
-                        onPress={isDownloading ? null : onPressInfo} />
-                    <CrossIcon style={{ display: touched && (false || isDownloading) ? 'flex' : 'none' }}
-                        onPress={onPressCross} />
-                </View>
             </View>
         )
     }
@@ -181,25 +161,31 @@ function dispatch(dispatch) {
 export default connect(select, dispatch)(ListItem);
 
 const styles = StyleSheet.create({
+    thumb: {
+        width: 50,
+        height: 50,
+        marginRight: 10
+    },
+    content: {
+        fontSize: 12,
+        color: 'black',
+    },
+    textContainer: {
+        flex: 1,
+    },
     separator: {
         height: 1,
         backgroundColor: '#dddddd'
     },
     title: {
-        fontWeight: 'bold',
         fontSize: 15,
-        color: '#000',
-        marginBottom: 8
+        color: '#656565'
     },
-    details: {
-        fontSize: 12,
-        color: 'gray',
+    rowContainer: {
+        flexDirection: 'row',
+        padding: 10
     },
     progress: {
         marginTop: 5,
-    },
-    center: {
-        justifyContent: 'center',
-        alignContent: 'center',
     }
 });

@@ -9,7 +9,8 @@ import {
 	Image,
 	TouchableOpacity,
 	DeviceEventEmitter,
-	AsyncStorage
+	AsyncStorage,
+	ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { DrawerNavigator, NavigationActions } from 'react-navigation'
@@ -30,45 +31,40 @@ import {
 	StyleConfig,
 } from '../styles';
 
-const firstLineItems = [{
-	title: translate('Documents'),
-	color: StyleConfig.color_white,
-	// icon: 'cloud',
-	icon: (<Octicons name='file-submodule'
-		size={36}
-		color={StyleConfig.color_white}
-		style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
-	route: 'ExplorerTab',
-},
-{
-	title: translate('Search'),
-	color: StyleConfig.color_white,
-	icon: 'search',
-	route: 'SearchTab',
-}];
-
-const secondLineItems = [{
-	title: translate('Downloads'),
-	color: StyleConfig.color_white,
-	icon: 'cloud-download',
-	route: 'Downloads',
-}, {
-	title: translate('Settings'),
-	color: StyleConfig.color_white,
-	icon: 'settings',
-	route: 'MoreTab',
-}/* {
+const MainRoutes = [
+	{
+		title: translate('Documents'),
+		color: StyleConfig.color_white,
+		// icon: 'cloud',
+		icon: (<Octicons name='file-submodule'
+			size={36}
+			color={StyleConfig.color_white}
+			style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
+		id: 'ExplorerTab',
+	}, {
+		title: translate('Search'),
+		color: StyleConfig.color_white,
+		icon: 'search',
+		id: 'SearchTab',
+	}, {
+		title: translate('Downloads'),
+		color: StyleConfig.color_white,
+		icon: 'cloud-download',
+		id: 'Downloads',
+	}, {
+		title: translate('Settings'),
+		color: StyleConfig.color_white,
+		icon: 'settings',
+		id: 'MoreTab',
+	},/* {
 	title: translate('Storage'),
 	color: StyleConfig.color_white,
 	icon: (<FontAwesome name='pie-chart'
 		size={36}
 		color={StyleConfig.color_white}
 		style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
-	route: 'RepositoryUsage',
-},*/];
-
-const thirdLineItems = [
-	/*{
+	id: 'RepositoryUsage',
+}, {
 		title: translate('CheckedOutDocuments'),
 		color: StyleConfig.color_white,
 		// icon: 'ios-cash',
@@ -76,9 +72,8 @@ const thirdLineItems = [
 			size={36}
 			color={StyleConfig.color_white}
 			style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
-		route: 'CheckedoutReport',
-	},
-	{
+		id: 'CheckedoutReport',
+	}, {
 		title: translate('LockedDocuments'),
 		color: StyleConfig.color_white,
 		// icon: 'delete',
@@ -86,22 +81,19 @@ const thirdLineItems = [
 			size={36}
 			color={StyleConfig.color_white}
 			style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
-		route: 'LockedReport',
-	}*/
-];
-
-const fourthLineItems = [
-	/*{
+		id: 'LockedReport',
+	}, {
 		title: translate('Profile'),
 		color: StyleConfig.color_white,
 		icon: 'account-circle',
-		route: 'Profile',
+		id: 'Profile',
 	}, {
 		title: translate('Settings'),
 		color: StyleConfig.color_white,
 		icon: 'settings',
-		route: 'Settings',
-	},*/];
+		id: 'Settings',
+	},*/
+];
 
 class Home extends Component {
 	static navigationOptions = ({ navigation }) => {
@@ -124,12 +116,9 @@ class Home extends Component {
 			),*/
 			headerRight: (
 				<View style={[
-					// CommonStyles.headerRight,
 					CommonStyles.flexRow,
-					// CommonStyles.flexItemsMiddle, 
-					// CommonStyles.flexItemsBetween,
 				]}>
-				{/*
+					{/*
 					<TouchableOpacity
 						style={{ marginRight: 14 }}
 						accessibilityLabel='info'
@@ -164,14 +153,12 @@ class Home extends Component {
 		console.log('constructor');
 		super(props);
 		this.state = {
-			hasFocus: false,
 			layout: {
 				width: Dimensions.get('window').width,
 				height: Dimensions.get('window').height,
 			}
 		};
 
-		this.onLayout = this.onLayout.bind(this);
 		this._bootstrapAsync();
 	}
 
@@ -210,12 +197,6 @@ class Home extends Component {
 		// }
 	}
 
-	componentDidFocus() {
-		this.setState({
-			hasFocus: true
-		});
-	}
-
 	componentWillMount() {
 	}
 
@@ -241,12 +222,26 @@ class Home extends Component {
 		console.log('componentWillUnmount');
 	}
 
-	onNavItemPress(item) {
-		if (item && item.route) {
-			const { navigate } = this.props.navigation;
-			navigate(item.route);
-
-		}
+	render() {
+		return (
+			<View
+			style={[
+				CommonStyles.flex_1,
+				styles.root
+			]}>
+			{this.renderLogo()}
+			<ScrollView
+				style={[
+					styles.root,
+					CommonStyles.flex_4,
+				]}
+				contentContainerStyle={styles.rootContainer}
+				onLayout={this.onLayout.bind(this)}
+			>
+				{this.renderGrid()}
+			</ScrollView>
+			</View>
+		)
 	}
 
 	onLayout(e) {
@@ -258,52 +253,13 @@ class Home extends Component {
 		})
 	}
 
-	renderSpacer() {
-		return (
-			<View style={styles.spacer}></View>
-		)
-	}
-
-	renderNavItem(item, index) {
-		let icon;
-		if (typeof item.icon === 'string')
-			icon = <Icon name={item.icon}
-				size={36}
-				color={item.color}
-				style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />;
-		else
-			icon = item.icon;
-		return (
-			<TouchableHighlight
-				key={index}
-				onPress={() => this.onNavItemPress(item)}
-				style={[CommonStyles.flex_1,
-				CommonStyles.p_a_2,
-				CommonStyles.border_t,
-				CommonStyles.border_r,
-				CommonStyles.border_b,
-				CommonStyles.border_l,
-				CommonStyles.flexItemsCenter,
-				styles.cell]}
-				underlayColor={StyleConfig.touchable_press_color}>
-				<View style={[CommonStyles.flexColumn,
-				CommonStyles.flexItemsMiddle,
-				CommonStyles.flexItemsCenter,]}>
-					{icon}
-					<Text style={[CommonStyles.font_xs, CommonStyles.text_white]}>
-						{item.title}
-					</Text>
-				</View>
-			</TouchableHighlight>
-		)
-	}
-
 	renderLogo() {
 		return (
 			<View style={[
-				CommonStyles.flex_1,
+				// CommonStyles.flex_1,
 				CommonStyles.flexItemsCenter,
 				CommonStyles.flexItemsMiddle,
+				{height: 100}
 			]}>
 				<Image
 					style={[styles.image, { width: this.state.layout.width - 50, }]}
@@ -315,150 +271,101 @@ class Home extends Component {
 		)
 	}
 
-	renderNavContent() {
+	isLandscape() {
+		return this.state.layout.width > this.state.layout.height;
+	}
+
+	renderSpacer() {
 		return (
-			<View style={[CommonStyles.flex_4, CommonStyles.flexColumn]}>
-				<View style={[CommonStyles.flex_1, CommonStyles.flexRow, styles.row]}>
-					{
-						firstLineItems && firstLineItems.map((nav, index) => {
-							return this.renderNavItem(nav, index)
-						})
-					}
-				</View>
-				
-				<View style={[CommonStyles.flex_1, CommonStyles.flexRow, styles.row]}>
-					{
-						secondLineItems && secondLineItems.map((nav, index) => {
-							return this.renderNavItem(nav, index)
-						})
-					}
-				</View>
-				
-				{
-					thirdLineItems && thirdLineItems.length > 0 &&
-					<View style={[CommonStyles.flex_1, CommonStyles.flexRow, styles.row, styles.lastRow]}>
-						{
-							thirdLineItems && thirdLineItems.map((nav, index) => {
-								return this.renderNavItem(nav, index)
-							})
-						}
-					</View>
-				}
-
-				{
-					fourthLineItems && fourthLineItems.length > 0 &&
-					<View style={[CommonStyles.flex_1, CommonStyles.flexRow, styles.row, styles.lastRow]}>
-						{
-							fourthLineItems.map((nav, index) => {
-								return this.renderNavItem(nav, index)
-							})
-						}
-					</View>
-				}
-
-			</View>
+			<View style={styles.spacer}></View>
 		)
 	}
 
-	renderContent() {
+	getEmptyCount(size) {
+		let rowCount = Math.ceil((this.state.layout.height - 20) / size);
+		return rowCount * 2 - MainRoutes.length;
+	}
+
+	renderRoute(route, index) {
+		const size = this.state.layout.width / 2;
+		let { icon, title, color } = route;
+		let ic = icon;
+		if (typeof icon === 'string')
+			ic = <Icon name={icon}
+				size={36}
+				color={color}
+				style={[
+					CommonStyles.m_b_1,
+					CommonStyles.background_transparent
+				]} />;
+
+
 		return (
-			<View style={[/*CommonStyles.flex_1, CommonStyles.flexSelfTop, { borderColor: 'grey', borderWidth: 2 }*/]}>
-				{/*this.renderLogo()*/}
-				{this.renderNavContent()}
-				{/*<Text>Hello World</Text>*/}
-			</View>
+			<TouchableHighlight
+				key={index}
+				onPress={() => {
+					this.props.navigation.navigate(route.id);
+				}}
+				style={[{
+					width: size,
+					height: size,
+				},
+				CommonStyles.flexItemsMiddle,
+				CommonStyles.flexItemsCenter,
+				styles.cell
+				]}
+				underlayColor={StyleConfig.touchable_press_color}>
+				<View style={[
+					CommonStyles.flexColumn,
+					CommonStyles.flexItemsMiddle,
+					CommonStyles.flexItemsCenter,
+				]}>
+					{ic}
+					<Text style={[CommonStyles.font_xs, CommonStyles.text_white]}>
+						{title}
+					</Text>
+				</View>
+			</TouchableHighlight>
 		)
 	}
 
-	render() {
-		const { router, user } = this.props;
-		return (
-			<View
-				onLayout={this.onLayout}
-				style={[styles.container, { flexDirection: 'column' }]}
-			>
-				{/*this.renderContent()*/}
-				{this.renderLogo()}
-				{this.renderNavContent()}
-			</View>
-		)
+	renderGrid() {
+		let items = <View />;
+		let size = this.state.layout.width / 2;
+		let emptyCount = this.getEmptyCount(size);
+
+		items = MainRoutes.map((route, index) => {
+			return this.renderRoute(route, index)
+		});
+
+
+		for (let i = 0; i < emptyCount; i++) {
+			items.push(<View key={'empty' + i} style={[{ height: size, width: size }, styles.empty]} />)
+		}
+
+		return items;
 	}
 }
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		//alignItems: 'center',
-		//justifyContent: 'center',
-		//width: null,
-		//height: null,
+	root: {
 		backgroundColor: colors.primary,
 	},
-	row: {
-		//flex: 1,
-		//width: StyleConfig.screen_width,
-
-		"borderTopColor": colors.borderOnPrimary,
-		"borderTopWidth": 1,
-		"borderRightColor": colors.borderOnPrimary,
-		"borderRightWidth": 1,
-		"borderBottomColor": colors.borderOnPrimary,
-		"borderBottomWidth": 0,
-		"borderLeftColor": colors.borderOnPrimary,
-		"borderLeftWidth": 0,
-	},
-	lastRow: {
-		"borderTopColor": colors.borderOnPrimary,
-		"borderTopWidth": 1,
-		"borderRightWidth": 1,
-		"borderRightColor": colors.borderOnPrimary,
-		"borderBottomWidth": 1,
-		"borderBottomColor": colors.borderOnPrimary,
-		"borderLeftColor": colors.borderOnPrimary,
-		"borderLeftWidth": 0,
+	rootContainer: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
 	},
 	cell: {
-		// height: 100,
-		"borderTopColor": colors.borderOnPrimary,
-		"borderTopWidth": 0,
-		"borderRightColor": colors.borderOnPrimary,
-		"borderRightWidth": 0,
-		"borderBottomColor": colors.borderOnPrimary,
-		"borderBottomWidth": 0,
-		"borderLeftColor": colors.borderOnPrimary,
-		"borderLeftWidth": 1,
-		backgroundColor: '#0d7cd1'
-	},
-	list_icon: {
-		width: StyleConfig.icon_size
+		borderWidth: StyleSheet.hairlineWidth,
+		borderColor: colors.borderOnPrimary
 	},
 	spacer: {
 		height: 10,
-		backgroundColor: StyleConfig.background_transparent
+		backgroundColor: StyleConfig.panel_bg_color
 	},
-	hamburgerButton: {
-		marginLeft: 14
-	},
-	image: {
-		//flex: 1,
-		//marginLeft: 30,
-		//marginRight: 30,
-		// marginTop: 0,
-		// marginBottom: 0,
-		// width: Dimensions.get("window").width - 50,
-		// height: 365 * (Dimensions.get("window").width - 150) / 651,
-	},
-	welcome: {
-		fontSize: 20,
-		textAlign: 'center',
-		color: '#fff',
-		margin: 5,
-	},
-	instructions: {
-		fontSize: 12,
-		textAlign: 'center',
-		color: '#fff',
-		marginBottom: 5,
+	empty: {
+		borderWidth: StyleSheet.hairlineWidth,
+		borderColor: colors.borderOnPrimary
 	},
 });
 

@@ -14,9 +14,12 @@ import {
   DONE_UPLOADING_DOCUMENT,
 
   IS_DOWNLOADING,
+
+  UPDATE_DOCUMENT,
+  DONE_UPDATING_DOCUMENT
 } from '../constants'
 import OpenFile from 'react-native-doc-viewer';
-import { createDocumentWithProgressSOAP } from '../api'
+import { createDocumentWithProgressSOAP, updateDocument } from '../api'
 import Base64 from '../lib/Base64'
 import { alert } from '../lib/alert';
 
@@ -26,6 +29,33 @@ export type Action = {
 }
 
 export type ActionAsync = (dispatch: Function, getState: Function) => void
+
+export const update = (username, password, document): ActionAsync => {
+  return (dispatch, getState) => {
+
+    dispatch({
+      type: UPDATE_DOCUMENT,
+      payload: {
+        isLoading: true,
+      }
+    });
+
+    updateDocument(username, password, document)
+      .then(res => {
+        console.log(res);
+
+        dispatch({
+          type: DONE_UPDATING_DOCUMENT,
+          payload: {
+            isLoading: false,
+          }
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
+}
 
 export const chooseDocument = (document): ActionAsync => {
   return (dispatch, getState) => {

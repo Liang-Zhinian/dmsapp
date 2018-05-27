@@ -211,7 +211,7 @@ class Downloads extends Component {
     previewDocument = (item: any) => {
         const that = this;
         const { path, name, size } = item;
-        debugger;
+        
         const type = name.split('.').pop();
 
         that.openLocalUrl(path, name, type);

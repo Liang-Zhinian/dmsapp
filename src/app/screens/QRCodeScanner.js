@@ -12,6 +12,8 @@ import {
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
+import {translate} from '../i18n/i18n';
+
 export default class ScanScreen extends Component {
     onSuccess(e) {
         // e has data attribute
@@ -27,7 +29,7 @@ export default class ScanScreen extends Component {
                     <TouchableOpacity style={styles.buttonTouchable}
                     onPress={()=>{this.props.onCancel && this.props.onCancel()}}
                     >
-                        <Text style={styles.buttonText}>Cancel</Text>
+                        <Text style={styles.buttonText}>{translate('Cancel')}</Text>
                     </TouchableOpacity>
                 }
             />
@@ -38,7 +40,7 @@ export default class ScanScreen extends Component {
 
         var topConent = (
             <Text style={styles.centerText}>
-                Scan QR Code
+                {translate('ScanQRCode')}
             </Text>
         );
 

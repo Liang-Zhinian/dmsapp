@@ -21,19 +21,17 @@ import { NAME } from '../constants'
 import RNQuickLook from "../../../components/RNQuickLook";
 import Base64 from '../lib/Base64';
 import * as actions from '../actions';
-import { translate, coordToAddress } from '../api/geolocation';
+import { translate as translateLocation, coordToAddress } from '../api/geolocation';
+import { translate } from '../../../i18n/i18n';
 
 class Upload extends Component {
     static navigationOptions = ({ navigation }) => {
         const { params = {} } = navigation.state;
 
-        let headerTitle = 'Upload Photo';
+        let headerTitle = translate('UploadMedia')
         let headerRight = (
             <View style={[
-                // CommonStyles.headerRight,
                 CommonStyles.flexRow,
-                // CommonStyles.flexItemsMiddle, 
-                // CommonStyles.flexItemsBetween,
             ]}>
                 <TouchableOpacity
                     style={{ marginRight: 14, justifyContent: 'center' }}
@@ -41,20 +39,13 @@ class Upload extends Component {
                     onPress={params.upload ? params.upload : () => null}
                     disabled={params.uploadButtonDisabled}
                 >
-                    <Text style={{ color: params.uploadButtonDisabled ? 'gray' : '#ffffff', fontSize: 20 }}>Upload</Text>
+                    <Text style={{ color: params.uploadButtonDisabled ? 'gray' : '#ffffff', fontSize: 20 }}>{translate('Upload')}</Text>
                 </TouchableOpacity>
             </View>
         );
 
         return { headerTitle, headerRight };
     };
-
-    // static propTypes = {
-    //     watchID: ? number
-    // };
-    // static defaultProps = {
-    //     watchID: null
-    // };
 
     constructor(props) {
         super(props);
@@ -161,8 +152,6 @@ class Upload extends Component {
     }
 
     updateUploadButton() {
-        //Alert.alert('Upload', 'name = ' + this.state.name, [{ text: 'OK', onPress: () => console.log('OK Pressed') },], { cancelable: false });
-
         this.props.navigation.setParams({ uploadButtonDisabled: '' === this.state.name });
     }
 
@@ -183,7 +172,7 @@ class Upload extends Component {
             var initialPosition = JSON.stringify(pos);
             that.setState({ initialPosition });
 
-            translate(crd)
+            translateLocation(crd)
                 .then(coord => {
                     coordToAddress(coord)
                         .then(address => {
@@ -207,7 +196,7 @@ class Upload extends Component {
                 that.setState({ lastPosition });
 
                 var crd = pos.coords;
-                translate(crd)
+                translateLocation(crd)
                     .then(coord => {
                         coordToAddress(coord)
                             .then(address => {
@@ -321,11 +310,11 @@ class Upload extends Component {
             }}>
                 <View style={[styles.section]}>
                     <View style={[{ flex: 1 }, styles.row]}>
-                        <Text style={[styles.title]}>Name</Text>
+                        <Text style={[styles.title]}>{translate('FileName')}</Text>
                         <TextInput
                             style={{ flex: 1 }}
                             ref="txtName"
-                            placeholder={'Enter a name'}
+                            placeholder={translate('FileName')}
                             blurOnSubmit={true}
                             underlineColorAndroid={'transparent'}
                             onChangeText={(val) => { this.setState({ name: val }, this.updateUploadButton) }}
@@ -334,19 +323,20 @@ class Upload extends Component {
                     </View>
                     {this.renderSpacer()}
                     <View style={[{ flex: 5 }, styles.row]}>
-                        <Text style={[styles.title]}>Media</Text>
+                        <Text style={[styles.title]}>{translate('Media')}</Text>
                         {Platform.OS === 'ios' && <RNQuickLook
                             style={{ flex: 1, width: viewWidth, height: viewHeight }}
                             url={uri} />}
-                        {Platform.OS === 'android' && <Text>{fileName||uri}</Text>}
+                        {Platform.OS === 'android' && <Text>{fileName || uri}</Text>}
                     </View>
+                    {/*
                     {this.renderSpacer()}
                     <View style={[{ flex: 1 }, styles.row]}>
-                        <Text style={[styles.title]}>Location</Text>
+                        <Text style={[styles.title]}>{translate('Location')}</Text>
                         <TextInput
                             style={{ flex: 1 }}
                             ref="txtLocation"
-                            placeholder={'Location'}
+                            placeholder={translate('Location')}
                             blurOnSubmit={true}
                             underlineColorAndroid={'transparent'}
                             onChangeText={(val) => { this.setState({ location: val }) }}
@@ -356,18 +346,18 @@ class Upload extends Component {
                     </View>
                     {this.renderSpacer()}
                     <View style={[{ flex: 1 }, styles.row]}>
-                        <Text style={[styles.title]}>Address</Text>
+                        <Text style={[styles.title]}>{translate('Address')}</Text>
                         <TextInput
                             style={{ flex: 1 }}
                             ref="txtAddress"
-                            placeholder={'Address'}
+                            placeholder={translate('Address')}
                             blurOnSubmit={true}
                             underlineColorAndroid={'transparent'}
                             onChangeText={(val) => { this.setState({ address: val }) }}
                             value={this.state.address}
                         // setState is asynchronous and use the second argument to setState which is a callback
                         />
-                    </View>
+                    </View>*/}
                 </View>
                 {this.renderProgressBar()}
             </ScrollView>

@@ -43,7 +43,7 @@ import Spinner from '../../../components/Spinner';
 import { alert } from '../lib/alert';
 import { convert } from '../api/converter';
 import RNFS from 'react-native-fs';
-import {translate} from '../../../i18n/i18n';
+import { translate } from '../../../i18n/i18n';
 
 function isExpired(expires_date) {
   let currentTime = new Date();
@@ -72,6 +72,8 @@ class Explorer extends Component {
         />
       </View>
     );
+
+    if (!params.node) headerRight = null;
 
     const withHeaderLeft = { headerTitle, headerRight };
     const withoutHeaderLeft = { headerTitle, headerRight, headerLeft: false };
@@ -249,7 +251,10 @@ class Explorer extends Component {
 
     // More info on all the options is below in the README...just some common use cases shown here
     var options = {
-      title: 'Select Avatar',
+      title: null,
+      cancelButtonTitle: translate('Cancel'),
+      takePhotoButtonTitle: translate('TakePhoto'),
+      chooseFromLibraryButtonTitle: translate('ChooseFromLibrary'),
       customButtons: [
         { name: 'create-folder', title: translate('CreateFolder') },
       ],
@@ -308,16 +313,26 @@ class Explorer extends Component {
 
   }
 
+  clearSeletedList = () => {
+    this.setState({
+      selectedList: []
+    });
+
+  }
+
+  clearSeletedList = () => {
+    this.setState({
+      selectedList: []
+    });
+  }
+
   // edit
   toggleEdit = () => {
     const { navigation, toggleEditMode, isEditMode } = this.props;
-    // const isEditMode = this.state.isEditMode;
-    // this.setState({
-    //   isEditMode: !isEditMode
-    // });
     navigation.setParams({
-      isEditMode: !isEditMode
+      isEditMode: !isEditMode,
     });
+    this.clearSeletedList();
 
     toggleEditMode(!isEditMode);
   }
@@ -562,23 +577,6 @@ class Explorer extends Component {
         alert('Preview', err.message);
       });
 
-    // that.downloadManger.onReset = that.resetDownloadTask;
-    // that.downloadManger.downloadToCacheDirectory(
-    //   sid,
-    //   item,
-    //   that.updateProgress)
-    //   .then((path) => {
-    //     if (!path) return;
-    //     // the temp file path
-    //     console.log('The file saved to ', path)
-    //     that.openLocalUrl(path, fileName, type);
-    //     // that.resetDownloadTask();
-    //   })
-    //   .catch((err) => {
-    //     if (err.message === 'cancelled') return;
-    //     console.log(err);
-    //   });
-
   }
 
   _onPressItem = (item: any) => {
@@ -671,67 +669,67 @@ class Explorer extends Component {
     const { sid, navigation: { navigate } } = that.props;
 
     DocumentService.downloadToCacheDirectory(sid, doc, that.updateProgress, that.resetDownloadTask)
-    .then(man => {
-      that.downloadManger = man;
-      that.downloadManger.onCanceled = that.resetDownloadTask;
-      that.downloadManger.onProgress = (received, total) => { that.updateProgress(received, fileSize) };
+      .then(man => {
+        that.downloadManger = man;
+        that.downloadManger.onCanceled = that.resetDownloadTask;
+        that.downloadManger.onProgress = (received, total) => { that.updateProgress(received, fileSize) };
 
-      return man.task;
-    })
-    .then(task => { return task.path() })
-    .then((path) => {
-      if (!path) return;
-      // the temp file path
-      console.log('The file saved to ', path);
-      
-      that.resetDownloadTask();
+        return man.task;
+      })
+      .then(task => { return task.path() })
+      .then((path) => {
+        if (!path) return;
+        // the temp file path
+        console.log('The file saved to ', path);
 
-      var fileType = type;
-      var filePath = path;
-      var newPath = filePath + '.pdf';
+        that.resetDownloadTask();
 
-      if (fileType != 'pdf') {
+        var fileType = type;
+        var filePath = path;
+        var newPath = filePath + '.pdf';
+
+        if (fileType != 'pdf') {
           RNFS.readFile(filePath, 'base64') // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
-              .then((content) => {
-                  console.log('GOT CONTENT', content);
+            .then((content) => {
+              console.log('GOT CONTENT', content);
 
-                  // convert to pdf
-                  convert(fileName, fileType, content)
-                      .then(pdfContent => {
-                          // save to a new path
-                          RNFS.writeFile(newPath, pdfContent, 'base64')
-                              .then(() => {
-                                  console.log('File save @', newPath);
-                                  
-                                  that.openLocalUrl(newPath, fileName, 'pdf');
-                              })
-                              .catch((err) => {
-                                  console.log(err.message, err.code);
-                                  // Toast.show(`WRITE FILE ERROR => ${err.code}: ${err.message}`, Toast.SHORT);
-                                  throw err;
-                              });;
-                      })
-              })
-              .catch((err) => {
-                  console.log(err.message, err.code);
-                  // Toast.show(`READ FILE ERROR => ${err.code}: ${err.message}`, Toast.SHORT);
-                  throw err;
-              });
+              // convert to pdf
+              convert(fileName, fileType, content)
+                .then(pdfContent => {
+                  // save to a new path
+                  RNFS.writeFile(newPath, pdfContent, 'base64')
+                    .then(() => {
+                      console.log('File save @', newPath);
 
-      }
+                      that.openLocalUrl(newPath, fileName, 'pdf');
+                    })
+                    .catch((err) => {
+                      console.log(err.message, err.code);
+                      // Toast.show(`WRITE FILE ERROR => ${err.code}: ${err.message}`, Toast.SHORT);
+                      throw err;
+                    });;
+                })
+            })
+            .catch((err) => {
+              console.log(err.message, err.code);
+              // Toast.show(`READ FILE ERROR => ${err.code}: ${err.message}`, Toast.SHORT);
+              throw err;
+            });
 
-      //navigate('Print', { filePath: path });
-    })
-    .catch((err) => {
-      that.resetDownloadTask();
-      if (err.message === 'cancelled') return;
-      console.log(err);
-      // Toast.show(err.message, Toast.SHORT);
+        }
 
-      alert('Print', err.message);
-    });
-    
-      
+        //navigate('Print', { filePath: path });
+      })
+      .catch((err) => {
+        that.resetDownloadTask();
+        if (err.message === 'cancelled') return;
+        console.log(err);
+        // Toast.show(err.message, Toast.SHORT);
+
+        alert('Print', err.message);
+      });
+
+
 
   }
 
@@ -748,7 +746,7 @@ class Explorer extends Component {
         that.setState({ folderCreationModalVisible: false });
         that.fetchData();
       })
-      .catch(reason=>{
+      .catch(reason => {
         alert('Create folder', reason.message);
       })
   }
@@ -783,6 +781,7 @@ class Explorer extends Component {
         backgroundColor: 'white'
       }}>
         <SearchBox
+          autoCapitalize='none'
           onFocus={() => {
             this.setState({
               mainListVisible: false,
@@ -807,8 +806,12 @@ class Explorer extends Component {
           onPressItemInfo={this._onPressItemInfo}
           onPressCross={this._onPressItemCross}
           downloadManger={this.downloadManger}
+          style={{
+            flex: 1,
+            display: this.state.mainListVisible ? 'flex' : 'none'
+          }}
         />
-        
+
         <ScrollView style={{
           flex: 1,
           display: this.state.searchListVisible ? 'flex' : 'none'
@@ -847,6 +850,7 @@ class Explorer extends Component {
             <Text style={{ color: 'red', fontSize: 20 }}>{`${translate('Delete')}${this.state.selectedList.length > 0 ? '(' + this.state.selectedList.length + ')' : ''}`}</Text>
           </TouchableOpacity>
 
+          {/*
           <TouchableOpacity
             style={{ marginRight: 20, justifyContent: 'center' }}
             accessibilityLabel='print'
@@ -854,13 +858,8 @@ class Explorer extends Component {
           >
             <Text style={{ color: this.selectionContainsFolders() ? 'grey' : colors.primary, fontSize: 20 }}>{`${translate('Print')}${this.state.selectedList.length > 0 ? '(' + this.state.selectedList.length + ')' : ''}`}</Text>
           </TouchableOpacity>
-
+        */}
         </View>
-        <MainActionSheet
-          modalVisible={this.state.modalVisible}
-          toggleActionSheet={this.toggleActionSheet.bind(this)}
-          onCreateFolderButtonPressed={() => { this.setState({ folderCreationModalVisible: true, isLoading: false }) }} />
-
         <FolderCreationDialog
           onCancel={() => {
             console.log('Canceled');

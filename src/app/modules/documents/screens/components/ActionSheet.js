@@ -23,7 +23,7 @@ class ActionModal extends Component {
                     <View style={styles.modalContainer}>
                         <TouchableOpacity style={styles.container} onPress={this.props.onCancel}></TouchableOpacity>
                         {this.props.children}
-                        <Button onPress={this.props.onCancel} text={this.props.buttonText || translate('Cancel')} />
+                        <Button style={{height: 40}} onPress={this.props.onCancel} text={this.props.buttonText || translate('Cancel')} />
                     </View>
                 </Modal>
             </FadeInView>

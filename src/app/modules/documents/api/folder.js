@@ -3,62 +3,52 @@ import {
     getFolderRestAPI,
     buildJsonHeaders,
     convertToJson,
-    filterFault
+    filterFault,
+    getREST,
+    postREST,
+    postSOAP
 } from './util';
 
 // rest api
 export const listChildrenFolders = async (username: string, password: string, folderId: int) => {
-    var options = {
-        method: 'GET',
-        headers: buildJsonHeaders(username, password)
-    };
     const FolderRestAPI = await getFolderRestAPI();
-    return fetch(`${FolderRestAPI}/listChildren?folderId=${folderId}`, options)
+    return getREST(`${FolderRestAPI}/listChildren?folderId=${folderId}`, username, password)
         .then(response => response.json());
 
+}
+
+export const updateFolder = async (username: string, password: string, folder: {}) => {
+
+    const FolderRestAPI = await getFolderRestAPI();
+
+    return postREST(`${FolderRestAPI}/update`, username, password, folder);
 }
 
 // soap api
 export const getRootFolder = async (sid: string) => {
     
     const FolderSoapAPI = await getFolderSoapAPI();
-    return new Promise((resolve, reject) => {
-        let xml = '<?xml version="1.0" encoding="utf-8"?>'
-        xml += '<soap:Envelope '
-        xml += 'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" '
-        xml += 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
-        xml += 'xmlns:tns="http://ws.logicaldoc.com" '
-        xml += 'xmlns:ns1="http://ws.logicaldoc.com"> '
-        xml += '<soap:Body> '
-        xml += '<ns1:getRootFolder> '
-        xml += '    <sid>' + sid + '</sid>'
-        xml += '</ns1:getRootFolder>'
-        xml += '</soap:Body></soap:Envelope>';
+    let xml = '<?xml version="1.0" encoding="utf-8"?>'
+    xml += '<soap:Envelope '
+    xml += 'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" '
+    xml += 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
+    xml += 'xmlns:tns="http://ws.logicaldoc.com" '
+    xml += 'xmlns:ns1="http://ws.logicaldoc.com"> '
+    xml += '<soap:Body> '
+    xml += '<ns1:getRootFolder> '
+    xml += '    <sid>' + sid + '</sid>'
+    xml += '</ns1:getRootFolder>'
+    xml += '</soap:Body></soap:Envelope>';
 
-        var options = {
-            method: 'POST',
-            headers: {
-                'Content-Length': xml.length,
-                'Content-Type': 'application/soap+xml; charset=utf-8',
-                'SOAPAction': '""'
-            },
-            body: xml
-        };
-
-        fetch(FolderSoapAPI, options)
-            .then(response => response.text())
-            .then(xml => convertToJson(xml))
-            .then(filterFault)
-            .then(responseJson => resolve(responseJson.Body.getRootFolderResponse.folder))
-            .catch(reason => reject(reason))
-    });
+    return postSOAP(FolderSoapAPI, sid, xml)
+        .then(json=>json.Body.getRootFolderResponse.folder)
+        .catch(error=>{throw error});
 }
 
 export const createFolderSOAP = async (sid: string, parentId: int, name: string, onProgress: (percent) => {}) => {
     
     const FolderSoapAPI = await getFolderSoapAPI();
-    return new Promise((resolve, reject) => {
-        let xml = '<?xml version="1.0" encoding="utf-8"?>'
+    let xml = '<?xml version="1.0" encoding="utf-8"?>'
         xml += '<soap:Envelope '
         xml += 'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" '
         xml += 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" '
@@ -72,49 +62,8 @@ export const createFolderSOAP = async (sid: string, parentId: int, name: string,
         xml += '</ns1:createFolder>'
         xml += '</soap:Body></soap:Envelope>';
 
-        var xhr = new XMLHttpRequest();
-        xhr.withCredentials = true;
+    return postSOAP(FolderSoapAPI, sid, xml, onProgress)
+        .then(json=>json.Body)
+        .catch(error=>{throw error});
 
-        xhr.onload = function () {
-
-            try {
-                const responseJson = convertToJson(xhr.response);
-                responseJson = filterFault(responseJson);
-
-                resolve(xhr.response)
-            } catch (reason) {
-                reject(reason)
-            }
-
-        };
-        xhr.onerror = function () {
-            // Also deal with the case when the entire request fails to begin with
-            // This is probably a network error, so reject the promise with an appropriate message
-            reject(Error('There was a network error.'));
-        };
-
-
-        xhr.addEventListener('progress', function (oEvent) {
-            if (oEvent.lengthComputable) {
-                let loaded = oEvent.loaded;
-                let total = oEvent.total;
-                //   this.setState({
-                //     progress: loaded / total,
-                //   });
-                // console.log(`progress: ${loaded / total}`);
-                onProgress && onProgress(loaded / total);
-            }
-        })
-
-        xhr.open("POST", FolderSoapAPI);
-        // xhr.responseType = "moz-blob";
-        xhr.setRequestHeader('Content-Length', xml.length);
-        xhr.setRequestHeader('Accept', 'application/soap+xml; charset=utf-8');
-        xhr.setRequestHeader('Content-Type', 'application/soap+xml; charset=utf-8');
-        xhr.setRequestHeader('Accept-Encoding', 'application/soap+xml; charset=utf-8');
-        xhr.setRequestHeader('SOAPAction', '""');
-
-        // Send the request
-        xhr.send(xml);
-    });
 }

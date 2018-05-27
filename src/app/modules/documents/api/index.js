@@ -6,11 +6,13 @@ import {
     getContentSOAP,
     createDocumentWithProgressSOAP,
     search,
+    updateDocument
 } from './document';
 import {
     getRootFolder,
     listChildrenFolders,
     createFolderSOAP,
+    updateFolder
 } from './folder';
 import {
     loginSOAP,
@@ -96,6 +98,7 @@ export {
     createDocumentWithProgressSOAP,
     createFolderSOAP,
     searchDocuments,
+    updateDocument,
 
     loginSOAP,
     logoutSOAP,
@@ -104,4 +107,6 @@ export {
     ensureLogin,
 
     getUserByUsernameSOAP,
+
+    updateFolder
 };

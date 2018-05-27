@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1.0</string>
+	<string>2.1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>CodePushDeploymentKey</key>
 	<string>DQbM4NgIcO56xClXPg8v7Rw_ow02b302a67f-34cf-4374-aec4-161cfe0113f5</string>
 	<key>LSApplicationCategoryType</key>
@@ -43,23 +43,18 @@
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
 	<string></string>
+	<key>NSCameraUsageDescription</key>
+	<string>Your message to user when the camera is accessed for the first time</string>
 	<key>NSLocationUsageDescription</key>
 	<string></string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
-  <!-- Include this only if you are planning to use the camera roll -->
-  <key>NSPhotoLibraryAddUsageDescription</key>
-  <string>Your message to user when the photo library is accessed for the first time</string>
-  <key>NSCameraUsageDescription</key>
-  <string>Your message to user when the camera is accessed for the first time</string>
-  
-  <!-- Include this only if you are planning to use the camera roll -->
-  <key>NSPhotoLibraryUsageDescription</key>
-  <string>Your message to user when the photo library is accessed for the first time</string>
-  
-  <!-- Include this only if you are planning to use the microphone for video recording -->
-  <key>NSMicrophoneUsageDescription</key>
-  <string>Your message to user when the microphone is accessed for the first time</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Your message to user when the microphone is accessed for the first time</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Your message to user when the photo library is accessed for the first time</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Your message to user when the photo library is accessed for the first time</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
@@ -85,8 +80,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

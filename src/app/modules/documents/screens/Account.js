@@ -18,6 +18,9 @@ import { HeaderButton } from './components/HeaderButtons';
 import { translate } from '../../../i18n/i18n';
 import { getItem } from '../../../services/storageService';
 import { storageKey } from '../env';
+import Form from './components/Form';
+import Section from './components/Section';
+import KeyValueRow from './components/KeyValueRow';
 
 class Account extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -91,37 +94,10 @@ class Account extends Component {
 
   render() {
     return (
-      //<View style={styles.container}>
-      <ScrollView
-        contentContainerStyle={{
-          justifyContent: 'center',
-          //alignItems: 'flex-start',
-        }}
-        style={styles.container}
-        keyboardShouldPersistTaps={'always'}>
-        <View style={{
-          flex: 1,
-          marginTop: 20,
-          marginRight: 0,
-          marginBottom: 0,
-          //marginLeft: 10,
-        }}>
-          <Text style={{ marginLeft: 10, fontSize: 14, color: 'grey' }}>ACCOUNT AUTHENTICATION</Text>
-          {this.renderAccountAuthenticationPanel()}
-        </View>
-        {this.renderPending()}
-        <View style={{
-          flex: 1,
-          marginTop: 20,
-          marginRight: 0,
-          marginBottom: 0,
-          //marginLeft: 10,
-        }}>
-          <Text style={{ marginLeft: 10, fontSize: 14, color: 'grey' }}>ADVANCED</Text>
-          {this.renderAdvancedPanel()}
-        </View>
-      </ScrollView>
-      //</View>
+      <Form>
+        {this.renderAccountAuthenticationPanel()}
+        {this.renderAdvancedPanel()}
+      </Form>
 
     );
   }
@@ -136,8 +112,6 @@ class Account extends Component {
     } else {
       this.refs.txtUserName.focus();
       this.refs.txtUserName.selection = { start: 3, end: 3 };
-      //Alert.alert('UserName focused', 'Focused!', [{ text: 'OK', onPress: () => console.log('OK Pressed') },], { cancelable: false });
-
     }
 
     this.setState({
@@ -313,38 +287,33 @@ class Account extends Component {
 
   renderAccountAuthenticationPanel = () => {
     return (
-      <View style={[styles.section]}>
-        <View style={[{ flex: 1 }, styles.row]}>
-          <Text style={[styles.title]}>{translate('UserName')}</Text>
-          <View style={[styles.content]}>{this.renderUserName()}</View>
-        </View>
+      <Section title='ACCOUNT AUTHENTICATION'>
+        <KeyValueRow title={translate('UserName')}>
+          {this.renderUserName()}
+        </KeyValueRow>
         {this.renderSpacer()}
-        <View style={[{ flex: 1 }, styles.row]}>
-          <Text style={[styles.title]}>{translate('Password')}</Text>
-          <View style={[styles.content]}>{this.renderPassword()}</View>
-        </View>
-      </View>
+        <KeyValueRow title={translate('Password')}>
+          {this.renderPassword()}
+        </KeyValueRow>
+      </Section>
     );
   }
 
   renderAdvancedPanel = () => {
     return (
-      <View style={[styles.section]}>
-        <View style={[{ flex: 1 }, styles.row]}>
-          <Text style={[styles.title]}>{translate('ServerAddress')}</Text>
-          <View style={[styles.content]}>{this.renderServerAddress()}</View>
-        </View>
+      <Section title='ADVANCED'>
+        <KeyValueRow title={translate('ServerAddress')}>
+          {this.renderServerAddress()}
+        </KeyValueRow>
         {this.renderSpacer()}
-        <View style={[{ flex: 1 }, styles.row]}>
-          <Text style={[styles.title]}>{translate('HTTPS')}</Text>
-          <View style={[styles.content]}>{this.renderHTTPS()}</View>
-        </View>
+        <KeyValueRow title={translate('HTTPS')}>
+          {this.renderHTTPS()}
+        </KeyValueRow>
         {this.renderSpacer()}
-        <View style={[{ flex: 1 }, styles.row]}>
-          <Text style={[styles.title]}>{translate('Port')}</Text>
-          <View style={[styles.content]}>{this.renderPort()}</View>
-        </View>
-      </View>
+        <KeyValueRow title={translate('Port')}>
+          {this.renderPort()}
+        </KeyValueRow>
+      </Section>
     );
   }
 
@@ -466,51 +435,8 @@ export default connect(
 )(Account);
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    // justifyContent: 'center',
-    // alignItems: 'flex-start',
-    // width: null,
-    // height: null,
-    backgroundColor: '#F5FCFF',
-  },
-  section: {
-    flex: 1,
-    flexDirection: 'column',
-    marginTop: 10,
-    marginRight: 0,
-    marginBottom: 20,
-    marginLeft: 0,
-    borderTopWidth: 1,
-    borderTopColor: 'gray',
-    borderBottomWidth: 1,
-    borderBottomColor: 'gray',
-  },
-  row: {
-    flexDirection: 'row',
-    padding: 10,
-    // marginRight: 10,
-    // marginLeft: 10,
-    backgroundColor: '#ffffff',
-    // borderBottomWidth: 1,
-    // borderBottomColor: 'gray',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  title: {
-    flex: 1,
-    // marginRight: 10,
-    fontWeight: 'bold',
-    textAlign: 'right',
-    fontSize: 17,
-  },
-  content: {
-    flex: 1,
-    marginLeft: 10,
-  },
   spacer: {
-    height: 1,
+    height: StyleSheet.hairlineWidth,
     backgroundColor: 'gray',
     marginLeft: 10,
     marginRight: 10,
