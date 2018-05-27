@@ -26,7 +26,6 @@ export const getUserByUsername = (sid: string, username: string): ActionAsync =>
 
         await getUserByUsernameSOAP(sid, username)
             .then(user => {
-                console.log(user);
                 dispatch({
                     type: `USER_PROFILE`,
                     payload: user

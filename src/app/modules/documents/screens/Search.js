@@ -141,13 +141,11 @@ class Search extends Component {
             .then((path) => {
                 if (!path) return;
                 // the temp file path
-                console.log('The file saved to ', path)
                 that.openLocalUrl(path, fileName, type);
                 that.resetDownloadTask();
             })
             .catch((err) => {
                 if (err.message === 'cancelled') return;
-                console.log(err);
             });
     }
 
@@ -168,9 +166,7 @@ class Search extends Component {
         Platform.OS == 'android' &&
             FileViewerAndroid.open(url)
                 .then((msg) => {
-                    console.log('success!!')
                 }, (error) => {
-                    console.log('error!!')
                 });
 
         _that.props.chooseDocument(null);
@@ -178,7 +174,6 @@ class Search extends Component {
     }
 
     resetDownloadTask = () => {
-        console.log('resetDownloadTask');
         const that = this;
         that.setState({
             progress: 0, //total,

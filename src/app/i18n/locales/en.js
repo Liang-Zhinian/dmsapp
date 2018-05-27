@@ -42,6 +42,7 @@ export default {
     Location: 'Location',
     Address: 'Address',
     Description: 'Description',
+    Log: 'Log',
     
     // domain
     Documents: 'My Documents',

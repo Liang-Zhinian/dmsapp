@@ -2,6 +2,7 @@ import { createAction } from 'redux-actions';
 import moment from 'moment';
 import { SAVE_ACCOUNT, LOGIN, LOGOUT, RENEW, VALID, ERROR } from '../constants'
 import { loginSOAP, logoutSOAP, validSOAP, renewSOAP } from '../api'
+import handle from '../../../ExceptionHandler';
 
 
 export type Action = {
@@ -51,6 +52,7 @@ export const login = (username: string, password: string): ActionAsync => {
         dispatch(saveAccount(username, password));
       })
       .catch((error) => {
+        handle(error);
         dispatch({
           type: ERROR,
           payload: {error}

@@ -4,6 +4,7 @@ import {
     filterFault
 } from './util';
 
+import handle from '../../../ExceptionHandler';
 
 export const getUserByUsernameSOAP = async (sid: string, username: string): Promise<string> => {
     let xml = '<?xml version="1.0" encoding="utf-8"?>'
@@ -38,6 +39,9 @@ export const getUserByUsernameSOAP = async (sid: string, username: string): Prom
             .then(xml => convertToJson(xml))
             .then(filterFault)
             .then(responseJson => resolve(responseJson.Body.getUserByUsernameResponse.user))
-            .catch(reason => reject(reason))
+            .catch(reason => {
+                handle(reason);
+                reject(reason)
+            })
     });
 }

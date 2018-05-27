@@ -73,7 +73,6 @@ class PrintInteractionScreen extends Component {
         const that = this;
         const { file } = that.props.navigation.state.params;
         if (!file) return null;
-        console.log(file)
     }
 
     render() {
@@ -246,13 +245,10 @@ class PrintInteractionScreen extends Component {
         return new Promise((resolve, reject) => {
             RNFS.readFile(uri, 'base64') // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
                 .then((content) => {
-                    console.log('GOT ORIGINAL FILE CONTENT', content);
 
                     // convert to pdf
                     convert(fileName, fileType, content)
                         .then(pdfContent => {
-                            console.log('GOT CONVERTTED FILE CONTENT', pdfContent);
-
                             if (!pdfContent) {
                                 reject(new Error('Conversion failed.'));
                                 return false;
@@ -263,13 +259,11 @@ class PrintInteractionScreen extends Component {
                                     resolve(newPath);
                                 })
                                 .catch((err) => {
-                                    console.log(err.message, err.code);
                                     reject(err);
                                 });;
                         })
                 })
                 .catch((err) => {
-                    console.log(err.message, err.code);
                     reject(err);
                 });
         })

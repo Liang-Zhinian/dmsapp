@@ -6,8 +6,6 @@ export default function security(state = {}, action) {
     case 'USER_PROFILE':
       return { ...state, user: payload };
     case 'ERROR':
-      console.log(payload);
-      
       Toast.show(payload.message, Toast.SHORT);
       return { ...state };
     default:

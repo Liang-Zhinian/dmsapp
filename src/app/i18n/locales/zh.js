@@ -45,6 +45,7 @@ export default {
     FileName: '文件名',
     FolderName: '文件夹名',
     Description: '描述',
+    Log: '日志',
 
 
     Documents: '文档',

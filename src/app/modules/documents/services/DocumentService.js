@@ -43,7 +43,6 @@ const downloadToDocumentDirectory = (sid, docs) => {
 
     return Promise.all(promises)
         .then(responses => {
-            console.log(responses);
             return responses.map(resp => {
                 let { id, content } = resp;
                 let item = docs.filter(o => o.id === id)[0];
@@ -51,24 +50,17 @@ const downloadToDocumentDirectory = (sid, docs) => {
                 return item;
             });
         }, reason => {
-            console.log(reason)
         })
         .then(items => {
-            console.log('will save:')
-            console.log(items);
             return items.map(item => {
                 let { title, content } = item;
                 let fileName = title;
-                console.log('saving ' + fileName);
                 let path = `${RNFS.DocumentDirectoryPath}/${fileName}`;
                 // write the file
                 RNFS.writeFile(path, content/*Base64.atob(content)*/, 'base64')
                     .then((success) => {
-                        console.log(success)
-                        console.log('FILE WRITTEN!');
                     })
                     .catch((err) => {
-                        console.log(err.message);
                     });
 
                 return item;
@@ -76,18 +68,12 @@ const downloadToDocumentDirectory = (sid, docs) => {
 
         })
         .catch(reason => {
-            console.log(reason)
         });
 }
 
 const downloadToCacheDirectory = (sid, doc, onProgress, onCanceled) => {
     const that = this;
     var downloadManager = new DownloadManager();
-    // downloadManager.onProgress = (received, total) => {
-    //     onProgress && onProgress(received, doc.fileSize);
-    // };
-    // downloadManager.onCanceled = onCanceled;
-
     return createDownloadTicketWithProgressSOAP(sid, doc.id)
         .then(ticket => {
             const SHA1 = require('crypto-js/sha1');
@@ -101,8 +87,6 @@ const downloadToCacheDirectory = (sid, doc, onProgress, onCanceled) => {
                 appendExt: doc.type,
             });
         })
-    //.then(man => { return man.task })
-    //.then(task => { return task.path() });
 }
 
 const upload = () => { }
@@ -117,9 +101,7 @@ const removeDocuments = (username, password, docs) => {
     })
     return deleteDocuments(username, password, docIds)
         .then(values => {
-            console.log(values);
             if (values.length === docs.length)
-                console.log('All selected items were deleted.');
             return values.length === docs.length;
         })
 }
@@ -135,7 +117,6 @@ export class DownloadManager {
     constructor(singleTask = true) {
         this.task = null;
         this.onProgress = (received, total) => {
-            console.log(`progress: ${received} / ${total}`);
         };
         this.onCanceled = () => { };
     }
@@ -162,8 +143,6 @@ export class DownloadManager {
         debugger;
         if (that.task)
             that.task.cancel((err, taskId) => {
-                // task successfully canceled
-                console.log('user canceled the previous download task');
 
                 that.onCanceled();
             });

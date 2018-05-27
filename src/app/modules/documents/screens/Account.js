@@ -71,7 +71,6 @@ class Account extends Component {
   }
 
   async componentDidMount() {
-    console.log('componentDidMount');
     var that = this;
     const { navigation } = that.props;
     // We can only set the function after the component has been initialized

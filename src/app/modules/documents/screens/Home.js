@@ -31,7 +31,7 @@ import {
 	StyleConfig,
 } from '../styles';
 
-const MainRoutes = [
+var MainRoutes = [
 	{
 		title: translate('Documents'),
 		color: StyleConfig.color_white,
@@ -150,7 +150,6 @@ class Home extends Component {
 	};
 
 	constructor(props) {
-		console.log('constructor');
 		super(props);
 		this.state = {
 			layout: {
@@ -165,43 +164,38 @@ class Home extends Component {
 	// Fetch the token from storage then navigate to our appropriate place
 	_bootstrapAsync = async () => {
 		const { login, valid, isLoggedIn, token, username, password } = this.props;
-		// const { isLoggedIn } = auth;
 
-		// if (!isLoggedIn) {
-		// 	this.props.navigation.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
-		// 	return;
-		// }
+		if (username == 'admin') {
+			MainRoutes.push({
+				title: translate('Log'),
+				color: StyleConfig.color_white,
+				icon: (<FontAwesome name='exclamation-triangle'
+					size={36}
+					color={StyleConfig.color_white}
+					style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
 
-		// if (token && token.sid) {
+				id: 'Log',
+			})
+		}
+
 		let isValid = await valid(token.sid);
-		console.log(`isValid: ${isValid}`);
 		if (!isValid) {
-			console.log(`login again`);
 			await login(username, password);
 		}
-		// }
 	};
 
 	_signOutAsync = async () => {
 		debugger;
 		const { logout, isLoggedIn, token, username, password } = this.props;
-		// const { user } = auth;
 
-		// if (!isLoggedIn) {
-		// 	this.props.navigation.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
-		// 	return;
-		// }
-
-		// if (token && token.sid) {
 		await logout(token.sid);
-		// }
+
 	}
 
 	componentWillMount() {
 	}
 
 	componentDidMount() {
-		console.log('componentDidMount');
 		const { navigation } = this.props;
 		// We can only set the function after the component has been initialized
 		navigation.setParams({
@@ -219,27 +213,26 @@ class Home extends Component {
 	}
 
 	componentWillUnmount() {
-		console.log('componentWillUnmount');
 	}
 
 	render() {
 		return (
 			<View
-			style={[
-				CommonStyles.flex_1,
-				styles.root
-			]}>
-			{this.renderLogo()}
-			<ScrollView
 				style={[
-					styles.root,
-					CommonStyles.flex_4,
-				]}
-				contentContainerStyle={styles.rootContainer}
-				onLayout={this.onLayout.bind(this)}
-			>
-				{this.renderGrid()}
-			</ScrollView>
+					CommonStyles.flex_1,
+					styles.root
+				]}>
+				{this.renderLogo()}
+				<ScrollView
+					style={[
+						styles.root,
+						CommonStyles.flex_4,
+					]}
+					contentContainerStyle={styles.rootContainer}
+					onLayout={this.onLayout.bind(this)}
+				>
+					{this.renderGrid()}
+				</ScrollView>
 			</View>
 		)
 	}
@@ -259,7 +252,7 @@ class Home extends Component {
 				// CommonStyles.flex_1,
 				CommonStyles.flexItemsCenter,
 				CommonStyles.flexItemsMiddle,
-				{height: 100}
+				{ height: 100 }
 			]}>
 				<Image
 					style={[styles.image, { width: this.state.layout.width - 50, }]}

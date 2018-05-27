@@ -164,10 +164,6 @@ class Upload extends Component {
         // get geolocation
         navigator.geolocation.getCurrentPosition(pos => {
             var crd = pos.coords;
-            console.log('Your current position is:');
-            console.log(`Latitude: ${crd.latitude}`);
-            console.log(`Longitude: ${crd.longitude}`);
-            console.log(`More or less ${crd.accuracy} meters`);
             that.setState({ location: `${crd.latitude},${crd.longitude}` });
             var initialPosition = JSON.stringify(pos);
             that.setState({ initialPosition });
@@ -206,10 +202,8 @@ class Upload extends Component {
                     })
                     .catch(error => console.warn(error))
             }, error => {
-                console.log(error);
             })
         } catch (error) {
-            console.log(error);
         }
     }
 

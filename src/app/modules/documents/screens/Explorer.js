@@ -110,17 +110,10 @@ class Explorer extends Component {
     this.downloadTask = null;
 
     this.downloadManger = new DownloadManager();
-
-    // const { params = {} } = this.props.navigation.state;
-    // console.log('constructor: ' + (params.node ? params.node.name : 'Documents'));
-  }
+}
 
   componentWillMount() {
-    // console.log('componentWillMount');
-
     const { username, password, sid, expires_date, login } = this.props;
-
-    // alert('Explorer screen', 'username: ' + username);
 
     // check if sid is expired
     if (!username) {
@@ -137,7 +130,6 @@ class Explorer extends Component {
 
   componentDidMount() {
 
-    // console.log('componentDidMount');
     const that = this;
 
     const { navigation, isEditMode } = that.props;
@@ -159,7 +151,6 @@ class Explorer extends Component {
 
   // Start changing images with timer on first initial load
   componentWillReceiveProps(nextProps) {
-    //console.log('componentWillReceiveProps');
     const that = this;
 
     const { needReload } = nextProps;
@@ -167,7 +158,6 @@ class Explorer extends Component {
     const { username, password, sid, expires_date, valid, login, renewSid } = nextProps;
 
     if (username && username !== that.state.username) {
-      // console.log('Account has been changed')
       that.setState({
         username,
         password,
@@ -177,31 +167,22 @@ class Explorer extends Component {
     }
 
     if (username && sid && sid !== that.state.sid) {
-      // console.log('Sid has been changed and the data source will be refreshed.')
       that.setState({
         sid,
       }, () => {
-        //that.fetchData();
       });
     }
 
     needReload && setTimeout(that.fetchData, 1000);
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   return nextState.progressBarVisible || nextProps.needReload || !nextState.isLoading && this.state.dataSource != nextState.dataSource;
-  // }
-
   componentWillUpdate(nextProps, nextState) {
-    // console.log('componentWillUpdate');
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log('componentDidUpdate');
   }
 
   componentWillUnmount() {
-    // console.log('componentWillUnmount');
     const that = this;
 
     that.resetDownloadTask();
@@ -217,11 +198,6 @@ class Explorer extends Component {
   }
 
   render() {
-    console.log('render');
-
-    // if (this.state.isConnected ==null || !this.state.isConnected){
-    //   return null;
-    // }
 
     const { username } = this.state;
     if (!username) {
@@ -234,11 +210,9 @@ class Explorer extends Component {
 
     //加载数据
     return this.renderData();
-    //return null;
   }
 
   toggleActionSheet() {
-    console.log('toggleActionSheet');
     const modalVisible = this.state.modalVisible;
     this.setState({
       modalVisible: !modalVisible,
@@ -270,19 +244,15 @@ class Explorer extends Component {
     // The second arg is the callback which sends object: response (more info below in README)
     //
     ImagePicker.showImagePicker(options, (response) => {
-      // console.log('Response = ', response);
 
       if (response.didCancel) {
-        // console.log('User cancelled image picker');
         _that.setFetchingState(false);
       }
       else if (response.error) {
-        // console.log('ImagePicker Error: ', response.error);
         _that.setFetchingState(false);
       }
       else if (response.customButton) {
         const { customButton } = response;
-        console.log('User tapped custom button: ', customButton);
         switch (customButton) {
           case 'create-folder':
             this.setState({ folderCreationModalVisible: true, isLoading: false })
@@ -294,7 +264,6 @@ class Explorer extends Component {
 
       }
       else {
-        //debugger;
         let source = response;
 
         // You can also display the image using data:
@@ -304,7 +273,7 @@ class Explorer extends Component {
         //     avatarSource: source
         // });
         const { navigate, state } = this.props.navigation;
-        //const folderId = state.params.node.id;
+        
         _that.setFetchingState(false);
         navigate('Upload', { source, folderId: _that.state.folderId });
 
@@ -346,7 +315,6 @@ class Explorer extends Component {
   //网络请求
   fetchData = () => {
     var that = this;
-    // if (that.state.isLoading) return;
 
     that.setState({
       //复制数据源
@@ -400,7 +368,6 @@ class Explorer extends Component {
       let folderId = !!folder ? folder.id : null;
       username && ensureLogin(username, password, sid)
         .then(sid => {
-          // console.log('new sid: ' + sid);
           that.setState({
             sid: sid,
           });
@@ -491,10 +458,6 @@ class Explorer extends Component {
 
   updateProgress = (received, total) => {
 
-    // if (total > 3 * 1000 * 1000 && Date.now() - this.state.lastTick < 1000)
-    //   return
-    // console.log(`progress: ${received} / ${total}`)
-
     this.setState({
       progress: received / total,
       lastTick: Date.now()
@@ -507,23 +470,9 @@ class Explorer extends Component {
     const { navigate } = _that.props.navigation;
     Platform.OS == 'ios' && navigate('FileViewer', { file: { uri: `file://${url}`, fileName, fileType } });
     Platform.OS == 'android' &&
-      // OpenFile.openDoc([{
-      //   url: `file://${url}`,
-      //   fileName,
-      //   fileType,
-      //   cache:true,
-      // }], (error, url) => {
-      //   if (error) {
-      //     console.error(error);
-      //   } else {
-      //     console.log(url)
-      //   }
-      // })
       FileViewerAndroid.open(url)
         .then((msg) => {
-          console.log('success!!')
         }, (error) => {
-          console.log('error!!')
         });
 
     _that.props.chooseDocument(null);
@@ -531,10 +480,9 @@ class Explorer extends Component {
   }
 
   resetDownloadTask = () => {
-    console.log('resetDownloadTask');
     const that = this;
     that.setState({
-      progress: 0, //total,
+      progress: 0,
       lastTick: Date.now()
     });
     that.props.chooseDocument(null);
@@ -546,7 +494,6 @@ class Explorer extends Component {
     const that = this;
     that.props.updateDownloadStatus(true);
     that.setState({
-      //progressBarVisible: true,
       progress: 0,
       docId: item.id,
     });
@@ -565,15 +512,12 @@ class Explorer extends Component {
       .then((path) => {
         if (!path) return;
         // the temp file path
-        console.log('The file saved to ', path)
         that.openLocalUrl(path, fileName, type);
         that.resetDownloadTask();
       })
       .catch((err) => {
         that.resetDownloadTask();
         if (err.message === 'cancelled') return;
-        console.log(err);
-        // Toast.show(err.message, Toast.SHORT);
         alert('Preview', err.message);
       });
 
@@ -585,7 +529,6 @@ class Explorer extends Component {
       if (!!this.downloadTask) {
         // cancel the HTTP request
         this.downloadTask.cancel((err, taskId) => {
-          console.log('user canceled the previous download task');
           this.resetDownloadTask();
         });
       }
@@ -608,9 +551,6 @@ class Explorer extends Component {
   }
 
   _onPressCheckbox = (item: any, checked: boolean) => {
-    console.log('_onPressCheckbox');
-    console.log(item);
-    console.log(checked);
 
     let selectedList = this.state.selectedList;
     if (checked) {
@@ -619,7 +559,6 @@ class Explorer extends Component {
       selectedList = selectedList.filter((o) => o.id !== item.id);
     }
 
-    console.log(selectedList);
     this.setState({
       selectedList
     })
@@ -636,10 +575,6 @@ class Explorer extends Component {
     const selectedList = that.state.selectedList;
     DocumentService.removeDocuments(username, password, selectedList)
       .then(resp => {
-        if (resp)
-          console.log('All selected items were deleted.');
-        else
-          console.log('Some of selected items were not deleted.');
         that.fetchData();
         that.toggleEdit();
       })
@@ -661,7 +596,6 @@ class Explorer extends Component {
     const doc = that.state.selectedList[0];
     that.props.updateDownloadStatus(true);
     that.setState({
-      //progressBarVisible: true,
       progress: 0,
       docId: doc.id,
     });
@@ -679,8 +613,6 @@ class Explorer extends Component {
       .then(task => { return task.path() })
       .then((path) => {
         if (!path) return;
-        // the temp file path
-        console.log('The file saved to ', path);
 
         that.resetDownloadTask();
 
@@ -691,7 +623,6 @@ class Explorer extends Component {
         if (fileType != 'pdf') {
           RNFS.readFile(filePath, 'base64') // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
             .then((content) => {
-              console.log('GOT CONTENT', content);
 
               // convert to pdf
               convert(fileName, fileType, content)
@@ -699,33 +630,24 @@ class Explorer extends Component {
                   // save to a new path
                   RNFS.writeFile(newPath, pdfContent, 'base64')
                     .then(() => {
-                      console.log('File save @', newPath);
 
                       that.openLocalUrl(newPath, fileName, 'pdf');
                     })
                     .catch((err) => {
-                      console.log(err.message, err.code);
-                      // Toast.show(`WRITE FILE ERROR => ${err.code}: ${err.message}`, Toast.SHORT);
                       throw err;
                     });;
                 })
             })
             .catch((err) => {
-              console.log(err.message, err.code);
-              // Toast.show(`READ FILE ERROR => ${err.code}: ${err.message}`, Toast.SHORT);
               throw err;
             });
 
         }
 
-        //navigate('Print', { filePath: path });
       })
       .catch((err) => {
         that.resetDownloadTask();
         if (err.message === 'cancelled') return;
-        console.log(err);
-        // Toast.show(err.message, Toast.SHORT);
-
         alert('Print', err.message);
       });
 
@@ -738,11 +660,9 @@ class Explorer extends Component {
       { folderName, folderId } = that.state,
       { sid } = that.props;
 
-    console.log('Folder Name:', folderName)
 
     DocumentService.createFolder(sid, folderId, folderName)
       .then(resp => {
-        console.log(resp)
         that.setState({ folderCreationModalVisible: false });
         that.fetchData();
       })
@@ -764,7 +684,6 @@ class Explorer extends Component {
       .catch(reason => {
         debugger;
         if (reason.message === 'token expired') {
-          //that.props.login(username, password);
           loginSOAP(username, password)
             .then(sid => {
               that.setState({ sid }, that._onRefresh())
@@ -774,7 +693,6 @@ class Explorer extends Component {
   }
 
   renderData() {
-    // this.setState({ dataList: this.props.dataList });
     return (
       <View style={{
         flex: 1,
@@ -862,7 +780,6 @@ class Explorer extends Component {
         </View>
         <FolderCreationDialog
           onCancel={() => {
-            console.log('Canceled');
             this.setState({ folderName: '', folderCreationModalVisible: false });
           }}
           onOK={this.onFolderCreationOK.bind(this)}
@@ -878,7 +795,6 @@ class Explorer extends Component {
 
 
 function select(store) {
-  //console.log('select');
   return {
     needReload: store[NAME].document.needReload,
     dataSource: store[NAME].document.dataSource,
@@ -895,7 +811,6 @@ function select(store) {
 }
 
 function dispatch(dispatch) {
-  //console.log('dispatch');
   return {
     // 发送行为
     updateDownloadStatus: (isDownloading) => dispatch(actions.updateDownloadStatus(isDownloading)),

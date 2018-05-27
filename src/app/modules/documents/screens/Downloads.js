@@ -38,7 +38,6 @@ class Downloads extends Component {
         // get a list of files and directories in the main bundle
         RNFS.readDir(RNFS.DocumentDirectoryPath) // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
             .then((result) => {
-                console.log('GOT RESULT', result);
                 var files = [];
                 result.map((item, index) => {
                     RNFS.stat(item.path)
@@ -49,8 +48,6 @@ class Downloads extends Component {
                             }
                         })
                         .catch((err) => {
-                            console.log(err.message, err.code);
-
                             _that.setState({
                                 isFetching: false,
                                 error: true,
@@ -67,8 +64,6 @@ class Downloads extends Component {
                 return files;
             })
             .catch((err) => {
-                console.log(err.message, err.code);
-
                 _that.setState({
                     isFetching: false,
                     error: true,
@@ -132,7 +127,6 @@ class Downloads extends Component {
 
 
     onDeleteItem = (item) => {
-        console.log('onDeleteItem ', item);
         RNFS.unlink(item.path);
         var files = this.state.files;
         files = files.filter(o => o.id !== item.id);
@@ -140,10 +134,9 @@ class Downloads extends Component {
         this.setState({ files });
     }
 
-    onRefreshItems = () => { console.log(`onRefreshItem called`); }
+    onRefreshItems = () => {  }
 
     onSelectItem = (item) => {
-        console.log('onSelectItem ', item);
         
         if (this.state.activeRow !== null) return;
 
@@ -224,9 +217,7 @@ class Downloads extends Component {
         Platform.OS == 'android' &&
             FileViewerAndroid.open(url)
                 .then((msg) => {
-                    console.log('success!!')
                 }, (error) => {
-                    console.log('error!!')
                 });
     }
 

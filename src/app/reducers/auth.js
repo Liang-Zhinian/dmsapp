@@ -10,8 +10,6 @@ export default function auth(state = initialAuthState, action) {
     case 'Logout':
       return { ...state, isLoggedIn: false, };
     case 'ERROR':
-      console.log(payload);
-
       Toast.show(payload.message, Toast.SHORT);
       return { ...state };
     default:

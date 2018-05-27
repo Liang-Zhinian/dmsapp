@@ -73,13 +73,10 @@ const deleteDocuments = (username: string, password: string, docIds: number[]) =
 
     return Promise.all(promises)
         .then(values => {
-            console.log(values);
             return values;
         }, reason => {
-            console.log(reason)
         })
         .catch(reason => {
-            console.log(reason)
         });
 }
 

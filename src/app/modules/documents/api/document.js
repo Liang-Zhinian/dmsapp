@@ -5,8 +5,11 @@ import {
     buildJsonHeaders,
     convertToJson,
     filterFault,
-    createBasicAuthHeader
+    createBasicAuthHeader,
+    postSOAP
 } from './util';
+
+import handle from '../../../ExceptionHandler';
 
 // restful api
 export const listChildrenDocuments = async (username: string, password: string, folderId: int) => {
@@ -70,16 +73,13 @@ export const updateDocument = async (username: string, password: string, documen
 }
 
 export const createDocument = async (username: string, password: string, folderId: int, filename: string, filedata: string) => {
-    if (!folderId)
-    {
+    if (!folderId) {
         Promise.reject(new Error('invalid folderId'));
     }
-    if (!filename)
-    {
+    if (!filename) {
         Promise.reject(new Error('invalid filename'));
     }
-    if (!filedata)
-    {
+    if (!filedata) {
         Promise.reject(new Error('invalid filedata'));
     }
 
@@ -130,10 +130,13 @@ export const getContentSOAP = async (sid: string, docId: int, onProgress: (perce
                     responseJson = filterFault(responseJson);
                     resolve({ id: docId, content: responseJson.Body.getContentResponse.return })
                 } catch (reason) {
-                    reject(reason)
+
+                    handle(reason);
+                    reject(reason);
                 }
             } else {
-                reject(Error(this.response))
+                handle(this.response);
+                reject(Error(this.response));
             }
 
         });
@@ -142,10 +145,6 @@ export const getContentSOAP = async (sid: string, docId: int, onProgress: (perce
             if (oEvent.lengthComputable) {
                 let loaded = oEvent.loaded;
                 let total = oEvent.total;
-                //   this.setState({
-                //     progress: loaded / total,
-                //   });
-                // console.log(`progress: ${loaded / total}`);
                 onProgress && onProgress(loaded / total);
             }
         })
@@ -164,7 +163,7 @@ export const getContentSOAP = async (sid: string, docId: int, onProgress: (perce
 }
 
 export const createDownloadTicketWithProgressSOAP = async (sid: string, docId: int, onProgress: (percent) => {}) => {
-    
+
     const DocumentSoapAPI = await getDocumentSoapAPI();
     return new Promise((resolve, reject) => {
         let xml = '<?xml version="1.0" encoding="utf-8"?>'
@@ -193,25 +192,21 @@ export const createDownloadTicketWithProgressSOAP = async (sid: string, docId: i
 
                 resolve(ticket)
             } catch (reason) {
+                handle(reason);
                 reject(reason)
             }
         };
         xhr.onerror = function () {
+            handle(Error('There was a network error while creating download ticket.'));
             // Also deal with the case when the entire request fails to begin with
             // This is probably a network error, so reject the promise with an appropriate message
             reject(Error('There was a network error while creating download ticket.'));
         };
 
         xhr.onprogress = function (oEvent) {
-            console.log(oEvent);
             if (oEvent.lengthComputable) {
                 let loaded = oEvent.loaded;
                 let total = oEvent.total;
-                //   this.setState({
-                //     progress: loaded / total,
-                //   });
-                console.log(`progress: ${loaded / total}`);
-
                 onProgress && onProgress(loaded / total);
             }
         };
@@ -269,8 +264,9 @@ export const createDocumentWithProgressSOAP = async (sid: string, document: stri
                 responseJson = filterFault(responseJson);
 
 
-                resolve(xhr.response)
+                resolve(responseJson.Body.createResponse)
             } catch (reason) {
+                handle(reason);
                 reject(reason)
             }
         };
@@ -281,44 +277,21 @@ export const createDocumentWithProgressSOAP = async (sid: string, document: stri
         };
 
         xhr.upload.onprogress = function (oEvent) {
-            console.log(oEvent);
             if (oEvent.lengthComputable) {
                 let loaded = oEvent.loaded;
                 let total = oEvent.total;
-                //   this.setState({
-                //     progress: loaded / total,
-                //   });
-                console.log(`progress: ${loaded / total}`);
 
                 onProgress && onProgress(loaded / total);
 
-                // if (loaded === total)
-                //     resolve(xhr.response);
             }
         };
 
-        // xhr.onload = function (oEvent) {
-        //     debugger;
-        //     console.log(oEvent);
-        //     resolve(xhr.response);
-        // };
-
-
-        // xhr.upload.addEventListener("load", function (oEvent) {
-        //     debugger;
-        //     console.log(oEvent);
-        //     resolve(xhr.response);
-        // });
-
         xhr.upload.onerror = function (oEvent) {
-            console.log(oEvent);
-            console.log("An error occurred while transferring the file.");
+            handle(oEvent);
             reject(Error('An error occurred while transferring the file.'));
         };
 
         xhr.upload.onabort = function (oEvent) {
-            console.log(oEvent);
-            console.log("The transfer has been canceled by the user.");
             reject(Error('The transfer has been canceled by the user.'));
         };
 
@@ -333,4 +306,36 @@ export const createDocumentWithProgressSOAP = async (sid: string, document: stri
         xhr.send(xml);
     });
 
+    /**
+     * 
+    const DocumentSoapAPI = await getDocumentSoapAPI();
+    let xml = '<?xml version="1.0" encoding="utf-8"?> \n';
+        xml += '<soap:Envelope \n';
+        xml += 'xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" \n';
+        xml += 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \n';
+        xml += 'xmlns:tns="http://ws.logicaldoc.com" \n';
+        xml += 'xmlns:ns1="http://ws.logicaldoc.com"> \n';
+        xml += '<soap:Body> \n';
+        xml += '<ns1:create xmlns:ns1="http://ws.logicaldoc.com"> \n';
+
+        xml += '<sid>' + sid + '</sid> \n';
+
+        xml += '<document> \n';
+        xml += '<id>0</id> \n'; // 0: automaticly generate document id
+        xml += '<fileSize>' + document.fileSize + '</fileSize> \n';
+        xml += '<title>' + document.title + '</title> \n';
+        xml += '<date>' + document.date + '</date> \n';
+        xml += '<type>' + document.type + '</type> \n';
+        xml += '<fileName>' + document.fileName + '</fileName> \n';
+        xml += '<folderId>' + document.folderId + '</folderId> \n';
+        xml += '</document> \n';
+
+        xml += '<content>' + content + '</content> \n'; // base64 maybe?
+        xml += '</ns1:create> \n';
+        xml += '</soap:Body></soap:Envelope>';
+
+    return postSOAP(DocumentSoapAPI, sid, xml, onProgress)
+        .then(json=>json.Body)
+        .catch(error=>{throw error});
+     */
 }

@@ -2,6 +2,7 @@ import { createAction } from 'redux-actions';
 import moment from 'moment';
 import { USER_PROFILE } from '../constants'
 import { getUserByUsernameSOAP } from '../api'
+import handle from '../../../ExceptionHandler';
 
 
 export type Action = {
@@ -23,6 +24,7 @@ export const getUserByUsername = (sid: string, username: string): ActionAsync =>
                 });
             })
             .catch((error) => {
+                handle(error);
                 dispatch({
                     type: 'ERROR',
                     payload: error

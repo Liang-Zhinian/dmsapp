@@ -55,8 +55,6 @@ function refreshToken(dispatch, state) {
             })
         })
         .catch(ex => {
-            console.log('exception refresh_token', ex);
-
             dispatch({
                 type: types.DONE_REFRESHING_TOKEN,
             });

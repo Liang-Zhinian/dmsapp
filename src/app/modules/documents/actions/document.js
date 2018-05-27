@@ -22,6 +22,7 @@ import OpenFile from 'react-native-doc-viewer';
 import { createDocumentWithProgressSOAP, updateDocument } from '../api'
 import Base64 from '../lib/Base64'
 import { alert } from '../lib/alert';
+import handle from '../../../ExceptionHandler';
 
 export type Action = {
   type: string,
@@ -42,8 +43,6 @@ export const update = (username, password, document): ActionAsync => {
 
     updateDocument(username, password, document)
       .then(res => {
-        console.log(res);
-
         dispatch({
           type: DONE_UPDATING_DOCUMENT,
           payload: {
@@ -52,7 +51,7 @@ export const update = (username, password, document): ActionAsync => {
         });
       })
       .catch(error => {
-        console.log(error);
+        handle(error);
       })
   }
 }
@@ -95,13 +94,11 @@ export const upload = (sid: string, document: any, content: string): ActionAsync
         // if (percent === 1)
         //   dispatch(doneUploading());
       })
-      .then(([response, responseText]) => {
-        // debugger;
-        console.log(response);
-
+      .then((response) => {
         dispatch(doneUploading());
       })
       .catch(error => {
+        handle(error);
         // console.error(error);
         alert('Upload document', error.message);
         dispatch({

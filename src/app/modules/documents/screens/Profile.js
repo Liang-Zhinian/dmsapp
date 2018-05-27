@@ -26,12 +26,10 @@ class ProfileScreen extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { userProfile, error } = nextProps;
     if (typeof userProfile != 'undefined' && userProfile) {
-      console.log('userProfile returns');
       this.setState({ isLoading: false });
     }
 
     if (error) {
-      console.log('error returns');
       this.setState({ isLoading: false });
     }
   }

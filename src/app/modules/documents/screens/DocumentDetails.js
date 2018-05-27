@@ -54,7 +54,6 @@ class DocumentDetails extends Component {
   }
 
   bootstrap() {
-    console.log('bootstrap');
     var that = this;
     const { navigation } = that.props;
     // We can only set the function after the component has been initialized
@@ -79,13 +78,10 @@ class DocumentDetails extends Component {
   componentDidMount() {
 
     this.setState({ ...this.data }, () => {
-      console.log('state', this.state);
     });
   }
 
   render() {
-    console.log('render');
-    console.log('state', this.state);
     return (
       <Form>
         {this.renderGeneralSection()}
@@ -136,7 +132,6 @@ class DocumentDetails extends Component {
     } else {
       updateFolder(username, password, this.data);
     }
-    console.log('modified data', this.data);
   }
 
   renderNameInput = () => {

@@ -43,29 +43,22 @@ class Scan extends Component<{}> {
         var that = this;
 
         DeviceEventEmitter.addListener('ConnectStateUpdated', function (e) {
-            // alert("ConnectStateUpdated event listener success" + e.stateLabel);
             that.setState({ connectState: e.stateLabel });
         });
         DeviceEventEmitter.addListener('ScanServiceAttributeUpdated', function (e) {
-            // alert("ScanServiceAttributeUpdated event listener success" + e.stateLabel);
             that.setState({ scanServiceAttributeState: e.stateLabel });
         });
         DeviceEventEmitter.addListener('ScanJobStateUpdated', function (e) {
-            // alert("ScanJobStateUpdated event listener success" + e.stateLabel);
             that.setState({ scanJobState: e.stateLabel });
         });
         DeviceEventEmitter.addListener('ScanServiceAttributeListenerErrorUpdated', function (e) {
-            // alert("ScanJobStateUpdated event listener success" + e.stateLabel);
             that.setState({ scanServiceAttributeListenerError: e.stateLabel });
         });
         DeviceEventEmitter.addListener('ScanJobListenerErrorUpdated', function (e) {
-            // alert("ScanJobStateUpdated event listener success" + e.stateLabel);
             that.setState({ scanJobListenerError: e.stateLabel });
         });
         DeviceEventEmitter.addListener('ScannedImageUpdated', function (e) {
-            // alert("ScanJobStateUpdated event listener success" + e.stateLabel);
             that.setState({ scannedImage: e.stateLabel });
-            console.log(e.stateLabel);
         });
 
 
@@ -116,9 +109,7 @@ class Scan extends Component<{}> {
 
         RicohScannerAndroid.start()
             .then((msg) => {
-                console.log('success!!')
             }, (error) => {
-                console.log('error!!')
             });
     }
 
@@ -126,9 +117,7 @@ class Scan extends Component<{}> {
 
         RicohScannerAndroid.init()
             .then((msg) => {
-                console.log('success!!')
             }, (error) => {
-                console.log('error!!')
             });
     }
 
@@ -136,9 +125,7 @@ class Scan extends Component<{}> {
 
         RicohScannerAndroid.restore()
             .then((msg) => {
-                console.log('success!!')
             }, (error) => {
-                console.log('error!!')
             });
     }
 

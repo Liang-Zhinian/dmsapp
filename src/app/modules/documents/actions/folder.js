@@ -3,6 +3,7 @@ import {
     DONE_UPDATING_FOLDER
   } from '../constants'
   import { updateFolder } from '../api'
+  import handle from '../../../ExceptionHandler';
   
   export type Action = {
     type: string,
@@ -23,8 +24,6 @@ import {
   
       updateFolder(username, password, folder)
         .then(res => {
-          console.log(res);
-  
           dispatch({
             type: DONE_UPDATING_FOLDER,
             payload: {
@@ -33,7 +32,7 @@ import {
           });
         })
         .catch(error => {
-          console.log(error);
+          handle(error);
         })
     }
   }

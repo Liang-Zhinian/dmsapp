@@ -4,6 +4,7 @@ import { SAVE_ACCOUNT, LOGIN, LOGOUT, RENEW, VALID, ERROR, NEED_RELOADING } from
 import { loginSOAP, logoutSOAP, validSOAP, renewSOAP } from '../api';
 import { setItem } from '../../../services/storageService';
 import { storageKey } from '../env';
+import handle from '../../../ExceptionHandler';
 
 export type Action = {
   type: string,
@@ -52,6 +53,7 @@ export const login = (username: string, password: string): ActionAsync => {
         dispatch(saveAccount(username, password));
       })
       .catch((error) => {
+        handle(error);
         dispatch({
           type: ERROR,
           payload: { error }
@@ -65,13 +67,6 @@ export const logout = (sid: string, navigation: any): ActionAsync => {
 
     logoutSOAP(sid)
       .then(result => {
-        console.log(`logoutSOAP.result.${result}`);
-        // navigation.dispatch({
-        //   type: 'Navigation/RESET',
-        //   index: 0,
-        //   actions: [{ type: 'Navigate', routeName: 'Login' }]
-        // })
-        // await AsyncStorage.clear();
         dispatch({ type: 'Logout' });
 
         dispatch({
@@ -84,6 +79,7 @@ export const logout = (sid: string, navigation: any): ActionAsync => {
         });
       })
       .catch((error) => {
+        handle(error);
         dispatch({
           type: ERROR,
           payload: { error }
@@ -97,7 +93,6 @@ export const renew = (sid: string) => async (dispatch, getState) => {
 
   const response = await renewSOAP(sid)
     .then(response => {
-      // console.log('renew => reponse:' + response);
 
       let expires_date = moment();
       expires_date.add(25, 'minutes');
@@ -113,6 +108,7 @@ export const renew = (sid: string) => async (dispatch, getState) => {
       })
     })
     .catch((error) => {
+      handle(error);
       dispatch({
         type: ERROR,
         payload: { error }
@@ -133,6 +129,7 @@ export const valid = (sid: string) => async (dispatch, getState) => {
       });
     })
     .catch((error) => {
+      handle(error);
       dispatch({
         type: ERROR,
         payload: { error }

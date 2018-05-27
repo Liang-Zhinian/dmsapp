@@ -83,7 +83,6 @@ export default class FileViewer extends Component<{}> {
     }
 
     download() {
-        console.log('download');
         const that = this;
         const { navigation } = that.props;
         const file = navigation.state.params.file;
@@ -94,11 +93,9 @@ export default class FileViewer extends Component<{}> {
         // write the file
         RNFS.copyFile(file.uri, destPath)
             .then((success) => {
-                console.log(`FILE WRITTEN! ${destPath}`);
                 that.toggleActionSheet();
             })
             .catch((err) => {
-                console.log(err.message);
             });
     }
 
@@ -111,7 +108,6 @@ export default class FileViewer extends Component<{}> {
     }
 
     toggleActionSheet() {
-        console.log('toggleActionSheet');
         const modalVisible = this.state.modalVisible;
         this.setState({
             modalVisible: !modalVisible,
@@ -158,14 +154,11 @@ export default class FileViewer extends Component<{}> {
         ImagePicker.showImagePicker(options, (response) => {
 
             if (response.didCancel) {
-                console.log('User cancelled image picker');
             }
             else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
             }
             else if (response.customButton) {
                 const { customButton } = response;
-                console.log('User tapped custom button: ', customButton);
                 switch (customButton) {
                     case 'download':
                         _that.download();
@@ -195,7 +188,6 @@ export default class FileViewer extends Component<{}> {
     }
 
     componentDidMount() {
-        console.log('componentDidMount');
         const { navigation } = this.props;
         // We can only set the function after the component has been initialized
         navigation.setParams({ toggleActionSheet: this.showImagePicker.bind(this) });
@@ -205,8 +197,6 @@ export default class FileViewer extends Component<{}> {
     renderPreview() {
         const { file } = this.props.navigation.state.params;
         if (!file) return null;
-
-        console.log('preview file:', file.uri)
 
         if (Platform.OS === 'ios')
             return (

@@ -58,7 +58,6 @@ class More extends Component {
     };
 
     constructor(props) {
-        console.log('constructor');
         super(props);
         this.state = {
             screen: {

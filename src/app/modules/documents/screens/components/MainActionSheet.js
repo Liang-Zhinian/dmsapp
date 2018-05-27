@@ -43,20 +43,15 @@ class MainActionSheet extends Component {
         // The second arg is the callback which sends object: response (more info below in README)
         //
         ImagePicker.showImagePicker(options, (response) => {
-            // console.log('Response = ', response);
 
             that.toggleActionSheet();
             if (response.didCancel) {
-                // console.log('User cancelled image picker');
             }
             else if (response.error) {
-                // console.log('ImagePicker Error: ', response.error);
             }
             else if (response.customButton) {
-                // console.log('User tapped custom button: ', response.customButton);
             }
             else {
-                // debugger;
                 let source = response;
 
                 // You can also display the image using data:
@@ -68,7 +63,6 @@ class MainActionSheet extends Component {
     }
 
     toggleActionSheet(callback) {
-        console.log('toggleActionSheet');
         const modalVisible = this.state.modalVisible;
         this.setState({
             modalVisible: !modalVisible,

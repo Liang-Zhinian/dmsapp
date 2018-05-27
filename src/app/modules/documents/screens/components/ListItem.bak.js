@@ -36,7 +36,6 @@ type Props = {
 }
 
 class ListItem extends React.Component {
-    // console.log(type);
     constructor(props) {
         super(props);
         this.state = {
@@ -142,7 +141,6 @@ class ListItem extends React.Component {
 // export default ListItem;
 
 function select(store) {
-    //console.log('select');
     return {
         document: store[NAME].document.document,
         progress: store[NAME].document.progress,
@@ -152,7 +150,6 @@ function select(store) {
 }
 
 function dispatch(dispatch) {
-    //console.log('dispatch');
     return {
         // 发送行为
     }

@@ -3,6 +3,7 @@ import Base64 from '../lib/Base64'
 import XMLParser from '../lib/XMLParser'
 import { getItem } from '../../../services/storageService';
 import { storageKey } from '../env';
+import handle from '../../../ExceptionHandler';
 
 const getServerUrl = async () => {
     const Document_Server = await getItem(storageKey.DOCUMENT_SERVER);

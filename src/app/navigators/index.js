@@ -11,6 +11,7 @@ import Login from '../screens/Login';
 import Profile from '../screens/Profile';
 import Signup from '../screens/Signup';
 import Main from '../screens/Main';
+import Log from '../screens/Log';
 
 
 export const SignedOut = StackNavigator({
@@ -31,6 +32,9 @@ export const SignedIn = StackNavigator(
   {
     Main: {
       screen: Main,
+    },
+    Log: {
+      screen: Log,
     }
   }, {
     mode: 'card',

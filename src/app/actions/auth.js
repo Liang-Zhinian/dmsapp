@@ -26,7 +26,6 @@ export const login = (username: string, password: string): ActionAsync => {
         if (username && password) {
             await loginSOAP(username, password)
                 .then(sid => {
-                    console.log('loginSOAP returns');
                     let expires_date = moment();
                     expires_date.add(25, 'minutes');
                     expires_date = expires_date.format('YYYY-MM-DD HH:mm:ss')
@@ -39,7 +38,6 @@ export const login = (username: string, password: string): ActionAsync => {
                             expires_date,
                         }
                     };
-                    // await AsyncStorage.setItem('userToken', user);
 
                     dispatch({
                         type: 'Login',
@@ -81,8 +79,6 @@ export const logout = (sid: string): ActionAsync => {
 
         sid && await logoutSOAP(sid)
             .then(result => {
-                console.log(`logoutSOAP.result.${result}`);
-
 
                 dispatch({
                     type: `${Documents.NAME}/LOGOUT`,
@@ -100,9 +96,6 @@ export const logout = (sid: string): ActionAsync => {
                     payload: error
                 })
             })
-
-        // await AsyncStorage.clear();
-        // dispatch({ type: 'Logout' });
     }
 }
 
@@ -110,7 +103,6 @@ export const valid = (sid: string): ActionAsync => {
     return async (dispatch, getState) => {
         let valid = sid && await validSOAP(sid)
             .then(valid => {
-                console.log('validSOAP returns');
                 return valid == true;
             })
             .catch((error) => {
@@ -129,7 +121,6 @@ export const initializeApp = (sid: string) => {
 
         const isValid = await validSOAP(sid)
             .then(valid => {
-                console.log('validSOAP returns');
                 return valid == true;
             })
             .catch((error) => {
