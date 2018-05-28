@@ -160,7 +160,9 @@ class Upload extends Component {
 
         // We can only set the function after the component has been initialized
         that.props.navigation.setParams({ upload: that.upload.bind(that) });
+    }
 
+    getCurrentPosition() {
         // get geolocation
         navigator.geolocation.getCurrentPosition(pos => {
             var crd = pos.coords;
@@ -271,20 +273,29 @@ class Upload extends Component {
                 //flexDirection: 'column',
                 display: isLoading ? 'flex' : 'none'
             }]}>
-                <View style={{
-                    flex: 1,
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    //alignItems: 'center'
-                    height: 40
-                }}>
-                    <Text style={{
-                        textAlign: 'center',
-                        fontSize: 30,
-                        color: 'orange'
-                    }}>{Math.floor((progress / 100) * 10000)}%</Text>
-                    <ProgressViewIOS style={styles.progressView} progress={progress} progressTintColor="orange" />
-                </View>
+                {Platform.OS === 'android' && <ActivityIndicator
+                    animating={true}
+                    style={[styles.gray, { flex: 1, marginTop: 20 }]}
+                    color='red'
+                    size="large"
+                />}
+                {Platform.OS === 'ios' &&
+                    <View style={{
+                        flex: 1,
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        //alignItems: 'center'
+                        height: 40
+                    }}>
+                        <Text style={{
+                            textAlign: 'center',
+                            fontSize: 30,
+                            color: 'orange'
+                        }}>{Math.floor((progress / 100) * 10000)}%</Text>
+
+                        <ProgressViewIOS style={styles.progressView} progress={progress} progressTintColor="orange" />
+                    </View>
+                }
             </View>);
     }
 
