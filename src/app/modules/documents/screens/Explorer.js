@@ -615,6 +615,7 @@ class Explorer extends Component {
         if (!path) return;
 
         that.resetDownloadTask();
+        that.toggleEdit();
 
         var fileType = type;
         var filePath = path;
@@ -647,6 +648,7 @@ class Explorer extends Component {
       })
       .catch((err) => {
         that.resetDownloadTask();
+        that.toggleEdit();
         if (err.message === 'cancelled') return;
         alert('Print', err.message);
       });

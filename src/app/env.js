@@ -7,7 +7,8 @@ export default {
   fontFamily: undefined,
   host: 'isd4u.com',
   https: false,
-  port: 8080
+  port: 8080,
+  RicohSdkSupported: false,
 };
 
 export const storageKey = {

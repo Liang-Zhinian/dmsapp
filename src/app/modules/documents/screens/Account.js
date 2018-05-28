@@ -403,13 +403,9 @@ class Account extends Component {
 // 获取 state 变化
 const mapStateToProps = (state) => {
   return {
-    // 获取 state 变化
     isLoggedIn: state[NAME].account.isLoggedIn,
     username: state[NAME].account.username,
     password: state[NAME].account.password,
-    // server: state[NAME].account.server,
-    // https: state[NAME].account.https,
-    // port: state[NAME].account.port,
     sid: state[NAME].account.token.sid
   }
 };
