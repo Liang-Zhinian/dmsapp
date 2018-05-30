@@ -253,10 +253,10 @@ class Home extends Component {
 				// CommonStyles.flex_1,
 				CommonStyles.flexItemsCenter,
 				CommonStyles.flexItemsMiddle,
-				{ height: 100 }
+				{ height: 100, }
 			]}>
 				<Image
-					style={[styles.image, { width: this.state.layout.width - 50, }]}
+					style={[styles.image, { width: this.state.layout.width, }]}
 					resizeMode={Image.resizeMode.contain}
 					source={require("../assets/logo2.png")}
 				/>
