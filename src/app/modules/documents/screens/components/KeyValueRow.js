@@ -30,6 +30,7 @@ export default class KeyValueRow extends Component {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         flexDirection: 'row',
         padding: 10,
         backgroundColor: '#ffffff',
@@ -39,11 +40,12 @@ const styles = StyleSheet.create({
     key: {
         flex: 1,
         fontWeight: 'bold',
-        textAlign: 'right',
+        textAlign: 'left',
         fontSize: 17,
     },
     value: {
-        flex: 1,
-        marginLeft: 10,
+        flex: 2,
+        // marginLeft: 10,
+        // marginRight: 10,
     },
 });

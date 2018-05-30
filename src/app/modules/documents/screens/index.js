@@ -17,6 +17,7 @@ import Logout from './Logout';
 import Registration from './Registration';
 import Profile from './Profile';
 import Print from '../../../components/PrintInteractionScreen';
+import Server from './Server';
 
 
 export default {
@@ -39,4 +40,5 @@ export default {
     Scan,
     Print,
     Profile,
+    Server,
 };

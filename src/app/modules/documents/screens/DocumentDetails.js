@@ -86,7 +86,7 @@ class DocumentDetails extends Component {
       <Form>
         {this.renderGeneralSection()}
         {this.renderDetailsSection()}
-        {!this.isFolder() && this.renderWorkflowSection()}
+        {/*!this.isFolder() && this.renderWorkflowSection()*/}
       </Form >
     )
   }
@@ -138,7 +138,7 @@ class DocumentDetails extends Component {
     return (
       <TextInput
         ref="txtName"
-        style={[ComponentStyles.input]}
+        style={[styles.input]}
         placeholderTextColor={StyleConfig.color_gray}
         placeholder={translate('Name')}
         blurOnSubmit={true}
@@ -164,7 +164,7 @@ class DocumentDetails extends Component {
     return (
       <TextInput
         ref="txtLanguage"
-        style={[ComponentStyles.input]}
+        style={[styles.input]}
         placeholderTextColor={StyleConfig.color_gray}
         placeholder={translate('Language')}
         blurOnSubmit={true}
@@ -182,7 +182,7 @@ class DocumentDetails extends Component {
     return (
       <TextInput
         ref="txtTags"
-        style={[ComponentStyles.input]}
+        style={[styles.input]}
         placeholderTextColor={StyleConfig.color_gray}
         placeholder={translate('Tags')}
         blurOnSubmit={true}
@@ -203,7 +203,7 @@ class DocumentDetails extends Component {
     return (
       <TextInput
         ref="txtRating"
-        style={[ComponentStyles.input]}
+        style={[styles.input]}
         placeholderTextColor={StyleConfig.color_gray}
         placeholder={translate('Rating')}
         blurOnSubmit={true}
@@ -221,7 +221,7 @@ class DocumentDetails extends Component {
     return (
       <TextInput
         ref="txtComment"
-        style={[ComponentStyles.input]}
+        style={[styles.input]}
         placeholderTextColor={StyleConfig.color_gray}
         placeholder={translate('VersionComment')}
         blurOnSubmit={true}
@@ -242,7 +242,7 @@ class DocumentDetails extends Component {
     return (
       <TextInput
         ref="txtDescription"
-        style={[ComponentStyles.input]}
+        style={[styles.input]}
         placeholderTextColor={StyleConfig.color_gray}
         placeholder={translate('Description')}
         blurOnSubmit={true}
@@ -264,38 +264,80 @@ class DocumentDetails extends Component {
       <Section title='General'>
         <KeyValueRow title={translate('Name')}>
           {
-            this.state.isEditMode ? this.renderNameInput() :
-              <Text style={styles.content}>
-                {this.state.name || this.state.fileName}
-              </Text>
+            this.renderNameInput()
           }
         </KeyValueRow>
         <KeyValueRow title={translate('Creator')}>
-          <Text style={styles.content}>
-            {this.state.creator}
-          </Text>
+          <TextInput
+            ref="txtCreator"
+            style={[styles.input]}
+            placeholderTextColor={StyleConfig.color_gray}
+            placeholder={translate('Creator')}
+            blurOnSubmit={true}
+            underlineColorAndroid={'transparent'}
+            value={this.state.creator}
+            autoCapitalize='none'
+            editable={false}
+            returnKeyType='next'
+          />
         </KeyValueRow>
         <KeyValueRow title={translate('CreationDate')}>
-          <Text style={styles.content}>
-            {moment(this.state.creation, 'YYYY-MM-DD HH:mm:ss.sss ZZ').format('YYYY-MM-DD')}
-          </Text>
+          <TextInput
+            ref="txtCreationDate"
+            style={[styles.input]}
+            placeholderTextColor={StyleConfig.color_gray}
+            placeholder={translate('CreationDate')}
+            blurOnSubmit={true}
+            underlineColorAndroid={'transparent'}
+            value={moment(this.state.creation, 'YYYY-MM-DD HH:mm:ss.sss ZZ').format('YYYY-MM-DD')}
+            autoCapitalize='none'
+            editable={false}
+            returnKeyType='next'
+          />
         </KeyValueRow>
         <KeyValueRow title={translate('Modifier')}>
-          <Text style={styles.content}>
-            {this.state.creator}
-          </Text>
+          <TextInput
+            ref="txtModifier"
+            style={[styles.input]}
+            placeholderTextColor={StyleConfig.color_gray}
+            placeholder={translate('Modifier')}
+            blurOnSubmit={true}
+            underlineColorAndroid={'transparent'}
+            value={this.state.creator}
+            autoCapitalize='none'
+            editable={false}
+            returnKeyType='next'
+          />
         </KeyValueRow>
         <KeyValueRow title={translate('ModificationDate')}>
-          <Text style={styles.content}>
-            {moment(this.state.lastModified, 'YYYY-MM-DD HH:mm:ss.sss ZZ').format('YYYY-MM-DD HH:mm:ss')}
-          </Text>
+          <TextInput
+            ref="txtModificationDate"
+            style={[styles.input]}
+            placeholderTextColor={StyleConfig.color_gray}
+            placeholder={translate('ModificationDate')}
+            blurOnSubmit={true}
+            underlineColorAndroid={'transparent'}
+            value={moment(this.state.lastModified, 'YYYY-MM-DD HH:mm:ss.sss ZZ').format('YYYY-MM-DD HH:mm:ss')}
+            autoCapitalize='none'
+            editable={false}
+            returnKeyType='next'
+          />
         </KeyValueRow>
         {
           !this.isFolder() &&
           <KeyValueRow title={translate('Version')}>
-            <Text style={styles.content}>
-              {this.state.version}
-            </Text>
+            <TextInput
+              ref="txtVersion"
+              style={[styles.input]}
+              placeholderTextColor={StyleConfig.color_gray}
+              placeholder={translate('Version')}
+              blurOnSubmit={true}
+              underlineColorAndroid={'transparent'}
+              value={this.state.version}
+              autoCapitalize='none'
+              editable={false}
+              returnKeyType='next'
+            />
           </KeyValueRow>
         }
       </Section>
@@ -307,10 +349,7 @@ class DocumentDetails extends Component {
       <Section title='Details'>
         <KeyValueRow title={translate('Tags')}>
           {
-            this.state.isEditMode ? this.renderTagsInput() :
-              <Text style={styles.content}>
-                {this.state.tags && this.state.tags.join(',')}
-              </Text>
+            this.renderTagsInput()
           }
         </KeyValueRow>
         {/*
@@ -334,10 +373,7 @@ class DocumentDetails extends Component {
           !this.isFolder() &&
           <KeyValueRow title={translate('VersionComment')}>
             {
-              this.state.isEditMode ? this.renderCommentInput() :
-                <Text style={styles.content}>
-                  {this.state.comment}
-                </Text>
+              this.renderCommentInput()
             }
           </KeyValueRow>
         }
@@ -346,10 +382,7 @@ class DocumentDetails extends Component {
           this.isFolder() &&
           <KeyValueRow title={translate('Description')}>
             {
-              this.state.isEditMode ? this.renderDescriptionInput() :
-                <Text style={styles.content}>
-                  {this.state.description}
-                </Text>
+              this.renderDescriptionInput()
             }
           </KeyValueRow>
         }
@@ -422,7 +455,7 @@ function dispatch(dispatch) {
   return {
     // 发送行为
     updateDocument: (username, password, document) => dispatch(actions.updateDocument(username, password, document)),
-    updateFolder:(username, password, folder) => dispatch(actions.updateFolder(username, password, folder)),
+    updateFolder: (username, password, folder) => dispatch(actions.updateFolder(username, password, folder)),
   }
 };
 
@@ -469,4 +502,11 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
   },
+  input: {
+    fontSize: StyleConfig.font_sm,
+    padding: StyleConfig.space_0,
+    height: 30,
+    lineHeight: 26,
+    color: StyleConfig.color_dark
+  }
 });

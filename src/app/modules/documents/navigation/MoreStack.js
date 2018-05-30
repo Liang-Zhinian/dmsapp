@@ -16,7 +16,8 @@ const {
     Account,
     Settings,
     More,
-    Profile
+    Profile,
+    Server
 } = Routes; 
 
 export default MoreStack = StackNavigator({
@@ -27,7 +28,8 @@ export default MoreStack = StackNavigator({
     Update:{
         screen: UpdateScreen,
     },
-    Profile
+    Profile,
+    Server
 }, {
         headerMode: 'screen',
         initialRouteName: 'More',

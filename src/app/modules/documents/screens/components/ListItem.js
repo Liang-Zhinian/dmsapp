@@ -10,6 +10,7 @@ import {
     ProgressViewIOS,
     ProgressBarAndroid,
     Platform,
+    TextInput,
 
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -126,7 +127,12 @@ class ListItem extends React.Component {
                                     marginBottom: 15
                                 }]}
                             >
-                                <Text style={styles.title}>{title}</Text>
+                                <TextInput
+                                  style={[styles.title]}
+                                  underlineColorAndroid={'transparent'}
+                                  value={title}
+                                  editable={false}
+                                />
                                 <Text style={styles.details}>{description}</Text>
                                 {Platform.OS === 'ios' && <ProgressViewIOS
                                     progress={touched ? progress : 0}

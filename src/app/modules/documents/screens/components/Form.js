@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import {
     ScrollView,
-    StyleSheet
+    StyleSheet,
+    KeyboardAvoidingView
 } from 'react-native';
+
+import { RtAvoidKeyboard } from '../../../../UI';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default class Form extends Component {
 
@@ -14,19 +18,17 @@ export default class Form extends Component {
     render() {
 
         return (
-            <ScrollView
-                style={styles.container}
-                keyboardShouldPersistTaps={'always'}>
+            <KeyboardAwareScrollView>
                 {this.props.children}
-            </ScrollView>
+            </KeyboardAwareScrollView>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      flexDirection: 'column',
-      backgroundColor: '#F5FCFF',
+        // flex: 1,
+        // flexDirection: 'column',
+        backgroundColor: '#F5FCFF',
     },
 });

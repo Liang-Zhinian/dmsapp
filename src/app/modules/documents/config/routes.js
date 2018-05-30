@@ -58,5 +58,8 @@ export default Routes = {
     },
     Profile: {
         screen: Screens.Profile
+    },
+    Server: {
+        screen: Screens.Server
     }
 }

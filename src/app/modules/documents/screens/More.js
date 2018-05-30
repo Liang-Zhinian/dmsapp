@@ -8,7 +8,10 @@ import {
     Dimensions,
     ScrollView
 } from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Octicons from 'react-native-vector-icons/Octicons';
+
 import {
     ComponentStyles,
     CommonStyles,
@@ -16,6 +19,7 @@ import {
     StyleConfig,
 } from '../styles';
 import { translate } from '../../../i18n/i18n';
+import { logout } from '../../../actions/auth';
 
 const MainRoutes = [
     {
@@ -23,33 +27,59 @@ const MainRoutes = [
         color: StyleConfig.color_white,
         icon: 'ios-cloud-download-outline',
         id: 'Downloads',
-    }, {
+        type: 'Route'
+    },/* {
         title: translate('Account'),
         color: StyleConfig.color_white,
         icon: 'ios-contact-outline',
         id: 'Account',
-    }, /*{
+        type: 'Route'
+    }, {
         title: translate('Settings'),
         color: StyleConfig.color_white,
         icon: 'ios-settings-outline',
         id: 'Settings',
+        type: 'Route'
     }, {
         title: translate('About'),
         color: StyleConfig.color_white,
         icon: 'ios-information-circle-outline',
         id: 'About',
+        type: 'Route'
     },*/
     {
         title: translate('Profile'),
         color: StyleConfig.color_white,
         icon: 'ios-person-outline',
         id: 'Profile',
+        type: 'Route'
     },/* {
         title: translate('CheckForUpdate'),
         color: StyleConfig.color_white,
         icon: 'ios-settings-outline',
         id: 'Update',
-    },*/
+        type: 'Route'
+    },*/{
+        title: translate('ChangeServer'),
+        color: StyleConfig.color_white,
+        icon: (<Octicons name='server'
+            size={36}
+            color={StyleConfig.color_white}
+            style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
+        id: 'Server',
+        type: 'Route'
+    }, {
+        title: translate('SignOut'),
+        color: StyleConfig.color_white,
+        icon: 'ios-log-out-outline',
+        id: 'SignOut',
+        type: 'Button',
+        onPress: async function () {
+            const { logout, token } = this.props;
+            await logout(token.sid);
+        },
+
+    },
 ];
 
 class More extends Component {
@@ -114,9 +144,9 @@ class More extends Component {
         return (
             <TouchableHighlight
                 key={index}
-				onPress={() => {
-					this.props.navigation.navigate(route.id);
-				}}
+                onPress={route.type == 'Button' ? route.onPress.bind(this) : () => {
+                    this.props.navigation.navigate(route.id);
+                }}
                 style={[{
                     width: size,
                     height: size,
@@ -131,10 +161,14 @@ class More extends Component {
                     CommonStyles.flexItemsMiddle,
                     CommonStyles.flexItemsCenter,
                 ]}>
-                    <Icon name={route.icon}
-                        size={40}
-                        color={route.color}
-                        style={[CommonStyles.m_b_2, CommonStyles.background_transparent]} />
+                    {
+                        typeof route.icon === 'string' ?
+                            <Icon name={route.icon}
+                                size={40}
+                                color={route.color}
+                                style={[CommonStyles.m_b_2, CommonStyles.background_transparent]} />
+                            : route.icon
+                    }
                     <Text style={[CommonStyles.font_xs, CommonStyles.text_white]}>
                         {route.title}
                     </Text>
@@ -183,4 +217,14 @@ const styles = StyleSheet.create({
     },
 });
 
-export default More;
+const mapStateToProps = (state) => {
+    return {
+        token: state.auth.token || {},
+    };
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logout: (user) => dispatch(logout(user)),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(More);

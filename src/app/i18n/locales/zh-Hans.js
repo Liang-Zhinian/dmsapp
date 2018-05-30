@@ -28,11 +28,14 @@ export default {
     About:'关于',
     CheckForUpdate:'检查更新……',
     Downloads:'下载内容',
-    HTTPS: 'HTTPS',
-    Port:'端口',
-    ServerAddress:'服务器',
+
+    ChangeServer: '更换服务器',
+    HTTPS: '使用SSL',
+    Port:'服务器端口',
+    ServerAddress:'主机名',
     On: '是',
     Off: '否',
+    
     EmailAddress: '邮件地址',
     Location: '位置',
     Address: '地址',

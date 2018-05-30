@@ -63,9 +63,10 @@ const defaultHeader = {
         elevation: 0,
     },
     headerTitleStyle: {
-        // alignSelf: 'flex-start',
+        alignSelf: 'center',
         fontSize: 20,
-        marginLeft: Platform.OS === 'ios' ? -10 : 10
+        // marginLeft: Platform.OS === 'ios' ? -10 : 10
+        // backgroundColor: 'black',
     },
     headerTintColor: 'white',
     headerBackTitle: null

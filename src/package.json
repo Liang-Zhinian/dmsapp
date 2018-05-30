@@ -62,6 +62,7 @@
 		"react-native-fs": "^2.8.1",
 		"react-native-i18n": "^2.0.12",
 		"react-native-image-picker": "^0.26.7",
+		"react-native-keyboard-aware-scroll-view": "^0.5.0",
 		"react-native-linear-gradient": "^2.3.0",
 		"react-native-parallax-scroll-view": "^0.20.1",
 		"react-native-pdf": "^2.0.1",

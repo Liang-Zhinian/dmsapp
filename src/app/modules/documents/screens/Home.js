@@ -138,12 +138,13 @@ class Home extends Component {
 							size={24}
 							style={{ color: colors.textOnPrimary }}
 						/>
-					</TouchableOpacity>*/}
+					</TouchableOpacity>
 					{params.isAuthenticated &&
 						<HeaderButton
 							onPress={params.onLogoutButtonPressed}
 							text={translate('SignOut')}
 						/>}
+					*/}
 				</View>
 			),
 		}
