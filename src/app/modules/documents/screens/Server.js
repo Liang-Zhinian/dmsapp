@@ -79,7 +79,7 @@ export default class Server extends Component {
     });
 
     const doc_server = await getItem(storageKey.DOCUMENT_SERVER);
-
+    console.log('server: ', doc_server)
     that.setState({
       ...doc_server,
     })
@@ -175,11 +175,16 @@ export default class Server extends Component {
         placeholder={translate('Port')}
         blurOnSubmit={true}
         underlineColorAndroid={'transparent'}
-        onChangeText={(port) => this.setState({ port })}
-        value={this.state.port}
+        onChangeText={(port) => {
+          let newValue = port.replace('/[^\d]+/', '');
+          newValue = newValue - 0; // convert string to int 
+          this.setState({ port: newValue })
+        }}
+        value={`${this.state.port}`}
         autoCapitalize='none'
         editable={this.state.isEditMode}
         returnKeyType='next'
+        keyboardType='numeric'
       />
     )
   }
