@@ -91,6 +91,7 @@ class ListItem extends React.Component {
                 style={{
                     flex: 1,
                     flexDirection: 'row',
+                    ...this.props.style
                 }}
             >
                 <TouchableOpacity
