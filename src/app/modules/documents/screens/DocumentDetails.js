@@ -70,7 +70,7 @@ class DocumentDetails extends Component {
       isEditMode: that.state.isEditMode,
       cancel: that.cancel.bind(that),
       title: headerTitle,
-      isEditable: this.data.type !== 1
+      isEditable: !this.isFolder()
     });
 
   }
@@ -93,6 +93,10 @@ class DocumentDetails extends Component {
 
   isFolder = () => {
     return [0, 1].indexOf(this.data.type) >= 0;
+  }
+
+  isRoot = () => {
+    return this.data.type === 1;
   }
 
   // edit
