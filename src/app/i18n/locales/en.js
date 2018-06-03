@@ -31,6 +31,8 @@ export default {
     Account:'Account',
     About:'About',
     Globalization: 'Language',
+    General: 'General',
+    Details: 'Details',
 
     ChangeServer: 'Change Server',
     HTTPS: 'Use SSL',

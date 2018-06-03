@@ -34,6 +34,8 @@ export default {
     CheckForUpdate:'检查更新……',
     Downloads:'下载内容',
     Globalization: '语言',
+    General: '通用',
+    Details: '详细',
 
     ChangeServer: '更换服务器',
     HTTPS: '使用SSL',

@@ -265,7 +265,7 @@ class DocumentDetails extends Component {
 
   renderGeneralSection() {
     return (
-      <Section title='General'>
+      <Section title={translate('General')}>
         <KeyValueRow title={translate('Name')}>
           {
             this.renderNameInput()
@@ -350,7 +350,7 @@ class DocumentDetails extends Component {
 
   renderDetailsSection() {
     return (
-      <Section title='Details'>
+      <Section title={translate('Details')}>
         <KeyValueRow title={translate('Tags')}>
           {
             this.renderTagsInput()
