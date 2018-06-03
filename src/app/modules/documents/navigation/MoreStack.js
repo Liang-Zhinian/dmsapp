@@ -10,6 +10,7 @@ import Routes from '../config/routes';
 import { defaultHeader } from './styles';
 import { stackNavigationOptions } from './util';
 import UpdateScreen from '../../../components/UpdateScreen';
+import GlobalizationScreen from '../../../screens/Globalization';
 
 const {
     Downloads,
@@ -18,18 +19,21 @@ const {
     More,
     Profile,
     Server
-} = Routes; 
+} = Routes;
 
 export default MoreStack = StackNavigator({
     More,
     Downloads,
     Account,
     Settings,
-    Update:{
+    Update: {
         screen: UpdateScreen,
     },
     Profile,
-    Server
+    Server,
+    Globalization: {
+        screen: GlobalizationScreen
+    }
 }, {
         headerMode: 'screen',
         initialRouteName: 'More',

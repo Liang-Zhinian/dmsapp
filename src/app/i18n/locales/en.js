@@ -1,4 +1,9 @@
 export default {
+    // languages
+    'zh-Hans-US': '简体中文',
+    'zh-Hant-US': '繁体中文',
+    'en': 'English',
+
     // basic action buttons
     Submit: 'Submit',
     Search: 'Search',
@@ -25,6 +30,7 @@ export default {
     Settings: 'Settings',
     Account:'Account',
     About:'About',
+    Globalization: 'Language',
 
     ChangeServer: 'Change Server',
     HTTPS: 'Use SSL',
@@ -83,6 +89,8 @@ export default {
     Tags: 'Tags',
     VersionComment: 'Version Comment',
 
-    ScanQRCode:'Scan QR Code'
+    ScanQRCode:'Scan QR Code',
 
+    // messages
+    MsgResetLanguage: 'Reset on Next Start',
 };
