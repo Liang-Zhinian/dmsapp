@@ -7,7 +7,8 @@ import {
   ActivityIndicator,
   ScrollView,
   Button,
-  TextInput
+  TextInput,
+  TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux'
 import moment from 'moment'
@@ -21,17 +22,14 @@ import { translate } from '../../../i18n/i18n';
 import { HeaderButton } from './components/HeaderButtons';
 import configureNavigationOptions from './components/EditableNavigationOptions';
 
-function textInput({ props, state }) {
-  return <TextInput
-    style={[ComponentStyles.input]}
-    placeholderTextColor={StyleConfig.color_gray}
-    blurOnSubmit={true}
-    underlineColorAndroid={'transparent'}
-    onChangeText={props.onChangeText}
-    autoCapitalize='none'
-    editable={state.isEditMode}
-    returnKeyType='next'
-  />
+
+class Dot extends Component {
+  render() {
+    return <TouchableOpacity onPress={this.props.onPress}>
+      <View style={[{ width: 100, height: 60, backgroundColor: this.props.backgroundColor }, this.props.style]}></View>
+    </TouchableOpacity>
+  }
+
 }
 
 class DocumentDetails extends Component {
@@ -48,6 +46,7 @@ class DocumentDetails extends Component {
     this.state = {
       workflowMessage: '',
       isEditMode: false,
+      workflowStatus: 'Running'
     }
 
     this.bootstrap();
@@ -86,7 +85,7 @@ class DocumentDetails extends Component {
       <Form>
         {this.renderGeneralSection()}
         {this.renderDetailsSection()}
-        {/*!this.isFolder() && this.renderWorkflowSection()*/}
+        {!this.isFolder() && this.renderWorkflowSection()}
       </Form >
     )
   }
@@ -391,16 +390,35 @@ class DocumentDetails extends Component {
   }
 
   renderWorkflowSection() {
+    let sectionTitle = 'Workflow';
+    let workflowStatus = this.getWorkflowStatus();
+    debugger;
+    if (workflowStatus) {
+      sectionTitle = 'Workflow Status: ' + workflowStatus;
+    }
+
     return (
 
-      <Section title='Workflow'>
-        <View style={[{ flex: 1 }, styles.row]}>
-          <Button
-            onPress={this.startWorkflow.bind(this)}
-            title={translate("Submit")} />
+      <Section title={sectionTitle}>
+        {
+          !workflowStatus && <View style={[{ flex: 1 }, styles.row]}>
+            <Button
+              onPress={this.startWorkflow.bind(this)}
+              title={translate("Submit")} />
 
-          <Text style={{ fontSize: 14 }}>{this.state.workflowMessage}</Text>
-        </View>
+            <Text style={{ fontSize: 14 }}>{this.state.workflowMessage}</Text>
+          </View>
+        }
+        {
+          workflowStatus && <View style={[{ flex: 1 }, styles.column]}>
+            <View style={[{ flex: 1 }, styles.row]}>
+              <Dot onPress={() => { }} backgroundColor='black' />
+            </View>
+            <View style={[{ flex: 1 }, styles.column]}>
+
+            </View>
+          </View>
+        }
       </Section >
     );
   }
@@ -409,6 +427,8 @@ class DocumentDetails extends Component {
     const that = this;
     const { navigation, username, password } = this.props;
     const item = navigation.state.params.node;
+
+    that.setState({ workflowStatus: 'Running' });
 
     let apiUrl = 'http://isd4u.com/dmsadmin/index.php';
     var options = {
@@ -442,6 +462,9 @@ class DocumentDetails extends Component {
 
   }
 
+  getWorkflowStatus() {
+    return this.state.workflowStatus;
+  }
 }
 
 function select(store) {
@@ -481,6 +504,13 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+    padding: 10,
+    backgroundColor: '#ffffff',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  column: {
+    flexDirection: 'column',
     padding: 10,
     backgroundColor: '#ffffff',
     justifyContent: 'space-between',
