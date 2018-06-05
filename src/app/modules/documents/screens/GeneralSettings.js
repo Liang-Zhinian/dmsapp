@@ -23,7 +23,7 @@ import { logout } from '../../../actions/auth';
 
 const MainRoutes = [
     {
-        title: translate('Downloads'),
+        title: translate('Languages'),
         color: StyleConfig.color_white,
         icon: 'ios-cloud-download-outline',
         id: 'Downloads',
@@ -68,13 +68,7 @@ const MainRoutes = [
             style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
         id: 'Server',
         type: 'Route'
-    }, /*{
-        title: translate('Globalization'),
-        color: StyleConfig.color_white,
-        icon: 'ios-globe-outline',
-        id: 'Globalization',
-        type: 'Route'
-    }, */{
+    }, {
         title: translate('SignOut'),
         color: StyleConfig.color_white,
         icon: 'ios-log-out-outline',

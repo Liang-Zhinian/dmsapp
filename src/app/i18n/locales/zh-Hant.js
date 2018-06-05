@@ -1,4 +1,9 @@
 export default {
+    // languages
+    'zh-Hans-US': '简体中文',
+    'zh-Hant-US': '繁体中文',
+    'en': 'English',
+
     // basic action buttons
     Submit: '提交',
     Edit:'修改',
@@ -28,6 +33,9 @@ export default {
     About:'关于',
     CheckForUpdate:'检查更新……',
     Downloads:'下载内容',
+    Globalization: '语言',
+    General: '通用',
+    Details: '详细',
 
     ChangeServer: '更换服务器',
     HTTPS: '使用SSL',
@@ -83,5 +91,8 @@ export default {
     Tags: '标签',
     VersionComment: '版本注释',
 
-    ScanQRCode:'扫描二维码'
+    ScanQRCode:'扫描二维码',
+
+    // messages
+    MsgResetLanguage: '在下一次启动时生效',
 };

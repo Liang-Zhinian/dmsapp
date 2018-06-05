@@ -87,7 +87,8 @@ class Downloads extends Component {
                 }
             ],
             rowId: info.index,
-            sectionId: 1
+            sectionId: 1,
+            style: {backgroundColor: 'white'}
         };
 
         const item = info.item;
@@ -179,7 +180,7 @@ class Downloads extends Component {
             keyExtractor: (item, index) => item.id,
             onRefreshItems: this.onRefreshItems,
             refreshing: this.refreshing,
-            renderItem: (info) => this.renderItem(info, this.state.activeRow)
+            renderItem: (info) => this.renderItem(info, this.state.activeRow),
         };
 
         if (this.state.isFetching && !this.state.error) {
