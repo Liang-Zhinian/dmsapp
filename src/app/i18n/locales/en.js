@@ -92,6 +92,7 @@ export default {
     VersionComment: 'Version Comment',
 
     ScanQRCode:'Scan QR Code',
+    PrinterQRCodeGeneration: 'Printer\'s QR Code',
 
     // messages
     MsgResetLanguage: 'Reset on Next Start',

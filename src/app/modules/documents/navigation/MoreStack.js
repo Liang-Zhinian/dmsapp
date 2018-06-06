@@ -11,6 +11,8 @@ import { defaultHeader } from './styles';
 import { stackNavigationOptions } from './util';
 import UpdateScreen from '../../../components/UpdateScreen';
 import GlobalizationScreen from '../../../screens/Globalization';
+import PrinterQRCodeIOS from '../../../screens/PrinterQRCodeIOS';
+
 
 const {
     Downloads,
@@ -33,7 +35,10 @@ export default MoreStack = StackNavigator({
     Server,
     Globalization: {
         screen: GlobalizationScreen
-    }
+    },
+    PrinterQRCodeIOS: {
+        screen: PrinterQRCodeIOS
+    },
 }, {
         headerMode: 'screen',
         initialRouteName: 'More',

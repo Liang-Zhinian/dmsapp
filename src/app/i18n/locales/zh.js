@@ -92,6 +92,7 @@ export default {
     VersionComment: '版本注释',
 
     ScanQRCode:'扫描二维码',
+    PrinterQRCodeGeneration: '打印机二维码',
 
     // messages
     MsgResetLanguage: '在下一次启动时生效',

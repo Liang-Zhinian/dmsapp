@@ -68,6 +68,13 @@ const MainRoutes = [
             style={[CommonStyles.m_b_1, CommonStyles.background_transparent]} />),
         id: 'Server',
         type: 'Route'
+    }, {
+        title: translate('PrinterQRCodeGeneration'),
+        color: StyleConfig.color_white,
+        icon: 'ios-print-outline',
+        id: 'PrinterQRCodeIOS',
+        type: 'Route',
+        platform: 'ios'
     }, /*{
         title: translate('Globalization'),
         color: StyleConfig.color_white,
@@ -189,6 +196,7 @@ class More extends Component {
         let emptyCount = this.getEmptyCount(size);
 
         items = MainRoutes.map((route, index) => {
+            if (route.platform && Platform.OS !== route.platform) return;
             return this.renderRoute(route, index)
         });
 

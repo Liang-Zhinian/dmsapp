@@ -13,11 +13,13 @@ import {
     ActivityIndicator,
     ProgressViewIOS,
     TouchableOpacity,
+    TouchableHighlight,
     Button,
     SegmentedControlIOS,
     Dimensions
 } from 'react-native';
 import RNFS from 'react-native-fs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // import RNPrint from 'react-native-print';
 
@@ -26,6 +28,10 @@ import QrCodeScannerScreen from '../screens/QRCodeScanner';
 import FileViewerIOS from "./RNQuickLook";
 import { convert } from '../modules/documents/api/converter';
 import {translate} from '../i18n/i18n';
+import Styles from '../styles'
+
+const CommonStyles = Styles.CommonStyles;
+const StyleConfig = Styles.StyleConfig;
 
 var RNPrint = RNPrinting;
 
@@ -93,8 +99,31 @@ class PrintInteractionScreen extends Component {
                         <View style={[{ flex: 1 }, styles.row]}>
                             <Text style={[styles.title]}>{translate('Printer')}</Text>
                             <Button onPress={this.selectPrinter} title={this.state.selectedPrinter ? this.state.selectedPrinter.name : translate('SelectPrinter')} />
-                            <Button onPress={this.scanQRCode} title={translate('Scan')} />
-                            {/*<Button onPress={this.selectPrinterWithUrl} title='Select Printer With Url' />*/}
+                            {/*<Button onPress={this.scanQRCode} title={translate('Scan')} />
+                            <Button onPress={this.selectPrinterWithUrl} title='Select Printer With Url' />*/}
+                            <TouchableHighlight
+                            onPress={this.scanQRCode}
+                            style={[{
+                                // width: 50,
+                                // height: 50,
+                            },
+                            CommonStyles.flexItemsMiddle,
+                            CommonStyles.flexItemsCenter,
+                            ]}
+                            underlayColor={StyleConfig.touchable_press_color}>
+                            <View style={[
+                                CommonStyles.flexColumn,
+                                CommonStyles.flexItemsMiddle,
+                                CommonStyles.flexItemsCenter,
+                            ]}>
+                                        <MaterialCommunityIcons name='qrcode-scan'
+                                            size={30}
+                                            color={StyleConfig.color_primary}
+                                            style={[CommonStyles.background_transparent]} />
+                                
+                            </View>
+                        </TouchableHighlight>
+                            
                         </View>
                     </View>
                     <View style={[styles.section]}>

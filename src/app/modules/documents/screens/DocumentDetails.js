@@ -85,7 +85,7 @@ class DocumentDetails extends Component {
       <Form>
         {this.renderGeneralSection()}
         {this.renderDetailsSection()}
-        {!this.isFolder() && this.renderWorkflowSection()}
+        {/*!this.isFolder() && this.renderWorkflowSection()*/}
       </Form >
     )
   }
@@ -397,14 +397,14 @@ class DocumentDetails extends Component {
     let sectionTitle = 'Workflow';
     let workflowStatus = this.getWorkflowStatus();
     debugger;
-    if (workflowStatus) {
+    if (!!workflowStatus) {
       sectionTitle = 'Workflow Status: ' + workflowStatus;
     }
 
     return (
 
       <Section title={sectionTitle}>
-        {
+        {/*
           !workflowStatus && <View style={[{ flex: 1 }, styles.row]}>
             <Button
               onPress={this.startWorkflow.bind(this)}
@@ -412,9 +412,9 @@ class DocumentDetails extends Component {
 
             <Text style={{ fontSize: 14 }}>{this.state.workflowMessage}</Text>
           </View>
-        }
+        */}
         {
-          workflowStatus && <View style={[{ flex: 1 }, styles.column]}>
+          <View style={[{ flex: 1 }, styles.column]}>
             <View style={[{ flex: 1 }, styles.row]}>
               <Dot onPress={() => { }} backgroundColor='black' />
             </View>
