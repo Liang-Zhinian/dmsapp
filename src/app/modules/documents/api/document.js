@@ -242,7 +242,7 @@ export const createDocumentWithProgressSOAP = async (sid: string, document: stri
         xml += '<document> \n';
         xml += '<id>0</id> \n'; // 0: automaticly generate document id
         xml += '<fileSize>' + document.fileSize + '</fileSize> \n';
-        xml += '<title>' + document.title + '</title> \n';
+        // xml += '<title>' + document.title + '</title> \n';
         xml += '<date>' + document.date + '</date> \n';
         xml += '<type>' + document.type + '</type> \n';
         xml += '<fileName>' + document.fileName + '</fileName> \n';
@@ -259,20 +259,22 @@ export const createDocumentWithProgressSOAP = async (sid: string, document: stri
         xhr.onload = function () {
             // upload completed
             // If successful, resolve the promise by passing back the request response
-            try {
-                const responseJson = convertToJson(xhr.response);
+            // try {
+                // console.log(xhr.response);
+                var responseJson = convertToJson(xhr.response);
                 responseJson = filterFault(responseJson);
 
 
                 resolve(responseJson.Body.createResponse)
-            } catch (reason) {
-                handle(reason);
-                reject(reason)
-            }
+            // } catch (reason) {
+            //     handle(reason);
+            //     reject(reason)
+            // }
         };
-        xhr.onerror = function () {
+        xhr.onerror = function (request, errorEvent) {
             // Also deal with the case when the entire request fails to begin with
             // This is probably a network error, so reject the promise with an appropriate message
+            // console.log(request, errorEvent);
             reject(Error('There was a network error.'));
         };
 
